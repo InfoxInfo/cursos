@@ -1,0 +1,30 @@
+{% extends "base_login.html" %}
+{% load static %}
+{% block main %}
+{% load bootstrap %}
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+
+{% include 'nav.html' %}
+<div class="container-fluid p-5 gradCapa" style="width: 100vw;
+    height: 50vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;">
+    <div class="row justify-content-md-center align-items: center">
+        <div class="card" style="width: 50rem;">
+            <div class="card-body">
+              {% block title %}Contato{% endblock %}
+
+              {% block content %}
+                <h1>Sua solicitação foi enviada</h1>
+                <p>Agradecemos o contato, logo entraremos em conato!</p>
+              {% endblock %}
+
+            </div>
+          </div>
+      </div>
+  </div>
+  
+  {% include 'footer.html' %}
+{% endblock %}

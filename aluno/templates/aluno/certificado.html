@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="br">
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
+  <style>
+    @page {
+      size: landscape;
+      background-image: url('{{ caminho_imagem }}');
+      background-size: cover; /* Para cobrir toda a página */
+      background-repeat: no-repeat; /* Evita repetição da imagem */
+      @frame header_frame {           /* Static Frame */
+            -pdf-frame-content: header_content;
+            left: 50pt; width: 718pt; top: 100pt; height: 130pt;
+            font-family:Verdana, Geneva, Tahoma, sans-serif;
+
+        }
+        @frame content_frame {          /* Content Frame */
+            left: 50pt; width: 718pt; top: 170pt; height: 240pt;
+
+        }
+        @frame col1_frame {             /* Content frame 1 */
+            left: 133pt; width: 245pt; top: 418pt; height: 50pt;
+
+        }
+        @frame col2_frame {             /* Content frame 2 */
+            left: 468pt; width: 245pt; top: 418pt; height: 50pt;
+
+        }
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      text-align: center; /* Alinha o texto ao centro horizontalmente */
+      font-family: 'Poppins', sans-serif; /* Definindo uma fonte padrão */
+    }
+
+    p { margin: 0; -pdf-keep-with-next: true; }
+
+
+  </style>
+</head>
+<body>
+  <div>
+    <div>
+      
+      <div id="header_content">
+        <h1 style="font-size: 90px;">Certificado</h1>
+        </div>
+      <div id="content_frame">
+        <p style="margin-top: 0px; font-size: 23px; letter-spacing: 6px;">DE CONQUISTA</p>
+        <p style="margin-top: 10px; font-size: 18px;">
+          A Infox em conformidade com as diretrizes de avaliação adotadas pela mesma, confere a
+        </p>
+        <p style="margin-top: 30px; font-size: 26px;">{{ aluno.nome_completo }}</p>
+        <p style="margin-top: 70px; font-size: 31px;">{{ curso.nome }}</p>
+        <p style="margin-top: 8px; font-size: 27px;">{{ curso.horas }} horas</p>
+
+        
+      </div>
+      <div id="col1_frame">
+        <p style="font-size: 20px;">Infox</p>
+      </div>
+      <br>
+      <div id="col2_frame">
+        <p style="font-size: 20px;">{{data_prova.data_resposta|date:"j F, Y" }}</p>      
+      </div>
+    </div>
+  </div>
+</body>
+</html>

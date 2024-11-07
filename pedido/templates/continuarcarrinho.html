@@ -1,0 +1,54 @@
+{% extends "base_login.html" %}
+{% load static %}
+{% load custom_filters %}
+{% load bootstrap %}
+{% load carrinho_extras %}
+{% block main %}
+</head>
+{% include 'nav.html' %}
+<div class="gradCapaSuper wow fadeInDown">
+    <br><br><br><br><br>
+ </div>
+ <div class="container">
+    <div>
+      <br>
+      <table class="table table-borderless">
+        <thead>
+          <tr class="border-0">
+            <th scope="col" style="width: 100px;"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr class="">
+            <th scope="row"><img src="{% static curso.imagem %}" alt="Imagem Logo"></th>
+            <td class="align-middle">
+              <h1 class="text-secondary">{{ curso.nome }}</h1>
+              <h5 class="text-secondary">{{ curso.descricao }}</h5>
+              <h6></h6>
+              <h2><span class="badge text-bg-secondary">R$ {{ curso.preco }}</span></h2>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+    <div class="d-flex justify-content-center" style="margin-top: 10px;">
+        <a href="{% url 'cursoson_detalhes' %}">
+            <button type="button" class="btn btn btn-light text-primary" style="height: 45px; margin-right: 10px; border-color: rgb(1, 126, 209);">
+                <p>CONTINUAR COMPRANDO </p>
+            </button>
+        </a>
+        <a href="{% url 'pedido:carrinho' %}">
+            <button type="button" class="btn btn-primary" style="height: 45px;">
+                <p><i class="fa-solid fa-cart-shopping"></i> IR PARA O CARRINHO</p>
+            </button>
+        </a>
+    </div>
+    <br>
+</div>
+
+{% include 'footer.html' %}
+
+{% endblock %}

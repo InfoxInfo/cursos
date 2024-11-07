@@ -1,0 +1,182 @@
+{% extends "base_login.html" %}
+{% load static %}
+{% block main %}
+{% load custom_filters %}
+{% load bootstrap %}
+
+</head>
+  
+{% include 'nav.html' %}
+
+<div class="gradCapa wow fadeInDown">
+<div class="container">
+<div class="row">
+  <div class="col-sm-6 col-md-6 text-white align-self-center text-justify p-2">
+    <br>
+    <br>
+    <br>
+    <h1 class="wow animated bounce" data-wow-delay="0.2s">Se conecte com a gente</h1>
+      <h5 class="wow bounceInDown" data-wow-delay="0.4s">Acompanhe nossas novidades.
+        </h5>
+        <div class="wow fadeInLeft" data-wow-delay="0.9s">
+
+          <a href="https://wa.me/5554984346112"  class="me-4 text-reset" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+          <a href="https://www.facebook.com/infox.edu"  class="me-4 text-reset" target="_blank">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://www.instagram.com/infox.info/" class="me-4 text-reset" target="_blank">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://www.linkedin.com/company/infox-polo-uniftec" class="me-4 text-reset" target="_blank">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="https://www.youtube.com/user/cursosinfox" class="me-4 text-reset" target="_blank">
+            <i class="fab fa-youtube"></i>
+          </a>
+        </div>
+  </div>
+  <div class="col">
+    <div>
+      <div class="text-primary wow fadeInDown" data-wow-delay="0.6s">
+        <img class="d-block" src="{% static 'media/infox/infox_contato.png' %}" alt="Img_pessoa_Contato">
+      </div>
+    </div>     
+  </div>
+</div>
+</div>
+</div>
+
+
+
+<!-- ======= Contact Section ======= -->
+<section>
+<div class="container" data-aos="fade-up">
+
+
+
+  <div class="row p-5 text-secondary">
+
+    <div class="col">
+
+      <div class="row">
+      <div class="col-2 align-self-center">
+        <div class="">
+          <span style="font-size: 3em; color: rgb(58, 58, 58);">
+            <i class="fas fa-map-marker-alt"></i>
+          </span>
+        </div>
+      </div>
+      <div class="col">
+        <div >
+          <h5 class="text-secondary">Localização:</h5>
+        </div>
+        <div>
+          <p>Avenida Venâncio Aires 1110, sala 11. Centro São Marcos</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-2 align-self-center">
+        <div class="">
+          <span style="font-size: 3em; color: rgb(58, 58, 58);">
+            <i class="fas fa-envelope"></i>
+          </span>
+        </div>
+      </div>
+      <div class="col">
+        <div >
+          <h5 class="text-secondary">E-mail:</h5>
+        </div>
+        <div>
+          <p>atendimento@cursosinfox.com.br</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-2 align-self-center">
+        <div class="">
+          <span style="font-size: 3em; color: rgb(58, 58, 58);">
+            <i class="fab fa-whatsapp"></i>
+          </span>
+        </div>
+      </div>
+      <div class="col">
+        <div >
+          <h5 class="text-secondary">Telefone/whats:</h5>
+        </div>
+        <div>
+          <p>54 98434-6112</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="col-lg-8 mt-5 mt-lg-0">
+
+      <form method="POST" autocomplete="OFF">
+        {% csrf_token %}
+        
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="{{ form.name.id_for_label }}">Nome:</label>
+            {{ form.name }}
+            {% if form.name.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.name.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+          </div>
+          <div class="col-md-6 form-group mt-3 mt-md-0">
+            <label for="{{ form.email.id_for_label }}">Email:</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.email.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.subject.id_for_label }}">Assunto:</label>
+            {{ form.subject }}
+            {% if form.subject.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.subject.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Campo Mensagem -->
+        <div class="form-group">
+            <label for="{{ form.message.id_for_label }}">Mensagem:</label>
+            {{ form.message }}
+            {% if form.message.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.message.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="text-end btn-sm" style="padding-top: 20px;">
+          <input type="submit" value="Enviar" class="btn btn-primary mb-1" />
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+</section>
+
+</body>
+
+{% include 'footer.html' %}
+
+{% endblock %}

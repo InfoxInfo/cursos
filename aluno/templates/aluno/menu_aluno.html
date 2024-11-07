@@ -1,0 +1,44 @@
+{% load static %}
+<header class="p-3 mb-3">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="/" class="nav-link px-2 link-secondary text-primary"><h5>Cursos</h5></a></li>
+          <li><a href="#" class="nav-link px-2 link-secondary"></a></li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'minhaconta' %}" class="nav-link px-2 link-body-emphasis"><i class="fa-solid fa-medal"></i> Minha conta</a></li>
+          
+          {% else %}
+          <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+          {% endif %}
+        </ul>
+
+        <div class="dropdown text-end">
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            {% if aluno.foto %}
+              <img src="{% static aluno.foto.url %}" alt="FotoPerfil" width="32" height="32" class="rounded-circle">
+            {% else %}
+              <img src="{% static 'media/aluno/foto/default.png' %}" alt="FotoSLog" width="32" height="32" class="rounded-circle">
+            {% endif %}
+          </a>
+          <ul class="dropdown-menu text-small">
+            {% if user.is_staff %}
+              <li><a class="dropdown-item text-center align-middle" href="{% url 'edit_user' user.id %}">Perfil</a></li>
+            {% endif %}
+              <li><a class="dropdown-item text-center align-middle" href="{% url 'aluno_aluno_update' user.id %}">Editar perfil</a></li>
+              <li><a class="dropdown-item text-center align-middle" href="{% url 'password_change' %}">Modificar senha</a></li>
+              <li><hr class="dropdown-divider"></li>
+            {% if user.is_authenticated %}
+              <li><a class="dropdown-item text-center align-middle" href="{% url 'logout' %}">Sair <i class="fa-solid fa-door-open"></i></a></li>
+            {% else %}
+              <li><a class="dropdown-item text-center align-middle" href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>

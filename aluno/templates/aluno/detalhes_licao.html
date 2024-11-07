@@ -1,0 +1,139 @@
+{% load static %}
+
+<style>
+  .paineldiv {
+  display:inline-block;
+
+  width:255px;height:380px;
+  background-color: #f5f5f5;
+  color: #000;
+  border-radius: 10px;
+  vertical-align: middle;
+}
+.btn-outline-primary {
+    display: inline-flex; /* Faz com que o link se comporte como um botão */
+    align-items: center; /* Alinha o conteúdo do botão */
+    justify-content: center; /* Centraliza o conteúdo do botão */
+    padding: 0.375rem 0.75rem; /* Adiciona padding similar ao de um botão */
+    text-align: center; /* Alinha o texto ao centro */
+    text-decoration: none; /* Remove o sublinhado do link */
+    border: 1px solid #3445b4; /* Cor da borda do botão */
+    border-radius: 0.25rem; /* Bordas arredondadas */
+    color: #3445b4; /* Cor do texto do botão */
+    background-color: transparent; /* Fundo transparente para botão outline */
+}
+
+.btn-outline-primary:hover {
+    border-color: #0056b3; /* Cor da borda ao passar o mouse */
+    color: #0056b3; /* Cor do texto ao passar o mouse */
+    background-color: #e9ecef; /* Cor de fundo ao passar o mouse */
+}
+</style>
+
+<div id="area-de-conteudo">
+<div style="padding:56.25% 0 0 0;position:relative;">
+  <iframe src="https://player.vimeo.com/video/{{ licao.video}}?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="aula_01_Python">
+  </iframe>
+</div>
+  <script src="https://player.vimeo.com/api/player.js"></script>
+</div>   
+
+<div class="d-flex justify-content-between" style="margin-top: 5px; margin-bottom: 10px;">
+  {% if licao_anterior %}
+    <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+      <button type="button" class="btn btn-outline-primary">
+        <a href="{% url 'lista_licao' licao_anterior.id %}" class="carregar-pagina-via-ajax">
+        <i class="fa-solid fa-chevron-left"></i>
+      </a>
+    </button>
+      <button type="button" class="btn btn-outline-primary">
+        <a href="{% url 'lista_licao' licao_anterior.id %}" class="carregar-pagina-via-ajax">
+          Lição anterior
+        </a>
+      </button>
+    </div>
+  {% else %}
+    <button type="button" class="btn btn-secondary btn-sm" disabled style="opacity: 0%;">
+      <i class="fa-solid fa-chevron-left"></i> Lição anterior
+    </button>
+  {% endif %}
+
+  {% if proxima_licao %}
+  <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+    <a href="{% url 'lista_licao' proxima_licao.id %}?update_status=true" class="btn btn-primary btn-sm carregar-pagina-via-ajax change-status">
+      Próxima Lição
+    </a> 
+    <button type="button" class="btn btn-outline-primary"><i class="fa-solid fa-chevron-right"></i></button>
+  </div>
+  {% else %}
+  <button type="button" class="btn btn-secondary btn-sm" disabled style="opacity: 0%;">
+    Próxima Lição<i class="fa-solid fa-chevron-right"></i>
+  </button>
+  {% endif %}
+</div>
+
+<div class="card mb-3" style="border-radius: 10px; overflow: hidden;">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-10">
+        <h5>{{ licao.nome }}</h5>
+      </div>
+      <div class="col-2 text-center">
+        {% if licao.botao %}
+        <a href="{% url 'download_licao' licao.id %}">
+          <div class="btn-group text-right" role="group" aria-label="Basic outlined example">
+            <button type="button" class="btn btn-dark" style="border: 0;">DOWNLOAD</button>
+              <button type="button" id="btn-relatorio" style="border: none; color: #3445b4; background-color: #e7e7e7;" class="btn btn-light">
+                <i class="fa-solid fa-file-arrow-down fa-bounce fa-lg"></i>
+              </button>
+          </div>
+        </a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="border-bottom" style="margin: 20px;"></div>
+      <div class="row">
+        <p class="card-text" style="margin: 20px; text-align: justify;">{{ licao.descricao }}</p>
+      </div>
+      <!-- Botão "Voltar ao Topo" -->
+      <button onclick="scrollToTop()" class="btn btn-primary" style="border: 0; float: right;">Topo <i class="fa-solid fa-hand-point-up fa-bounce"></i></button>
+  </div>
+</div>
+</div> 
+
+<script>
+
+  $(document).ready(function() {
+
+    // Obtenha o valor de categoria_licao da sessão
+    var categoriaLicao = '{{ categoria_licao }}';
+
+    // Construa o seletor da categoria com base em categoriaLicao
+    const categoriaSelector = '#' + categoriaLicao + '-collapse';
+
+    // Abra a categoria com base no seletor
+    $(categoriaSelector).collapse('show');
+
+      $('a.carregar-pagina-via-ajax').click(function(e) {
+          e.preventDefault();
+
+          var url = $(this).attr('href');
+
+          $.ajax({
+              url: url,
+              success: function(data) {
+                  $('#area-de-conteudo').html(data);
+                  // Role a página para a posição anterior
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+          });
+      });
+  });
+</script>
+
+
+<script>
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>

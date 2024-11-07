@@ -1,0 +1,121 @@
+{% extends "base_login.html" %}
+{% load static %}
+{% block main %}
+{% load custom_filters %}
+{% load bootstrap %}
+<style>
+    .pacote {
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+    .curso {
+        padding-left: 20px;
+    }
+</style>
+</head>
+  
+{% include 'nav.html' %}
+
+
+<div class="gradCapaCursos wow fadeInDown">
+  <div class="container">
+    {% for curso in prof %}
+    <div class="row">
+      <div class="col-sm-6 col-md-6 text-white align-self-center text-justify">
+        <br>
+        <br>
+        <br>
+        <h1 class="wow animated bounce" data-wow-delay="0.2s">{{ curso.titulo }}</h1>
+          <h5 class="wow bounceInDown" data-wow-delay="0.4s">{{ curso.descricao }}</h5>
+            <img class="wow bounceInUp" data-wow-delay="0.7s" src="{% static curso.imagemLogo %}" alt="Imagem Logo">
+      </div>
+      <div class="col">
+        <div>
+          <div class="text-primary wow fadeInDown" data-wow-delay="0.6s">
+            <img class="rounded mx-auto d-block" src="{% static curso.imagemCapa %}" alt="Imagem Capa">
+          </div>
+        </div>
+      </div>
+  </div>
+  {% endfor %}
+</div>
+</div>
+    <section>
+        {% for pacote in pacotes %}
+        <div class="{{ pacote.cor_fundo }} p-5">
+            <div class="container">
+                <div class="row g-2">
+                  <div class="col">
+
+                    <h3 class="wow fadeInRight {{ pacote.cor_fundo_tex }}" data-wow-delay="0.2s">{{ pacote.nome }}</h3>
+                    <p class="wow fadeInDown {{ pacote.cor_fundo_tex }}">{{ pacote.descricao }}</p>
+                  </div>
+                  <div class="col">
+                    <div>
+                    {% for curso in pacote.cursos.all %}
+                        <a class="link grow" href="https://wa.me/5554984346112?text=Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20curso%20de%20{{ curso.nome }}!" target="_blank">
+                            <div class="grow {{ pacote.cor_curso }}  {{ pacote.cor_curso_tex }} position-relative wow fadeInDown" data-wow-delay="{{ 0.2|add_delay:forloop.counter0 }}">
+                            <div>{{ curso.nome }}</div>
+                        </div>
+                        </a>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+      </section>
+    
+    <!-- Area Informacoes-->
+
+    <section>
+      {% for turma in turmas %}
+      <div class="gradCapaCursos p-5">
+          <div class="container">
+              <div class="row g-2">
+                <div class="col">
+
+                  <h3 class="wow fadeInRight text-light " data-wow-delay="0.2s">{{ turma.cursoturma }}</h3>
+                  <p class="wow fadeInDown text-light ">{{ turma.descricao_turma }}</p>
+                </div>
+                <div class="col">
+                  <div>
+                      <a class="link grow" href="https://wa.me/5554984346112?text=Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20curso%20de%20{{ turma.cursoturma }}!" target="_blank">
+                        <img class="position-relative wow fadeInDown" src="{% static turma.foto_turma %}" data-wow-delay="{{ 0.2|add_delay:forloop.counter0 }}" width="500px" alt="Foto turma">
+                      </div>
+                      </a>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+      {% endfor %}
+    </section>
+
+<!-- Area Informacoes-->
+<section class="p-5 gradinformacoes">
+  <div class="container align-self-center text-center">
+      <h1 class="wow bounceIn infinite">Empresas Conveniadas</h1>
+      {% for log in logo %}
+        <img class="position-relative counter wow fadeInRight" data-wow-delay="{{ 0.1|add_delay:forloop.counter0 }}" src="{% static log.logo_empresa %}">
+      {% endfor %}
+    <br>
+  </div>
+</section>
+<!-- Area Informacoes-->
+
+<section>
+    <div>
+    <div class="imagemDeFundoCursos">
+      <div>
+        <img style="width: 100%;" src="{% static 'media/infox/cursos_galera.jpg' %}">
+    </div>
+  </div>
+  </div>
+  </section>
+</body>
+
+{% include 'footer.html' %}
+
+{% endblock %}

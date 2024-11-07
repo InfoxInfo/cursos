@@ -1,0 +1,64 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+{% load static %}
+{% block main %}
+
+<div class="card border-primary mb-3">
+    <h5 class="card-header">Categoria Infox do Site</h5>
+    <div class="card-body">
+        <div class="row">
+            <table class="table">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Título</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Imagem</th>
+                        <th scope="col">Missão</th>
+                        <th scope="col">Visão</th>
+                        <th scope="col">Valores</th>
+                        <th scope="col">Título Vídeo</th>
+                        <th scope="col">Descrição Vídeo</th>
+                        <th scope="col">Vídeo Link</th>
+                        <th scope="col">Equipe Imagem</th>
+                        <th scope="col">Link Mapa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">{{ inscricao.id }}</th>
+                        <td>{{ inscricao.titulo }}</td>
+                        <td>{{ inscricao.descricao }}</td>
+                        <td>
+                            {% if inscricao.imagem %}
+                                <a href="{% static inscricao.imagem %}" target="_blank">
+                                    <img class="rounded mx-auto d-block" src="{% static inscricao.imagem %}" width="100px" alt="Equipe">
+                                </a>
+                            {% else %}
+                                Sem imagem
+                            {% endif %}
+                        </td>
+                        <td>{{ inscricao.missao }}</td>
+                        <td>{{ inscricao.visao }}</td>
+                        <td>{{ inscricao.valores }}</td>
+                        <td>{{ inscricao.tituloVideo }}</td>
+                        <td>{{ inscricao.descricaoVideo }}</td>
+                        <td><a href="{{ inscricao.videoLink }}" target="_blank">LINK</a></td>
+                        <td>
+                            {% if inscricao.equipeImagem %}
+                                <a href="{% static inscricao.equipeImagem %}" target="_blank">
+                                    <img class="rounded mx-auto d-block" src="{% static inscricao.equipeImagem %}" width="100px" alt="Equipe">
+                                </a>
+                            {% else %}
+                                Sem imagem
+                            {% endif %}
+                        </td>
+                        <td>{{ inscricao.linkMapa|slice:":5" }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

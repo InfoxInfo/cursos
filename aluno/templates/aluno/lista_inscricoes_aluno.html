@@ -1,0 +1,30 @@
+{% extends 'aluno/base_admin.html' %}
+
+{% load bootstrap %}
+{% load static %}
+
+{% block main %}
+<style>
+    .paineldiv {
+    display:inline-block;
+
+    width:300px;height:400px;
+    background-color: #f5f5f5;
+    color: #000;
+    font-size: 20px;
+    vertical-align: middle;
+
+}
+</style>
+{% for inscricao in inscricoes %}
+<div class="card mb-3 paineldiv">
+    <img src="{% static 'media/photoshop_cap.png' %}" class="card-img-top" alt="Capa curso...">
+    <div class="card-body">
+      <h5 class="card-title"><a href="{% url 'curso_detalhe' inscricao.id %}">{{ inscricao.curso }}</a></h5>
+      <p class="card-text">Inicie sua edição profissional com o curso de Photoshop.</p>
+      <p class="card-text"><small class="text-body-secondary">{{ inscricao.data_inscricao }}</small></p>
+    </div>
+  </div>
+  {% endfor %}
+
+{% endblock %}

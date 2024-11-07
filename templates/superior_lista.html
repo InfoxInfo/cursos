@@ -1,0 +1,62 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+{% load static %}
+{% block main %}
+
+<div class="card border-primary mb-3">
+    <h5 class="card-header">Cursos Superiores</h5>
+    <div class="card-body">
+        <div class="row">
+            <table class="table">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Descrição Títu</th>
+                        <th scope="col">Logo</th>
+                        <th scope="col">Imagem Capa</th>
+                        <th scope="col">Descricao Tutora</th>
+                        <th scope="col">Imagem Tutora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">{{ inscricao.id }}</th>
+                        <td>{{ inscricao.tituloS }}</td>
+                        <td>{{ inscricao.descricaoTituloS }}</td>
+                        <td>
+                            {% if inscricao.logo %}
+                                <a href="{% static inscricao.logo %}" target="_blank">
+                                    <img class="rounded mx-auto d-block" src="{% static inscricao.logo %}" width="100px" alt="Logo">
+                                </a>
+                            {% else %}
+                                Sem imagem
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if inscricao.imagemCapa %}
+                                <a href="{% static inscricao.imagemCapa %}" target="_blank">
+                                    <img class="rounded mx-auto d-block" src="{% static inscricao.imagemCapa %}" width="100px" alt="Imagem Capa">
+                                </a>
+                            {% else %}
+                                Sem imagem
+                            {% endif %}
+                        </td>
+                        <td>{{ inscricao.descricaoTutora }}</td>
+                        <td>
+                            {% if inscricao.imagemTutora %}
+                                <a href="{% static inscricao.imagemTutora %}" target="_blank">
+                                    <img class="rounded mx-auto d-block" src="{% static inscricao.imagemTutora %}" width="100px" alt="Equipe">
+                                </a>
+                            {% else %}
+                                Sem imagem
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends "base_login.html" %}
+{% load static %}
+{% block main %}
+{% load bootstrap %}
+
+</head>
+  
+{% include 'nav.html' %}
+<style>
+  .paineldiv {
+    display: inline-block;
+    width: 300px;
+    height: 400px;
+    background-color: #f5f5f5;
+    color: #000;
+    font-size: 20px;
+    vertical-align: middle;
+    border-radius: 7px 7px 20px 20px;
+    margin: 3px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Adicionando transição para a sombra */
+}
+
+.paineldiv:hover {
+    transform: scale(1.05); /* Aumenta levemente a div no hover */
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3); /* Adiciona uma sombra */
+}
+
+.card-img-top {
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
+}
+</style>
+<div class="gradCapa wow fadeInDown">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 col-md-6 text-white align-self-center text-justify p-2">
+          <br>
+          <br>
+          <br>
+          <h1 class="wow animated bounce" data-wow-delay="0.2s">Bem-Vindo ao Futuro!</h1>
+            <h5 class="wow bounceInDown" data-wow-delay="0.4s">Conheça nossos cursos
+              </h5>
+        </div>
+        <div class="col">
+          <div>
+            <div class="text-primary wow fadeInDown" data-wow-delay="0.6s">
+              <img class="rounded mx-auto d-block" style="padding-top: 100px;padding-bottom: 15px;" src="{% static 'media/infox/f2.png' %}" width="600px" alt="Img_pessoa_Infox"/>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="container d-flex justify-content-center" style="padding: 20px;">
+  <div>
+
+{% for dig in digitacao_detalhes %}
+    
+<a href="{% url 'cursoson_dig'%}">
+<div class="card mb-3 paineldiv wow fadeInDown" data-wow-delay="0.1s">
+<img src="{% static 'media/curso/capa/digitacao.png' %}" class="card-img-top" alt="Capa curso dig">
+  <div class="card-body">
+    <h4 class="card-title text-primary" style=" font-size: 1.5em; line-height: 1">{{ dig.nome}}</h4>
+    <p class="card-text">{{ dig.descricao_curta}}</p>
+    <div class="d-flex justify-content-between">
+      <p><i class="fa-regular fa-clock" style="color: purple"></i> {{ dig.horas}} horas</p>
+      <p><i class="fa-solid fa-keyboard" style="color: purple"></i> {{ dig.licoes}} lições</p>
+    </div>
+    <p><i class="fa-solid fa-stamp" style="color: purple"></i> Certificado</p>
+    <p>Professor</p>        
+  </div>
+</div>
+</a>
+{% endfor %}
+
+    {% for curso in cursos_listas %}
+    <a href="{% url 'cursoson_indivi' curso.id %}">
+        <div class="card mb-3 paineldiv wow fadeInDown" data-wow-delay="0.2s">
+            <img src="{% static curso.imagem.url %}" class="card-img-top" alt="Capa curso">
+            <div class="card-body">
+                <h4 class="card-title text-primary" style="font-size: 1.5em; line-height: 1">{{ curso }}</h4>
+                <p class="card-text">{{ curso.descricao|slice:":45" }}...</p>
+                <div class="d-flex justify-content-between">
+                    <p><i class="fa-regular fa-clock" style="color: purple"></i> {{ curso.horas }} horas</p>
+                    <p><i class="fa-solid fa-book-journal-whills" style="color: purple"></i> 
+                        {{ curso.licao_set.count }} lições
+                    </p>
+                </div>
+                <p><i class="fa-solid fa-stamp" style="color: purple"></i> Certificado</p>
+                <p>Professor</p>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+    
+        
+  </div>
+
+
+</div>
+{% include 'footer.html' %}
+
+{% endblock %}

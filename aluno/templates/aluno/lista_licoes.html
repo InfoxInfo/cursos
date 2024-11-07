@@ -1,0 +1,41 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+
+{% block main %}
+
+<div class="card border-primary mb-3">
+    <h5 class="card-header">Lições cadastradas</h5>
+    <div class="card-body">
+        <div class="row">
+      <h5 class="card-title">Aqui você cadastras os novos cursos.</h5>
+      <p class="card-text">Preencha todos os campos necessários.</p>
+      <table class="table">
+        <thead class="table-light">
+            <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Video</th>
+            <th scope="col">Botão</th>
+            <th scope="col">Status</th>
+            <th scope="col">Curso</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for licao in licao %}
+                <tr>
+                <th scope="row">{{ licao.id }}</th>
+                <td>{{ licao.nome }}</td>
+                <td>{{ licao.descricao }}</td>
+                <td>{{ licao.video }}</td>
+                <td>{{ licao.botao }}</td>
+                <td>{{ licao.status }}</td>
+                <td>{{ licao.curso }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+</div>
+</div>
+{% endblock %}

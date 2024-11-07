@@ -1,0 +1,89 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+
+{% block main %}
+
+<div class="card border-primary mb-3">
+    <h5 class="card-header">Painel de Inscrições
+        <button type="button" class="btn btn-primary">
+            Total de Inscrições <span class="badge badge-light">{{ num_incricoes }}</span>
+        </button>
+    </h5>
+    <div class="card-body">
+        <div class="row-7 d-flex flex-nowrap">
+            <div class="col d-flex justify-content-center">
+                <div class="input-group">
+                    <form method="GET" id="search-form" class="input-group">
+                        <input class="form-control" type="text" id="search" name="search" placeholder="Pesquisar" value="{{ request.GET.search }}">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary" id="search-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="col d-flex justify-content-center">
+                    <a class="btn btn btn-danger" href="?search=" role="button"><i class="fa-solid fa-eraser"></i> Limpar</a>
+                </div>
+            </div>
+            <div class="col-3 d-flex justify-content-center">
+                <a class="btn btn-success" href="\inscricaonovo" role="button"><i class="fa-solid fa-plus"></i> Nova inscrição</a>
+            </div>
+        </div>
+
+    </div>
+    
+</div>
+<div class="card border-primary mb-3">
+    <h5 class="card-header">Visualização das inscrições</h5>
+        <table class="table">
+            <thead class="table-light">
+                <tr >
+                    <th class="align-middle" scope="col">Usuário</th>
+                    <th class="align-middle" scope="col">Curso</th>
+                    <th class="align-middle text-right" scope="col">Editar</th>
+                </tr>
+            </thead>
+        <tbody>
+            {% for inscricao in inscricoes %}
+                <tr>
+                    <th scope="row">{{ inscricao.aluno }}</td>
+                    <td>{{ inscricao.curso.nome }}</td>
+                    <td class="text-right">
+                        <a href="{% url 'inscricao_update' inscricao.id %}" style="text-decoration: none;">
+                            <button type="button" class="btn btn-danger"><i class="fa-solid fa-pen-to-square"></i></button>
+                        </a>
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+</div>
+
+<div class="text-center">
+  <div class="">
+      <span class="step-links">
+          {% if inscricoes.has_previous %}
+              <a href="?page={{ inscricoes.previous_page_number }}"><i class="fas fa-arrow-left"></i></a>
+          {% endif %}
+
+          {% if inscricoes.paginator.num_pages %}
+          <span class="current">
+              {{ inscricoes.number }} de {{ inscricoes.paginator.num_pages }}
+          </span>
+          {% endif %}
+
+          {% if inscricoes.has_next %}
+              <a href="?page={{ inscricoes.next_page_number }}"><i class="fas fa-arrow-right"></i></a>
+          {% endif %}
+      </span>
+  </div>
+
+</div>
+
+{% endblock %}

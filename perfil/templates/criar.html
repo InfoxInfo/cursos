@@ -1,0 +1,145 @@
+{% extends "base_login.html" %}
+{% load static %}
+{% block main %}
+{% load custom_filters %}
+{% load bootstrap %}
+
+</head>
+
+{% include 'nav.html' %}
+
+<style>
+    .progress-container {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end; /* Alinha os elementos internos à direita */
+      width: auto;
+      max-width: 400px;
+      margin: 0 auto;
+      margin-bottom: 50px;
+    }
+  
+    .step {
+        text-align: center;
+        position: relative;
+        flex: 1;
+    }
+  
+    .step:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translateY(-100%);
+        height: 4px;
+        width: 100%;
+        background-color: #94a8bd;
+        z-index: -1;
+    }
+  
+    .circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #94a8bd;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        margin: 0 auto 10px;
+        position: relative;
+        z-index: 1;
+    }
+  
+    .step.active .circle {
+      width: 40px;
+      height: 40px;
+      background-color: #28a745;
+    }
+  
+    .label {
+        font-size: 14px;
+        margin-top: 10px;
+        color: #5e758f;
+    }
+
+    .step.active.step:not(:last-child)::after  {
+      background-color: #28a745;
+    }
+    input {
+    text-transform: none;
+    -webkit-text-transform: none; /* Para navegadores baseados em WebKit */
+}
+  </style>
+<body>
+    <div class="gradCapaSuper wow fadeInDown">
+        <br><br><br><br><br>
+     </div>
+
+
+     <h1 class="text-secondary" style="text-align: center;">Seu Carrinho</h1>
+     <div style="text-align: right;">
+     <div class="progress-container">
+       <div class="step active">
+           <div class="circle">1</div>
+           <div class="label">Carrinho</div>
+       </div>
+       <div class="step active">
+           <div class="circle">2</div>
+           <div class="label">Identificação</div>
+       </div>
+       <div class="step">
+           <div class="circle">3</div>
+           <div class="label">Pagamento</div>
+       </div>
+       <div class="step">
+           <div class="circle">4</div>
+           <div class="label">Finalização</div>
+       </div>
+   </div>
+ </div>
+    <div class="container mt-5 text-secondary">
+        <div class="row">
+            <!-- Formulário de Login -->
+            <div class="col-md-6">
+                <h2 class="text-secondary">Login</h2>
+                <form method="POST" class="form-login" style="text-transform: none;">
+                    {% csrf_token %}
+                    {{ login_form.as_p }}
+                    
+                    <br>
+                    <button type="submit" name="login" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+
+            <!-- Formulário de Criação de Usuário -->
+            <div class="col-md-6">
+                <h2 class="text-secondary">Criar Conta</h2>
+                <form method="POST" class="form-criar-conta" style="text-transform: none;">
+                    {% csrf_token %}
+                    {{ criar_usuario_form.as_p }}
+                    <br>
+                    <button type="submit" name="criar_conta" class="btn btn-success">Criar Conta</button>
+                </form>
+            </div>
+            <style>
+                .form-login input[type="text"],
+                .form-login input[type="email"],
+                .form-login input[type="password"],
+                .form-criar-conta input[type="text"],
+                .form-criar-conta input[type="email"],
+                .form-criar-conta input[type="password"] {
+                    text-transform: none;
+                }
+            </style>
+        </div>
+    </div>
+    <br><br><br><br>
+</body>
+
+
+
+{% include 'footer.html' %}
+
+{% endblock %}

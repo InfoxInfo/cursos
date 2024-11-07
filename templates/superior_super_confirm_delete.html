@@ -1,0 +1,12 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+{% load static %}
+{% block main %}
+    <h2>Confirmação de Exclusão</h2>
+    <p>Tem certeza que deseja excluir o curso "{{ inscricao.curso }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Confirmar</button>
+        <a href="{% url 'superior_super_lista' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

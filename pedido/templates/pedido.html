@@ -1,0 +1,195 @@
+{% extends "base_login.html" %}
+{% load static %}
+{% block main %}
+{% load custom_filters %}
+{% load bootstrap %}
+{% load carrinho_extras %}
+
+</head>
+  
+
+{% include 'nav.html' %}
+
+<style>
+  .progress-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Alinha os elementos internos à direita */
+    width: auto;
+    max-width: 400px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+  }
+
+  .step {
+      text-align: center;
+      position: relative;
+      flex: 1;
+  }
+
+  .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translateY(-100%);
+      height: 4px;
+      width: 100%;
+      background-color: #94a8bd;
+      z-index: -1;
+  }
+
+  .circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #94a8bd;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin: 0 auto 10px;
+      position: relative;
+      z-index: 1;
+  }
+
+  .step.active .circle {
+    width: 40px;
+    height: 40px;
+    background-color: #28a745;
+  }
+
+  .label {
+      font-size: 14px;
+      margin-top: 10px;
+      color: #5e758f;
+  }
+
+  .step.active.step:not(:last-child)::after  {
+    background-color: #28a745;
+  }
+</style>
+
+<div class="gradCapaSuper wow fadeInDown">
+   <br><br><br><br><br>
+</div>
+{% if cursos or digitacao_curso %}
+    <div class="container">
+      <h1 class="text-secondary" style="text-align: center;">Seu Carrinho</h1>
+      <div style="text-align: right;">
+      <div class="progress-container">
+        <div class="step active">
+            <div class="circle">1</div>
+            <div class="label">Carrinho</div>
+        </div>
+        <div class="step">
+            <div class="circle">2</div>
+            <div class="label">Identificação</div>
+        </div>
+        <div class="step">
+            <div class="circle">3</div>
+            <div class="label">Pagamento</div>
+        </div>
+        <div class="step">
+            <div class="circle">4</div>
+            <div class="label">Finalização</div>
+        </div>
+    </div>
+  </div>
+    <div>
+      
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th scope="col" class="text-center align-middle" style="width: 100px;">Curso</th>
+            <th scope="col">Descrição</th>
+            <th scope="col" class="text-center align-middle" style="width: 100px;">Quantidade</th>
+            <th scope="col" class="text-center align-middle" style="width: 100px;">Valor</th>
+            <th scope="col" style="width: 70px;">Remover</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for curso in cursos %}
+          <tr class="">
+            <th scope="row" style="padding: 0px;"><img src="{% static curso.imagem %}" alt="Imagem Logo"></th>
+            <td class="align-middle"><a href="{% url 'cursoson_indivi' curso.id %}">{{ curso.nome }}</a></td>
+            <td class="text-center align-middle">1</td>
+            <td class="text-center align-middle">{{ curso.preco }}</td>
+            <td class="text-center align-middle">
+              <a href="{% url 'pedido:removercarrinho' curso.id %}">
+                <i class="fa-solid fa-trash"  style="color: rgb(177, 16, 16);"></i>
+              </a>
+          </td>
+          </tr>
+          {% endfor %}
+          {% if digitacao_curso %}
+          <tr class="">
+              <th scope="row" style="padding: 0px;">
+                  <img src="{% static 'media/curso/capa/digitacao.png' %}" alt="Imagem digitação">
+              </th>
+              <td class="align-middle"><a href="{% url 'cursoson_dig' %}">{{ digitacao_curso.nome }}</a></td>
+              <td class="text-center align-middle">1</td>
+              <td class="text-center align-middle">{{ digitacao_curso.valor }}</td>
+              <td class="text-center align-middle">
+                <a href="{% url 'pedido:removercarrinhodig' %}">
+                      <i class="fa-solid fa-trash" style="color: rgb(177, 16, 16);"></i>
+                  </a>
+              </td>
+          </tr>
+          {% endif %}
+
+
+        </tbody>
+
+      </table>
+    </div>
+    <div class="row">
+      <div class="col" style="text-align: right;">
+        <table class="table table-striped table-bordered" style="width: 200px; margin-left: auto;">
+          <thead>
+            <tr>
+              <th scope="col" class="text-center">Itens do carrinho</th>
+              <th scope="col" style="background-color: #afb1b3;" class="text-center">{{ total_itens }}</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="col" style="text-align: right;">
+        <table class="table table-striped table-bordered" style="width: 200px; margin-left: auto;">
+          <thead>
+            <tr>
+              <th scope="col" style="background-color: #888b8d;" class="text-center">Total</th>
+              <th scope="col" class="text-center">{{total}}</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+    
+    
+    <div style="text-align: right;">
+      {% if user.is_authenticated %}
+        <a href="{% url 'pedido:resumo' %}">
+          <button type="button" class="btn btn-success" style="background-color: #28a745; border: none; width: 200px;">
+            Comprar <i class="fa-solid fa-angles-right"></i>
+          </button>
+        </a>
+      {% else %}
+        <a href="{% url 'perfil:criar' %}">
+          <button type="button" class="btn btn-success" style="background-color: #28a745; border: none; width: 200px;">
+            Comprar <i class="fa-solid fa-angles-right"></i>
+          </button>
+        </a>
+      {% endif %}
+    </div>
+      <br>
+  </div>
+  {% else %}
+  <h4 class="text-center text-secondary" style="margin: 60px;"><i class="fa-solid fa-basket-shopping"></i>Seu carrinho está vazio.</h4>
+  {% endif %}
+</div>
+
+{% include 'footer.html' %}
+
+{% endblock %}

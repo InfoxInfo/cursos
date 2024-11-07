@@ -1,0 +1,142 @@
+{% load static %}
+{% load bootstrap %}
+<style>
+    .fonte{
+        font-size: 18px;
+    }
+    .custom-dropdown::before {
+    right: 8px; /* Ajuste essa distância conforme necessário */
+    left: auto; /* Garantir que o left não seja aplicado */
+}
+
+.custom-dropdown::after {
+    right: 0px; /* Ajuste essa distância conforme necessário */
+    left: auto; /* Garantir que o left não seja aplicado */
+}
+</style>
+<nav class="navbar navbar-expand-lg fixed-top scrolling-navbar">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a href="{% url 'login' %}" class="navbar-brand wow fadeInRight" data-wow-delay="1.4s">
+                <img src="{% static 'media/infox/logo.png' %}" alt="Logo_img">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="main-navbar">
+            <ul class="navbar-nav mr-auto w-100 justify-content-end">
+                <li class="nav-item {% if request.resolver_match.url_name == 'login' %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'login' %}">Home</a>
+                </li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'cursoson_detalhes' %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'cursoson_detalhes' %}">
+                        <span class="badge text-bg-warning">Cursos Online</span>
+                    </a>
+                </li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'prof_detalhes' %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'prof_detalhes' %}">
+                        <span class="badge" style="background-color: rgb(69, 43, 95);">Cursos Profissionalizantes</span>
+                    </a>
+                </li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'superior_detalhes' %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'superior_detalhes' %}">
+                        <span class="badge" style="background-color: rgb(126, 43, 95);">Cursos Superiores</span>
+                    </a>
+                </li>
+                <li class="nav-item {% if request.path == '/infox/1/' %}active{% endif %}">
+                    <a class="nav-link" href="/infox/1/">Infox</a>
+                </li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'contato_detalhes' %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'contato_detalhes' %}">Contatos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'pedido:carrinho' %}">
+                        <span style="font-size: 20px; position: relative;">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            {% if total_itens > 0 %}
+                                <span class="badge badge-dark" style="position: absolute; top: -12px; right: -12px; padding: 4px;">{{ total_itens }}</span>
+                            {% endif %}
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span style="font-size: 23px;">
+                            <i class="fas fa-user-astronaut"></i>
+                        </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right custom-dropdown" aria-labelledby="userDropdown" style="right: 0 !important; left: auto !important; top: 55px;">
+                        {% if user.is_authenticated %}
+                            <span class="dropdown-item-text text-center align-middle">Olá, {{ user.first_name }}</span>
+                            <a class="dropdown-item text-center align-middle" style="font-size: 17px;" href="{% url 'aluno' %}">Meus cursos</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-center align-middle" style="font-size: 17px;" href="{% url 'logout' %}">Sair <i class="fa-solid fa-door-open"></i></a>
+                        {% else %}
+                            <a class="dropdown-item text-center align-middle fonte" href="{% url 'login' %}">Login</a>
+                            <a class="dropdown-item text-center align-middle fonte" href="{% url 'signup' %}">Criar Conta</a>
+                        {% endif %}
+                    </div>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+    <ul class="mobile-menu">
+        <li class="text-center align-middle {% if request.resolver_match.url_name == 'login' %}active{% endif %}">
+            <a class="page-scroll fonte" href="{% url 'login' %}">Home</a>
+        </li>
+        <li class="text-center align-middle {% if request.resolver_match.url_name == 'cursoson_detalhes' %}active{% endif %}">
+            <a class="page-scroll fonte" href="{% url 'cursoson_detalhes' %}">Cursos Online</a>
+        </li>
+        <li class="text-center align-middle {% if request.resolver_match.url_name == 'prof_detalhes' %}active{% endif %}">
+            <a class="page-scroll fonte" href="{% url 'prof_detalhes' %}">
+             Cursos Profissionalizantes
+            </a>
+        </li>
+        <li class="text-center align-middle {% if request.resolver_match.url_name == 'superior_detalhes' %}active{% endif %}">
+            <a class="page-scroll fonte" href="{% url 'superior_detalhes' %}">
+                Cursos Superiores
+            </a>
+        </li>
+        <li class="text-center align-middle {% if request.path == '/infox/1/' %}active{% endif %}">
+            <a class="page-scroll fonte" href="/infox/1/">Infox</a>
+        </li>
+        <li class="text-center align-middle {% if request.resolver_match.url_name == 'contato_detalhes' %}active{% endif %}">
+            <a class="page-scroll fonte" href="{% url 'contato_detalhes' %}">Contato</a>
+        </li>
+
+        <div class="dropdown-divider"></div>
+
+        {% if user.is_authenticated %}
+        <li class="text-center align-middle">
+            <a class="page-scroll fonte" style="font-size: 16px;">Olá, {{ user.first_name }}</a>
+        </li>
+        <li class="text-center align-middle {% if request.resolver_match.url_name == 'aluno' %}active{% endif %}">
+            <a class="page-scroll fonte" style="font-size: 16px;" href="{% url 'aluno' %}">Meus cursos</a>
+        </li>
+        <li class="text-center align-middle {% if request.resolver_match.url_name == 'aluno' %}active{% endif %}">
+            <a class="page-scroll fonte" style="font-size: 16px;" href="{% url 'logout' %}">Sair <i class="fa-solid fa-door-open"></i></a>
+        </li>
+
+        {% else %}
+        <li class="text-center align-middle {% if request.resolver_match.url_name == 'aluno' %}active{% endif %}">
+            <a class="page-scroll fonte" style="font-size: 16px;" href="{% url 'login' %}">Login</a>
+        </li>
+        <li class="text-center align-middle {% if request.resolver_match.url_name == 'aluno' %}active{% endif %}">
+            <a class="page-scroll fonte" style="font-size: 16px;" href="{% url 'signup' %}">Criar Conta</a>
+        </li>
+        {% endif %}
+
+
+
+
+    </ul>
+  </nav>
+
+
+<!-- jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -1,0 +1,95 @@
+body,h1,h2,h3,h4,h5 {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 300;
+  color: white;
+  line-height: 1.75em;
+}
+
+  .grad {
+    background: rgb(242,16,188);
+    background: linear-gradient(180deg, rgba(242,16,188,1) 0%, rgba(171,0,255,1) 100%);
+  }
+  .textcor {
+    color:#4B0082;
+  }
+    
+  .gradMBA {
+    background-color: #8EC5FC;
+    background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+  }
+  .gradVMV {
+    background: rgb(202,181,255);
+  background: linear-gradient(0deg, rgb(102, 45, 248) 0%, rgba(27,118,253,1) 100%);
+  }
+  .gradContato {
+    background: rgb(202,181,255);
+  background: linear-gradient(0deg, rgb(224, 27, 123) 0%, rgb(196, 7, 98) 100%);
+  }
+  .gradCapa {
+    background: rgb(255,0,249);
+    background: linear-gradient(145deg, rgba(92,25,128,1) 22%, rgba(42,126,196,1) 64%, rgba(39,133,201,1) 64%, rgba(0,212,255,1) 100%);
+}
+  .gradinformacoes {
+    background: rgb(202,181,255);
+  background: linear-gradient(0deg, rgb(102, 45, 248) 0%, rgb(72, 148, 247) 100%);
+  }
+  .gradinformacoes2 {
+    background: rgb(202,181,255);
+  background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgb(234, 241, 255) 100%);
+  }
+.gradCapaInfox {
+    background: rgb(255,0,249);
+    background: linear-gradient(145deg, rgba(92,25,128,1) 22%, rgba(42,126,196,1) 64%, rgba(39,133,201,1) 64%, rgba(0,212,255,1) 100%);
+}
+.gradCapaSuper {
+    background: rgb(255,0,249);
+    background: linear-gradient(120deg, rgb(70, 7, 104) 22%, rgba(42,126,196,1) 55%, rgba(39,133,201,1) 55%, rgba(0,212,255,1) 100%);
+}
+.gradCapaCursos {
+  background: rgb(255,0,249);
+  background: linear-gradient(120deg, rgb(70, 7, 104) 10%, rgb(245, 159, 62) 60%, rgb(255, 169, 70) 60%, rgb(255, 169, 70) 100%);
+}
+  .infox {
+    background: rgb(202,181,255);
+    background: linear-gradient(0deg, rgb(39, 44, 62) 0%, rgb(39, 44, 62) 100%);
+  }
+  .imagemDeFundo{
+  background-color: rgba(248, 247, 216, 0.7);
+  height: 100%;
+  }
+  .imagemDeFundoLayer{
+  background-color: rgba(221,17,115,0.2);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  }
+  .imagemDeFundoLayer:hover{
+  background-color: rgba(221,17,115,0.3);
+
+  }
+  .textshadow{
+    text-shadow: 1px 1px 2px rgb(177, 157, 230);
+
+  }
+  .badge{
+    background-color: rgba(54,14,72,0.7);
+  }
+  .remolinha{
+    text-decoration: none;
+  }
+.iconeCurso {
+    display: inline-block;
+    margin-left: 5px;
+    margin-top: 5px;
+    text-align: center;
+    color: white;
+    vertical-align: middle;
+    font-size: 16px;
+    padding: 16px;
+}
+
+.grow:hover {
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}

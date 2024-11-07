@@ -1,0 +1,431 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'bootstrap/css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/digitacao.css' %}">
+    <title>Curso de Digitação</title>
+    <style>
+      .background-image {
+          position: relative;
+      }
+      .background-image::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: url('{% static "media/curso/digitacao/maos.png" %}');
+          background-size: cover;
+          background-position: center;
+      }
+      .background-image-num {
+          position: relative;
+      }
+      .background-image-num::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: url('{% static "media/curso/digitacao/maos_num.png" %}');
+          background-size: cover;
+          background-position: center;
+      }
+      .letter {
+        white-space: pre-wrap;
+        font-weight: normal;
+        text-align: justify;
+      }
+      .typed {
+        color: green;
+        /* Outros estilos apropriados para caracteres corretamente digitados */
+      }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/cursodigitacao/1" class="nav-link px-2 link-secondary">Voltar <i class="fa-solid fa-door-open"></i></a>
+  <div>
+    <div class="d-flex justify-content-center">
+      <div class="col-4">
+        <div class="btn-group" role="group" aria-label="Basic outlined example" style="padding: 2px; height: 60px;">
+          <button type="button" class="btn btn-primary custom-col-indi" ><i class="fa-solid fa-highlighter"></i></button>
+          <button type="button" style="border-color: #fe2979; width: 200px; " class="btn btn-outline-primary" id="licao_agora">
+            <h5>Prova de digitação</h5>
+          </button>
+        </div>
+        {% for prova in provas %}
+        {% if prova.nota >= 6 %}
+        <p></p>
+        {% endif %}
+        {% empty %}
+        <p>Tempo decorrido: <span id="tempo">00:00</span></p>
+        {% endfor %}
+  
+    </div>
+
+  <div class="col-3 text-center">
+  <div id="iconeErro" style="display: none;">
+    <i class="fa-solid fa-bell fa-shake fa-5x" style="color: #fe2979;"></i>
+  </div>
+</div>
+
+
+  <div class="col-5 text-right">
+    <div class="d-flex justify-content-end">
+        {% for prova in provas %}
+        {% if prova.nota >= 6 %}
+        <p></p>
+        {% endif %}
+        {% empty %}
+        <button type="button" class="btn btn-primary custom-col-indi align-top text-right" style="height: 40px; margin-right: 10px;" id="btn-reiniciar">Reiniciar</button>
+       
+    <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+      <button type="button" class="btn btn-primary" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;border-right: none;">Toques</button>
+      <button type="button" class="btn btn-outline-primary" id="toques-por-minuto-btn" style="border-bottom-right-radius: 0px;border-right: none;"><span id="toques-por-minuto">0</span></button>
+    </div>
+    <div class="btn-group-vertical" role="group"  aria-label="Vertical button group">
+      <button type="button" class="btn btn-primary" style="border-top-left-radius:  0px;">Erros</button>
+      <button type="button" class="btn btn-outline-primary" id="contagem" style="border-bottom-left-radius: 0px;border-left: none;">0</button>
+    </div>
+    {% endfor %}
+  </div>
+  </div>
+</div>
+
+
+{% for prova in provas %}
+{% if prova.nota >= 6 %}
+<br><br>
+<div>
+  <a href="{% url 'render_pdf_digitacao_view' %}" target="_blank">
+    <div class="btn-group text-right" role="group" aria-label="Basic outlined example">
+        <button type="button" class="btn btn-dark" style="border: 0;">Gerar certificado</button>
+        <button type="button" id="btn-relatorio" style="border: none; color: #3445b4; background-color: #967b7b;" class="btn btn-light">
+            <i class="fa-solid fa-cog fa-spin" style="--fa-animation-duration: 10s; color: #753a12;"></i>
+        </button>
+    </div>
+  </a>
+</div>
+<br><br>
+<div class="card">
+  <div class="card-header">
+    Avaliação de Digitação
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <h5 class="card-title">Tempo: {{ prova.tempo }}</h5>
+        <h5 class="card-title">Toques por minuto: {{ prova.toques }}</h5>
+        <h5 class="card-title">Erros: {{ prova.erros }}</h5>
+        <h5 class="card-title">Data de Conclusão: {{ prova.data_conclusao }}</h5>
+      </div>
+      <div class="col">
+        {% if prova.nota >= 10 %}
+          <h1 class="card-text">Nota: <span class="badge bg-primary">10</span></h1>
+        {% else %}
+          <h1 class="card-text">Nota: <span class="badge bg-primary">{{ prova.nota }}</span></h1>
+        {% endif %}
+        <h2><i class="fa-solid fa-check"></i> Parabéns! Você foi aprovado</h2>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
+{% endif %}
+{% empty %}
+  <h6 class="card-title center" style="text-align: justify">
+    <span id="texto-digitacao" class="letter">Texto_vai_aqui</span>
+  </h6>
+
+  <textarea class="form-control" id="digite_prova" rows="12"></textarea>
+
+<br>
+        Total caracteres: <span id="total_caracteres">0</span> | Texto igual: <span id="total_caracteres_digitados">0</span>
+{% endfor %}
+
+
+
+
+</script><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+
+var currentIndex = 0; // Índice do caractere atual
+var typedTextarea = document.getElementById('digite_prova');
+var textoDigitacao = document.getElementById('texto-digitacao');
+var totalCaracteresSpan = document.getElementById('total_caracteres');
+var iconeErroDiv = document.getElementById('iconeErro');
+var tempoSpan = document.getElementById('tempo');
+var startTime; // Variável para armazenar o tempo de início
+var timerInterval; // Variável para armazenar o intervalo do cronômetro
+
+var totalCaracteresDigitadosSpan = document.getElementById('total_caracteres_digitados');
+var toquesPorMinutoSpan = document.getElementById('toques-por-minuto');
+var keystrokes = 0; // Contador de teclas pressionadas
+var elapsedTime = 0; // Tempo decorrido em segundos
+
+var ultimaMediaToquesPorMinuto = 0;
+var pausarContagem = false; // Variável para controlar a pausa na contagem de teclas pressionadas
+var numeroErros = 0; // Variável para armazenar o número de erros
+var contagemBtn = document.getElementById('contagem'); // Seleciona o elemento do botão de contagem
+
+
+function iniciarContagemTeclasPressionadas() {
+  keystrokesInterval = setInterval(function () {
+    elapsedTime++;
+    if (pausarContagem) return; // Verifica se a contagem deve ser pausada
+    const toquesPorMinuto = keystrokes / (elapsedTime / 60); // Média de teclas por minuto
+    toquesPorMinutoSpan.textContent = Math.round(toquesPorMinuto);
+    ultimaMediaToquesPorMinuto = Math.round(toquesPorMinuto); // Atualiza a última média de toques por minuto
+  }, 1000); // Atualiza a cada segundo (1000 milissegundos)
+}
+
+function pararContagemTeclasPressionadas() {
+  clearInterval(keystrokesInterval);
+  pausarContagem = false; // Retoma a contagem de teclas pressionadas
+  toquesPorMinutoSpan.textContent = ultimaMediaToquesPorMinuto; // Exibe a última média de toques por minuto
+}
+
+function calcularToquesPorMinuto() {
+  var elapsedTime = Date.now() - startTime;
+  var minutes = elapsedTime / 60000; // Converter o tempo decorrido para minutos
+  var toquesPorMinuto = Math.floor(totalCaracteresDigitadosSpan.textContent / minutes); // Calcular toques por minuto
+
+  return toquesPorMinuto;
+}
+
+// Função para ler o arquivo de texto e atualizar o conteúdo do elemento <span>
+function carregarArquivoTexto() {
+  var filePath = '{% static "media/curso/digitacao/config.xml" %}';
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', filePath, true);
+
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      var texto = xhr.responseText;
+
+      // Parse do XML
+      var parser = new DOMParser();
+      var xmlDoc = parser.parseFromString(texto, 'text/xml');
+
+      // Obtém o conteúdo entre as tags <text>
+      var conteudoText = xmlDoc.getElementsByTagName('text')[0].textContent;
+
+      textoDigitacao.textContent = conteudoText; // Atualiza o conteúdo do elemento <span> com o texto carregado
+      totalCaracteresSpan.textContent = conteudoText.length; // Atualiza o conteúdo do elemento <span> com o total de caracteres
+    }
+  };
+
+  xhr.send();
+}
+
+// Função para pausar o cronômetro
+function pausarCronometro() {
+  clearInterval(timerInterval);
+}
+
+// Função para atualizar o cronômetro
+function atualizarCronometro() {
+  var currentTime = Date.now();
+  var elapsedTime = currentTime - startTime;
+  var minutes = Math.floor(elapsedTime / 60000);
+  var seconds = Math.floor((elapsedTime % 60000) / 1000);
+  var formattedTime = padZero(minutes) + ':' + padZero(seconds);
+  tempoSpan.textContent = formattedTime;
+}
+
+// Função auxiliar para preencher com zero à esquerda
+function padZero(number) {
+  return number.toString().padStart(2, '0');
+}
+
+// Chama a função para carregar o arquivo de texto
+carregarArquivoTexto();
+
+typedTextarea.addEventListener('input', function(event) {
+  
+  var textoCarregado = textoDigitacao.textContent;
+  var textoDigitado = typedTextarea.value;
+  var caracteresDigitados = typedTextarea.value.length;
+
+  var textoCarregadoParcial = textoCarregado.substr(0, caracteresDigitados);
+  textoCarregadoParcial = textoCarregadoParcial.replace(/\n/g, '');
+
+  var textoDigitadoSemQuebras = textoDigitado.replace(/\n/g, '');
+
+  var proximoCaractere = textoCarregado.charAt(caracteresDigitados);
+  var igual = textoDigitadoSemQuebras === textoCarregadoParcial || (event.inputType === 'insertLineBreak' && proximoCaractere === '\n');
+  
+  var caracteresDigitados = typedTextarea.value.length;
+  totalCaracteresDigitadosSpan.textContent = caracteresDigitados;
+  keystrokes++;
+
+  if (igual) {
+    iconeErroDiv.style.display = 'none'; // Esconde o ícone de erro
+    typedTextarea.style.backgroundColor = 'white'; // Restaura a cor de fundo padrão
+
+    if (!startTime) {
+      startTime = Date.now();
+      timerInterval = setInterval(atualizarCronometro, 1000); // Atualiza o cronômetro a cada 1 segundo
+    }
+    // Verifica se todo o texto foi digitado corretamente
+    if (caracteresDigitados === textoCarregado.length) {
+      pausarCronometro(); // Pausa o cronômetro
+      pausarContagem = true; // Pausa a contagem de teclas pressionadas
+      typedTextarea.disabled = true; // Desativa a caixa de texto
+
+      // Cálculo da nota
+      var toquesPorMinuto = calcularToquesPorMinuto();
+      var erros = Math.floor(parseInt(contagemBtn.textContent) / 2);
+      var toquesConsiderados = toquesPorMinuto;
+      var nota = (toquesConsiderados * 6) / 100;
+
+      var notaSpan = document.getElementById('nota');
+      var tempoDecorrido = tempoSpan.textContent; // Obtém o tempo decorrido do cronômetro
+
+      var data = {
+        'toques_por_minuto': toquesPorMinuto,
+        'nota': nota,
+        'tempo_decorrido': tempoDecorrido,
+        'erros': erros
+      };
+      if (nota < 6) {
+        Swal.fire({
+          title: 'Aviso',
+          text: 'Você não obteve a média necessária para passar na prova!',
+          icon: 'warning'
+        }).then(function() {
+          location.reload(); // Recarregar a página
+        });
+      }
+      if (nota >= 6 ){     
+      $.ajax({
+        url: '/provasdigitacao/prova/',
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(response) {
+          // Lógica de manipulação de sucesso aqui
+          
+          // Atualizar o valor de 'acertos' com o valor retornado do servidor (se necessário)
+          acertos = response.acertos;
+          console.log(response)
+
+          location.reload(); // Recarregar a página
+        },
+        error: function(xhr, textStatus, errorThrown) {
+          // Lógica de manipulação de erro aqui
+        }
+      });
+      }
+    }
+
+  } else {
+    iconeErroDiv.style.display = 'block'; // Exibe o ícone de erro
+    typedTextarea.style.backgroundColor = '#ffcccc'; // Altera a cor de fundo para vermelho claro (#ffcccc)
+
+    var contadorAtual = parseInt(contagemBtn.textContent); // Obtém o valor atual do contador
+    var novoContador = contadorAtual + 1; // Incrementa o contador em 1
+    contagemBtn.textContent = novoContador; // Atualiza o valor do contador no botão
+
+    // Inicia o cronômetro se ainda não foi iniciado
+    if (!startTime) {
+      startTime = Date.now();
+      timerInterval = setInterval(atualizarCronometro, 1000); // Atualiza o cronômetro a cada 1 segundo
+    }
+  }
+
+    atualizarToquesPorMinuto(); // Atualiza a média de toques por minuto em tempo real
+
+});
+
+// Foca no elemento typedTextarea ao carregar a página
+document.addEventListener('DOMContentLoaded', function() {
+  typedTextarea.focus();
+});
+
+
+// Função para reiniciar o cronômetro, limpar o textarea e restaurar a cor de fundo
+function reiniciarDigitação() {
+  pausarCronometro(); // Pausa o cronômetro
+  typedTextarea.focus();
+  startTime = null; // Reinicia a variável startTime
+  typedTextarea.value = ''; // Limpa o conteúdo do textarea
+  typedTextarea.style.backgroundColor = 'white'; // Restaura a cor de fundo padrão
+  iconeErroDiv.style.display = 'none'; // Esconde o ícone de erro
+  tempoSpan.textContent = '00:00'; // Zera o tempo exibido no cronômetro
+  toquesPorMinutoSpan.textContent = '0'; // Zera o valor exibido no elemento <span> de toques por minuto
+  contagemBtn.textContent = '0'
+  keystrokes = 0; // Contador de teclas pressionadas
+  elapsedTime = 0; // Tempo decorrido em segundos
+    
+  // Reinicia a contagem dos toques por minuto
+  pararContagemTeclasPressionadas();
+  iniciarContagemTeclasPressionadas();
+  toquesPorMinutoSpan.textContent = '0'; // Define o valor exibido como zero
+}
+
+// Adiciona um evento de clique ao botão "Reiniciar"
+var btnReiniciar = document.getElementById('btn-reiniciar');
+btnReiniciar.addEventListener('click', reiniciarDigitação);
+contagemBtn.textContent = '0'; // Define o valor do contador como 0
+
+typedTextarea.addEventListener('contextmenu', function(event) {
+  event.preventDefault(); // Cancela o evento padrão do botão direito
+});
+typedTextarea.addEventListener('keydown', function(event) {
+  // Verifica se a tecla pressionada é o CTRL + C (ou Command + C em macOS)
+  if ((event.ctrlKey || event.metaKey) && event.keyCode === 67) {
+    event.preventDefault(); // Cancela o comportamento padrão de copiar
+  }
+
+  // Verifica se a tecla pressionada é o CTRL + V (ou Command + V em macOS)
+  if ((event.ctrlKey || event.metaKey) && event.keyCode === 86) {
+    event.preventDefault(); // Cancela o comportamento padrão de colar
+  }
+
+  // Verifica se a tecla pressionada é o CTRL + Z (ou Command + Z em macOS)
+  if ((event.ctrlKey || event.metaKey) && event.keyCode === 90) {
+    event.preventDefault(); // Cancela o comportamento padrão de desfazer
+  }
+
+  if (event.ctrlKey) {
+    event.preventDefault(); // Cancela o comportamento padrão da tecla CTRL
+  }
+
+  // Verifica se a tecla pressionada é o Shift + Insert
+  if (event.shiftKey && event.keyCode === 45) {
+    event.preventDefault(); // Cancela o comportamento padrão do Shift + Insert
+  }
+});
+
+// Função para atualizar o número de toques por minuto
+function atualizarToquesPorMinuto() {
+  var toquesPorMinuto = calcularToquesPorMinuto();
+  toquesPorMinutoSpan.textContent = Math.round(toquesPorMinuto);
+}
+
+
+</script>
+
+</div>
+<script src="{% static 'bootstrap/js/bootstrap.js' %} "></script>
+<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %} "></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+</html>

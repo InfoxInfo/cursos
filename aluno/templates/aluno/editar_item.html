@@ -1,0 +1,12 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+{% load static %}
+{% block main %}
+
+<form method="POST" action="{% url 'editar_item' item_id=item.id %}">
+    {% csrf_token %}
+    {{ form|bootstrap }}
+    <button type="submit">Salvar</button>
+  </form>
+  
+  {% endblock %}

@@ -1,0 +1,267 @@
+{% extends "base_login.html" %}
+{% load static %}
+{% load socialaccount %}
+{% block main %}
+
+{% load bootstrap %}
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-46397689-2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-46397689-2');
+</script>
+
+<style>
+    .imagemDeFundo {
+        background: url("{% static 'media/infox/turma.jpg' %}");
+        background-color: rgba(248, 247, 216, 0.7);
+        height: 100%;
+    }
+</style>
+
+ <title>Infox - Polo Uniftec</title>
+</head>
+<body>
+
+    {% include 'nav.html' %}
+         
+<div class="gradCapa wow fadeInDown">
+ <div class="container">
+ <div class="row">
+   <div class="col text-white align-self-center text-justify p-2">
+    <br>
+    <br>
+     <h1 class="wow animated bounce" data-wow-delay="0.2s">Escola Profissionalizante / Superior</h1>
+       <h5 class="wow bounceInDown" data-wow-delay="0.4s">A Infox surgiu nos anos 90 e foi se adaptando as mudanças tecnológicas e educacionais, com diversos nomes como SSCES, CES, MSD até que em 2004 se tornou a Infox.
+         Em 2016 nos tornamos Polo da Uniftec oferecendo assim cursos de nível Superior.
+         Hoje oferecemos cursos Profissionalizantes, Técnicos, Cursos Superiores, MBA’s e Pós-Graduações.
+       </h5>
+   </div>
+   
+    <div class="col align-self-center" style="width: 100%;height: 100%; padding-top: 100px; padding-bottom: 20px; display: flex; justify-content: center; align-items: center;">
+       <div class="text-primary wow fadeInDown align-self-center" data-wow-delay="0.6s">
+        
+            <div class="card" style="width: 25rem;">
+                <div class="card-body text-left">
+                    <h5 class="card-title"></h5>
+                        
+                              <h1 class="text-primary">Bem-vindo</h1>
+                              <h5 class="text-primary">Acesse seu curso</h5>
+                              <br>
+                              <form class="form-signin text-left" method="post" action="{% url 'login' %}" style="text-transform: none;">
+                                {% csrf_token %}
+                                {{ form|bootstrap }}
+                                <style>
+                                    .form-signin input[type="text"],
+                                    .form-signin input[type="email"],
+                                    .form-signin input[type="password"],
+                                    .form-signin textarea {
+                                        text-transform: none;
+                                    }
+                                </style>
+                                <div class="text-right">
+                                    <div>
+                                        <p><a href="{% url 'signup' %}">Criar uma conta</a></p>
+                                        <br>
+                                        <p><a href="{% url 'password_reset' %}">Esqueceu sua senha?</a></p>
+                                    </div>
+                                    <br>
+                                    <input type="submit" value="Entrar" class="btn btn-primary">
+                                </div>
+                                <input type="hidden" name="next" value="{{ next }}">
+                            </form>
+                        {# Assumes you set up the password_reset view in your URLconf #}
+                        <a href="{% url 'facebook_login' %}">Conectar com o Facebook</a>
+                    </div>
+                    
+                </div>
+                
+       </div>
+
+   </div>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+ <!-- Counter Area Start-->
+ <section>
+     <div class="p-5 gradVMV">
+         <div class="container align-self-center">
+           <div class="row align-self-center text-center">
+               <div>
+                 <a href="{% url 'prof_detalhes' %}">
+                   <div class="paineldivCapa bg-light bg-gradient text-primary wow fadeInDown" data-wow-delay="0.2s">
+                     <span style="font-size: 2em;">
+                     <i class="far fa-play-circle"></i>
+                     <h5 class="wow fadeInDown text-primary">Profissionalizantes</h5>
+                     </span>
+                   </div>
+                 </a>
+                 <a href="{% url 'superior_detalhes' %}">
+                 <div class="paineldivCapa bg-light bg-gradient text-primary  wow fadeInDown" data-wow-delay="0.4s">
+                   <span style="font-size: 2em;">
+                     <i class="fas fa-drafting-compass "></i>
+                   <h5 class="wow fadeInDown text-primary">Técnicos</h5>
+                 </span>
+                 </div>  
+               </a>
+               <a href="{% url 'superior_detalhes' %}">
+             <div class="paineldivCapa bg-light bg-gradient text-primary  wow fadeInDown" data-wow-delay="0.6s">
+               <span style="font-size: 2em;">
+                 <i class="fas fa-user-graduate"></i>
+               <h5 class="wow fadeInDown text-primary">Ensino Superior</h5>
+             </span>
+             </div> 
+            </a>
+            <a href="{% url 'superior_detalhes' %}">
+             <div class="paineldivCapa bg-light bg-gradient text-primary  wow fadeInDown" data-wow-delay="0.7s">
+               <span style="font-size: 2em;">
+                 <i class="fas fa-paper-plane"></i>
+               <h5 class="wow fadeInDown text-primary">MBA's</h5>
+             </span>
+             </div> 
+            </a>
+            <a href="{% url 'superior_detalhes' %}">
+             <div class="paineldivCapa bg-light bg-gradient text-primary  wow fadeInDown" data-wow-delay="0.8s">
+               <span style="font-size: 2em;">
+                 <i class="fas fa-meteor wow fadeInRight"></i>
+               <h5 class="wow fadeInDown text-primary">Pós Graduações</h5>
+             </span>
+           </div>
+          </a>
+             <h5 class="wow fadeInDown" data-wow-delay="1.2s">Infinitos motivos para você estudar!</h5>
+           </div>
+           </div>
+         </div>
+     </div>
+   </section>
+
+   <section>
+             <div class="imagemDeFundo">
+               <div class="imagemDeFundoLayer">
+               <div class="p-5">
+                 <h2 class="wow fadeInLeft text-center" data-wow-delay="0.2s">Faça parte desta galera</h2>
+                 <span class="wow fadeInLeft badge" data-wow-delay="0.2s">
+                   <span class="wow fadeInLeft" data-wow-delay="0.2s"><h2>Mais de 80 cursos</span></h2>
+                   <span class="wow fadeInLeft" data-wow-delay="0.4s"><h2>Salas climatizadas</span></h2>
+                   <span class="wow fadeInLeft" data-wow-delay="0.6s"><h2>Instrutores experientes</span></h2>
+                   <span class="wow fadeInLeft" data-wow-delay="0.8s"><h2>Bar/Café</span></h2>
+                   <span class="wow fadeInLeft" data-wow-delay="1.0s"><h2>Certificação</span></h2>
+                   <span class="wow fadeInLeft" data-wow-delay="1.2s"><h2>Respeito ao ritmo do alunos</span></h2>
+                   <span class="wow fadeInLeft" data-wow-delay="1.4s"><h2>Horários flexíveis</span></h2>
+                   <span class="wow fadeInLeft" data-wow-delay="1.6s"><h2>Opção online</span></h2>
+                 </span>         
+                 </div>
+               </div>
+             </div>
+   </section>
+
+<!-- Counter Area Start-->
+<section>
+<div class="p-5 gradContato">
+   <div class="container align-self-center">
+
+     <div class="row align-self-center text-center">
+
+       <h4 class="wow fadeInDown" data-wow-delay="0.2s">Fale conosco!</h4>
+
+                 
+         <Div>
+           <a href="https://wa.me/5554984346112" target="_blank">
+             <div class="paineldivContato bg-light bg-gradient text-primary wow fadeInLeft" data-wow-delay="0.2s">
+               <span style="font-size: 2em;">
+                 <i class="fab fa-whatsapp"></i>
+                 <h5 class="text-primary"><span  class="badge bg-primary">54</span> 98434-6112</h5>
+               </span>
+             </div>
+           </a>
+
+           <a href="tel:5432912670" target="_blank">
+             <div class="paineldivContato bg-light bg-gradient text-primary wow fadeInDown" data-wow-delay="0.5s">
+               <span style="font-size: 2em;">
+                 <i class="fas fa-phone-volume"></i>
+                 <h5 class="text-primary"><span  class="badge bg-primary">54</span> 3291-2670</h5>
+               </span>
+             </div>
+           </a>
+
+           <a href="callto:atendimento@cursosinfox.com.br" target="_blank">
+             <div class="paineldivContato bg-light bg-gradient text-primary wow fadeInDown" data-wow-delay="0.8s">
+               <span style="font-size: 2em;">
+                 <i class="fab fa-skype"></i>
+                 <h5 class="text-primary">Skype</h5>
+               </span>
+             </div>
+           </a>
+
+               <a href="/contato">
+                 <div class="paineldivContato bg-light bg-gradient text-primary wow fadeInDown" data-wow-delay="1.1s">
+                   <span style="font-size: 2em;">
+                     <i class="fas fa-envelope-open-text"></i>
+                   <h5 class="text-primary">Emai</h5>
+                   </span>
+                 </div>
+               </a>
+
+             <a href="https://www.facebook.com/infox.edu" target="_blank">
+               <div class="paineldivContato bg-light bg-gradient text-primary wow fadeInDown" data-wow-delay="0.8s">
+                 <span style="font-size: 2em;">
+                   <i class="fab fa-facebook"></i>
+                 <h5 class="text-primary">facebook</h5>
+                 </span>
+               </div>
+             </a>
+
+             <a href="https://www.instagram.com/infox.info/" target="_blank">
+               <div class="paineldivContato bg-light bg-gradient text-primary wow fadeInDown" data-wow-delay="0.5s">
+                 <span style="font-size: 2em;">
+                   <i class="fab fa-instagram"></i>
+                 <h5 class="text-primary">instagram</h5>
+                 </span>
+               </div>
+             </a>
+
+             <a href="https://www.linkedin.com/company/infox-polo-uniftec" target="_blank">
+               <div class="paineldivContato bg-light bg-gradient text-primary wow fadeInRight" data-wow-delay="0.2s">
+                 <span style="font-size: 2em;">
+                   <i class="fab fa-linkedin"></i>
+                 <h5 class="text-primary">Linkedin</h5>
+                 </span>
+               </div>
+             </a>
+           </Div>
+       </div>
+     </div>
+   </div>
+</div>
+</section>
+
+<section class="infox">
+<div class="container p-5">
+ <div class="row">
+   <div class="col align-self-center">
+     <h1 class="wow animated bounce" data-wow-delay="0.2s">Há Décadas Ensinando!</h1>
+       <h5 class="wow bounceInDown text-justify" data-wow-delay="0.4s">Iniciando suas atividades na década de 90 a Infox vem se adaptando e evoluindo para melhor
+         atender a população São Marquence. Localizada na avenida Venâncio Aires no mesmo prédio da Magazineluiza a Infox oferece uma estrutura adequada a educação. Sempre voltada a Tecnologia estamos
+         sempre lançando novos cursos e novas parcerias.
+       </h5>
+   </div>
+   <div class="col">
+     <img class="rounded mx-auto d-block" src="{% static 'media/infox/local.jpg' %}" alt="Img_local"/>
+   </div>
+ </div>
+</div>
+</section>
+
+</body>
+
+{% include 'footer.html' %}
+
+{% endblock %}

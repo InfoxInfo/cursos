@@ -1,0 +1,101 @@
+{% load bootstrap %}
+{% load static %}
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <title>Relatório de digitação</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+  <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'bootstrap/css/list-groups.css' %} "rel="stylesheet">
+  <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'bootstrap/css/cheatsheet.css' %}" rel="stylesheet">	
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{% static 'bootstrap/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'bootstrap/css/digitacao.css' %}">
+</head>
+<body>
+  <br>
+  <div class="container">
+    <div class="row ">
+      <div class="col-8">
+        <h1 class="display-4">Ranking de Digitação</h1>
+      </div>
+      <div class="col-4 text-right">
+        <a href="/cursodigitacao/1" class="nav-link px-2 link-secondary">Voltar <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col" class="text-center" style="width: 20px;"></th>
+              <th scope="col" class="text-center" style="width: 70px;"></th>
+              <th scope="col">Nome</th>
+              <th scope="col" class="text-center">ThebestLuiz</th>
+              <th scope="col" style="width: 120px;">Erros</th>
+              <th scope="col" style="width: 280px;">Conclusão</th>
+              <th scope="col" class="text-center" style="width: 120px;">tempo</th>
+              <th scope="col" class="text-center" style="width: 120px;">Toques</th>
+            </tr>
+          </thead>
+          {% for rank in rank %}
+          {% if rank.nota >= 10 %}
+          <tbody>
+            <tr>
+              <th scope="row" class="text-center">{{ forloop.counter }}</th>
+              <td class="text-center">
+                {% for aluno in foto %}
+                    {% if aluno.user == rank.aluno %}
+                        <img src="{% static aluno.foto.url %}" alt="Foto do Aluno" width="32" height="32" class="rounded-circle">
+                    {% endif %}
+                {% endfor %}
+            </td>
+              <td class="text-start">{{ rank.aluno }}</td>
+              <td class="text-center"><i class="fa-solid fa-award"></i></td>
+              <td class="text-start">{{ rank.erros }}</td>
+              <td class="text-start">{{ rank.data_conclusao }}</td>
+              <td class="text-center" style="background-color: #be570c; color: white;">{{ rank.tempo }}</td>
+              <td class="text-center" style="background-color: #60be0c; color: white;">{{ rank.toques }}</td>
+            </tr>
+            {% else %}
+            <tr>
+              <th scope="row" class="text-center">{{ forloop.counter }}</th>
+              <td class="text-center">
+                {% for aluno in foto %}
+                    {% if aluno.user == rank.aluno %}
+                        <img src="{% static aluno.foto.url %}" alt="Foto do Aluno" width="32" height="32" class="rounded-circle">
+                    {% endif %}
+                {% endfor %}
+            </td>
+              <td class="text-start">{{ rank.aluno }}</td>
+              <td class="text-start"></td>
+              <td class="text-start">{{ rank.erros }}</td>
+              <td class="text-start">{{ rank.data_conclusao }}</td>
+              <td class="text-center" style="background-color: #BE0C69; color: white;">{{ rank.tempo }}</td>
+              <td class="text-center" style="background-color: #392774; color: white;">{{ rank.toques }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+  
+
+    
+  </div>
+
+  
+  
+ </div>
+ {% for rank in rank %}
+
+
+ {% endfor %}
+
+</body>
+</html>

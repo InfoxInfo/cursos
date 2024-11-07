@@ -1,0 +1,91 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+{% load static %}
+{% block main %}
+
+<div class="row">
+    <div class="col-sm-8 mb-3 mb-sm-0">
+        <div class="card-body">
+            <div class="d-flex align-items-center row">
+                <div class="col">
+                    <h5 class="card-title">Cursos cadastrados {{licao_total}}</h5>
+                </div>
+                <div class="col">
+                    <span class="badge text-bg-dark" style="padding: 10px;"><h1>{{ curso_total }}</h1></span>
+                </div>
+            </div>        
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card" >
+            <div class="card-body text-center">
+                <a class="btn btn-primary" style="background-color: blueviolet; border: none;" href="\cursonovo" role="button"><i class="fa-solid fa-plus"></i> Adicionar NOVO curso</a>
+            </div>
+        </div>
+    </div>
+  </div>
+<br>
+
+
+<div class="card border-primary mb-3">
+    <h5 class="card-header">Visualização e edição de Cursos</h5>
+        <table class="table">
+            <thead class="table-light">
+                <tr class="text-center">
+                    <th class="align-middle" scope="col">Nome</th>
+                    <th class="align-middle" scope="col">Descrição</th>
+                    <th class="align-middle" scope="col">Desc curta</th>
+                    <th class="align-middle" scope="col">Horas</th>
+                    <th class="align-middle" scope="col">Tipo</th>
+                    <th class="align-middle" scope="col">Valor</th>
+                    <th class="align-middle" scope="col">Criação</th>
+                    <th class="align-middle" scope="col">Lições</th>
+                    <th class="align-middle" scope="col">Prova</th>
+                </tr>
+            </thead>
+        <tbody>
+            {% for curso in cursos %}
+                <tr>
+                    <th scope="row"><a href="{% url 'curso_update' curso.id %}">{{ curso.nome }}</a></td>
+                    <td>{{ curso.descricao }}</td>
+                    <td>{{ curso.descricao_curta }}</td>
+                    <td>{{ curso.horas }}</td>
+                    <td>{{ curso.tipo }}</td>
+                    <td>{{ curso.preco }}</td>
+                    <td>{{ curso.data_criacao|date:"d/m/Y" }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'licao_detalhe' curso.id %}" style="text-decoration: none;">
+                            <button type="button" class="btn btn-danger"><i class="fa-solid fa-plus"></i></button>
+                        </a>
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <a href="{% url 'questoes_detalhe' curso.id %}" style="text-decoration: none;">
+                            <button type="button" class="btn btn-dark"><i class="fa-solid fa-pen-to-square"></i></button>
+                        </a>
+                        </button>
+                    </td>
+                </tr>
+                
+            {% endfor %}
+            </tbody>
+            
+        </table>
+
+</div>
+<div class="text-center">
+    <div class="">
+        <span class="step-links">
+            {% if cursos.has_previous %}
+                <a href="?page={{ cursos.previous_page_number }}"><i class="fas fa-arrow-left"></i></a>
+            {% endif %}
+            <span class="current">
+                {{ cursos.number }} de {{ cursos.paginator.num_pages }}
+            </span>
+            {% if cursos.has_next %}
+                <a href="?page={{ cursos.next_page_number }}"><i class="fas fa-arrow-right"></i></a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}

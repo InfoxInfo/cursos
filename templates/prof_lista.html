@@ -1,0 +1,51 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+{% load static %}
+{% block main %}
+
+<div class="card border-primary mb-3">
+    <h5 class="card-header">Capa menu Cursos Profissionalizantes</h5>
+    <div class="card-body">
+        <div class="row">
+            <table class="table">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Título</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Logo Infox</th>
+                        <th scope="col">Imagem capa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inscricao in inscricoes %}
+                    <tr>
+                        <th scope="row">{{ inscricao.id }}</th>
+                        <td>{{ inscricao.titulo }}</td>
+                        <td>{{ inscricao.descricao }}</td>
+                        <td>
+                            {% if inscricao.imagemLogo %}
+                                <a href="{% static inscricao.imagemLogo %}" target="_blank">
+                                    <img class="rounded mx-auto d-block" src="{% static inscricao.imagemLogo %}" width="100px" alt="Logo Empresa">
+                                </a>
+                            {% else %}
+                                Sem imagem
+                            {% endif %}
+                            </td>
+                        <td>
+                        {% if inscricao.imagemCapa %}
+                            <a href="{% static inscricao.imagemCapa %}" target="_blank">
+                                <img class="rounded mx-auto d-block" src="{% static inscricao.imagemCapa %}" width="100px" alt="Logo Empresa">
+                            </a>
+                        {% else %}
+                            Sem imagem
+                        {% endif %}
+                        </td>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

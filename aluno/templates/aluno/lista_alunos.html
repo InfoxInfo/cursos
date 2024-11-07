@@ -1,0 +1,88 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+{% load static %}
+{% block main %}
+
+  <div class="card border-primary mb-3">
+    <h5 class="card-header">Visualização e edição de Alunos</h5>
+    <div class="card-body">
+      <div class="row d-flex align-items-center">
+        <div class="col-3">
+            <h5 class="card-title">
+                <button type="button" class="btn btn-primary">
+                    Cursos cadastrados <span class="badge badge-light">{{ alunos_total }}</span>
+                </button>
+            </h5>
+        </div>
+        <div class="col-7">
+            <div class="input-group">
+                <form method="GET" id="search-form" class="input-group">
+                    <input class="form-control" type="text" id="search" name="search" placeholder="Pesquisar" value="{{ request.GET.search }}">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary" id="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="col d-flex justify-content-center">
+                <a class="btn btn btn-danger" href="?search=" role="button"><i class="fa-solid fa-eraser"></i> Limpar</a>
+            </div>
+        </div>
+    </div>
+    
+      
+      <table class="table">
+        <thead class="table-light">
+            <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Endereço</th>
+            <th scope="col">Telefone</th>
+            <th scope="col">Email</th>
+            <th scope="col">Nascimento</th>
+            <th scope="col">Foto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aluno in alunos %}
+                <tr>
+                  <th scope="row">{{ aluno.id }}</th>
+                  <td><a href="{% url 'aluno_aluno_update' aluno.id %}">{{ aluno.user }}</a></td>
+                  <td>{{ aluno.endereco }}</td>
+                  <td>{{ aluno.telefone }}</td>
+                  <td>{{ aluno.email }}</td>
+                  <td>{{ aluno.data_nascimento|date:"d/m/Y" }}</td>
+                  <td><img src="{{ aluno.foto.url }}" alt="mdo" width="32" height="32" class="rounded-circle"></td>               
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+  </div>
+    <div class="text-center">
+      <div class="">
+          <span class="step-links">
+              {% if alunos.has_previous %}
+                  <a href="?page={{ alunos.previous_page_number }}"><i class="fas fa-arrow-left"></i></a>
+              {% endif %}
+
+              {% if alunos.paginator.num_pages %}
+              <span class="current">
+                  {{ alunos.number }} de {{ alunos.paginator.num_pages }}
+              </span>
+              {% endif %}
+
+              {% if alunos.has_next %}
+                  <a href="?page={{ alunos.next_page_number }}"><i class="fas fa-arrow-right"></i></a>
+              {% endif %}
+          </span>
+      </div>
+
+  </div>
+
+ 
+
+{% endblock %}

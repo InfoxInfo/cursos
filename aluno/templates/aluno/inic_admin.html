@@ -1,0 +1,48 @@
+{% extends 'aluno/base_admin.html' %}
+{% load static %}
+
+{% block main %}
+  <h1 class="text-center">Painel Administrativo</h1>
+  <p></p>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card" style="border-color: blueviolet; background-color:ghostwhite;">
+        <div class="card-body">
+          <h5 class="card-title">Painel Alunos</h5>
+          <p class="card-text">{{ alunos_total }} Alunos cadastrados</p>
+          <a href="\alunos" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Alunos</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card" style="border-color:crimson; background-color: rgb(255, 244, 246);">
+        <div class="card-body">
+          <h5 class="card-title">Painel de Cursos</h5>
+          <p class="card-text">{{ cursos_total }} Cursos cadastrados</p>
+          <a href="\curso" class="btn btn-danger"><i class="fa-solid fa-plus"></i> Novo curso</a>
+        </div>
+      </div>
+    </div>
+    <p class=""></p>
+    <div class="col-sm-6">
+      <div class="card" style="border-color: blueviolet; background-color:ghostwhite;">
+        <div class="card-body">
+          <h5 class="card-title">Inscrever aluno</h5>
+          <p class="card-text">Visualize os alunos cadastrados</p>
+          <a href="\inscricaolista" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Nova inscrição</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Inscrever aluno na Digitação</h5>
+          <p class="card-text">Painel para inscrição do curso de digitação</p>
+          <a href="\inscricao-digitacao" class="btn btn-dark"><i class="fa-solid fa-plus"></i> Nova inscrição em DIGITAÇÃO</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+{% endblock %}
+

@@ -1,0 +1,13 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+
+{% block main %}
+    <div>
+        <h1>Crie uma nova inscrição</h1>
+        <form action="{% url 'inscricaodigitacao_novo' %}" method="POST">
+            {% csrf_token %} 
+            {{ form|bootstrap}}
+            <input type="submit" class="btn btn-success" value="Criar nava inscrição">
+        </form>
+    </div>
+{% endblock %}

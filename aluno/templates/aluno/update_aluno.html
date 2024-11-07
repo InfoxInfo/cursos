@@ -1,0 +1,119 @@
+{% extends 'aluno\base_aluno.html' %}
+{% load bootstrap %}
+
+{% block main %}
+<div class="row">
+    <div class="col">
+
+          {% if not aluno.cadastro_completo %}
+          <div class="alert alert-danger" role="alert">
+              Seu cadastro ainda não está completo. Por favor, preencha todas as informações necessárias.
+          </div>
+          {% endif %}
+    <form action="{% url 'aluno_aluno_update' aluno.id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+ <!-- Nome completo e gênero -->
+ <div class="row">
+    <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+            {{ form.nome_completo|bootstrap}}
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+            {{ form.genero|bootstrap}}
+        </div>
+    </div>
+</div>
+
+<!-- Endereço, número e complemento -->
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+            {{ form.endereco|bootstrap}}
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="form-group">
+            {{ form.numero|bootstrap}}
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="form-group">
+            {{ form.complemento|bootstrap}}
+        </div>
+    </div>
+</div>
+
+<!-- Bairro, CEP -->
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+            {{ form.bairro|bootstrap}}
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+            {{ form.cep|bootstrap}}
+        </div>
+    </div>
+</div>
+
+<!-- Cidade e Estado -->
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+            {{ form.cidade|bootstrap}}
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+            {{ form.estado|bootstrap}}
+        </div>
+    </div>
+</div>
+
+<!-- Telefone e Email -->
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+            {{ form.telefone|bootstrap}}
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+            {{ form.email|bootstrap}}
+        </div>
+    </div>
+</div>
+
+<!-- Data de Nascimento e CPF -->
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+            {{ form.data_nascimento|bootstrap}}
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+            {{ form.cpf|bootstrap}}
+        </div>
+    </div>
+</div>
+
+<!-- Foto -->
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="form-group">
+            {{ form.foto|bootstrap}}
+        </div>
+    </div>
+</div>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a href="{% url 'aluno_aluno_delete' aluno.id %}" class="btn btn-danger">Deletar</a>
+    </form>
+    </div>
+</div>
+
+{% endblock %}

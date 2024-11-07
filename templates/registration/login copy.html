@@ -1,0 +1,61 @@
+{% extends "base_login.html" %}
+{% load static %}
+
+{% block main %}
+
+{% load bootstrap %}
+
+<div class="container-fluid p-3" style="width: 100vw;
+    height: 100vh;
+    background: #F5F5F5;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;">
+    <div class="row justify-content-md-center align-items: center">
+        <div class="card" style="width: 25rem; ">
+            <div class="card-body text-center">
+                <img src="{% static 'media/logo.png' %}" alt="Imagem logo"/>
+                <br>
+                <h5 class="card-title">Login</h5>
+                    {% if form.errors %}
+                    <p>Seu nome de usuário e senha não correspondem. Por favor, tente novamente.</p>
+                    {% endif %}
+
+                    {% if next %}
+                        {% if user.is_authenticated %}
+                        <p>Sua conta não tem acesso a esta página. Para prosseguir,
+                            faça o login com uma conta que tenha acesso.</p>
+                        {% else %}
+                        <p>Por favor, faça o login para ver esta página.</p>
+                        {% endif %}
+                    {% endif %}
+
+                    <form class="form-signin text-left" method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    {{ form|bootstrap }}
+
+
+                    </br>
+                    <input type="submit" value="Entrar" class="btn btn-primary">
+                    <input type="hidden" name="next" value="{{ next }}">
+                    </form>
+
+                    {# Assumes you set up the password_reset view in your URLconf #}
+
+
+                </div>
+                <div>
+                    <p>Quer criar uma conta?<a href="{% url 'signup' %}"> Clique aqui</a>!
+    
+                    <br>Perdeu sua senha?<a href="{% url 'password_reset' %}">Clique aqui</a>!</p>
+                </div>
+
+            </div>
+            <p style="text-align: center;">© 2024</p>
+
+        </div>
+    </div>
+
+
+{% endblock %}

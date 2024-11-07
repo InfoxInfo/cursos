@@ -1,0 +1,24 @@
+{% extends 'aluno/base_admin.html' %}
+{% load static %}
+
+
+{% block content %}
+  <h1>{{ curso.nome }}</h1>
+  <p>{{ curso.descricao }}</p>
+  
+  <h2>Inscrições</h2>
+  <ul>
+    {% for inscricao in curso.inscricao_set.all %}
+      <li>{{ inscricao.aluno.nome }} ({{ inscricao.aluno.email }}) - {{ inscricao.data_inscricao }}</li>
+    {% empty %}
+      <li>Nenhum aluno inscrito.</li>
+    {% endfor %}
+  </ul>
+  
+  <h2>Inscreva-se</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ inscricao_form.as_p }}
+    <input type="submit" value="Inscrever-se">
+  </form>
+{% endblock %}

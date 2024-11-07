@@ -1,0 +1,59 @@
+{% load bootstrap %}
+{% load static %}
+{% block main %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato pelo Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            margin: 0 auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+        }
+        h1 {
+            color: #007bff;
+        }
+        .detail {
+            margin-bottom: 10px;
+        }
+        .detail strong {
+            display: inline-block;
+            width: 80px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Contato pelo Site</h1>
+        <div class="detail">
+            <strong>Nome:</strong> <span>{{ name }}</span>
+        </div>
+        <div class="detail">
+            <strong>Email:</strong> <span>{{ email }}</span>
+        </div>
+        <div class="detail">
+            <strong>Assunto:</strong> <span>{{ subject }}</span>
+        </div>
+        <div class="detail">
+            <strong>Mensagem:</strong> <p>{{ message }}</p>
+        </div>
+    </div>
+</body>
+</html>
+
+{% endblock %}

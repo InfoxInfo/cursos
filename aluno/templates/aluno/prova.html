@@ -1,0 +1,90 @@
+  {% load static %}
+
+  <!doctype html>
+  <html lang="br">
+    <head>
+      <title>Página do Curso</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+      <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+      <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+      <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+      <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+      <link href="{% static 'bootstrap/css/cheatsheet.css' %}" rel="stylesheet">	
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="{% static 'bootstrap/css/style.css' %}">
+      
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+        $(document).ready(function() {
+          // Ao enviar o formulário, armazene as opções selecionadas em localStorage
+          $('form').on('submit', function() {
+            var selectedItems = {};
+            $('input:checked').each(function() {
+              var questionId = $(this).attr('name').split('_')[1];
+              var itemId = $(this).val();
+              selectedItems[questionId] = itemId;
+            });
+            localStorage.setItem('selectedItems', JSON.stringify(selectedItems));
+          });
+
+          // Ao carregar a página, verifique se há opções selecionadas em localStorage e marque-as
+          var storedItems = localStorage.getItem('selectedItems');
+          if (storedItems) {
+            var selectedItems = JSON.parse(storedItems);
+            Object.keys(selectedItems).forEach(function(questionId) {
+              var itemId = selectedItems[questionId];
+              $('input[name="questao_' + questionId + '"][value="' + itemId + '"]').prop('checked', true);
+            });
+          }
+
+          // Botão "Limpar" - desmarca todos os inputs
+          $('#btn-limpar').click(function() {
+            $('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+            localStorage.removeItem('selectedItems');
+          });
+        });
+      </script>
+
+    </head>
+    <body>
+
+    <div class="container">
+      <br>
+      <div class="card mb-3" style="border-radius: 10px; overflow: hidden;">
+
+        <a href="javascript:history.back()" class="nav-link px-2 link-secondary ml-auto" style="margin: 10px;">Voltar <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+
+        <div class="card-body">
+          <h2 class="text-center">Prova de {{ curso.nome }}</h2>
+          {% if questoes_nao_respondidas %}
+          <div class="alert alert-danger">
+            Pelo menos uma questão não foi respondida.
+          </div>        
+          {% endif %}
+          <form method="post" action="{% url 'processar_respostas' curso.id %}">
+            {% csrf_token %}
+            {% for questao in questoes %}
+              <h4>{{ forloop.counter }}. {{ questao.enunciado }}</h4>
+              {% if questao.tipo == 'checks' %}
+                {% for item in questao.itemquestao_set.all %}
+                  <input type="checkbox" name="questao_{{ questao.id }}" value="{{ item.id }}"> {{ item.texto }}<br>
+                {% endfor %}
+              {% elif questao.tipo == 'radios' %}
+                {% for item in questao.itemquestao_set.all %}
+                  <input type="radio" name="questao_{{ questao.id }}" value="{{ item.id }}"> {{ item.texto }}<br>
+                {% endfor %}
+              {% endif %}
+              <br>
+            {% endfor %}
+
+            <input type="submit" value="Enviar respostas">
+            <button id="btn-limpar" class="btn btn-light" type="button">Limpar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+  </html>
+

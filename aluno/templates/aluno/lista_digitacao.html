@@ -1,0 +1,85 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+{% load static %}
+{% block main %}
+
+  <div class="card border-primary mb-3">
+    <h5 class="card-header">Visualização e edição das lições de Digitação</h5>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <h5 class="card-title">
+            <button type="button" class="btn btn-primary">
+              Lições de digitação cadastradas <span class="badge badge-light">{{ digitacao_total }}</span>
+            </h5>
+            <p class="card-text">Preencha todos os campos necessários.</p>
+            {% for dig in digitacao_detalhes %}
+              <p>Valor: {{dig.valor}}</p>
+              <p>Número de horas: {{dig.horas}}</p>
+            {% endfor %}
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Adicione novas lições de DIGITAÇÃO</h5>
+              <p class="card-text">Campo reservado para inserção de novas lições.</p>
+              <a class="btn btn-primary" href="\digitacao-novo" role="button"><i class="fa-solid fa-plus"></i> Adicionar nova lição de DIGITAÇÃO</a>
+            </div>
+          </div>
+        </div>
+
+        </div>
+      </div>
+      
+      <table class="table">
+        <thead class="table-light">
+            <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Ordem</th>
+            <th scope="col">Descricao</th>
+            <th scope="col">Repeticao</th>
+            <th scope="col">Licao</th>
+            <th scope="col">Fase</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for dig in digitacao %}
+                <tr>
+                  <th scope="row">{{ dig.id }}</th>
+                  <td>{{ dig.ordem }}</td>
+                  <td>{{ dig.descricao }}</td>
+                  <td>{{ dig.repeticao }}</td>
+                  <td><a href="{% url 'digitacao_update' dig.id %}">{{ dig.licao }}</a></td>
+                  <td>{{ dig.fase }}</td>      
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+  </div>
+    <div class="text-center">
+      <div class="">
+          <span class="step-links">
+              {% if digitacao.has_previous %}
+                  <a href="?page={{ alunos.previous_page_number }}"><i class="fas fa-arrow-left"></i></a>
+              {% endif %}
+
+              {% if digitacao.paginator.num_pages %}
+              <span class="current">
+                  {{ digitacao.number }} de {{ digitacao.paginator.num_pages }}
+              </span>
+              {% endif %}
+
+              {% if digitacao.has_next %}
+                  <a href="?page={{ digitacao.next_page_number }}"><i class="fas fa-arrow-right"></i></a>
+              {% endif %}
+          </span>
+      </div>
+
+  </div>
+
+ 
+
+{% endblock %}

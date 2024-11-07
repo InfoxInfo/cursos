@@ -1,0 +1,273 @@
+{% extends "base_login.html" %}
+{% load static %}
+{% block main %}
+{% load custom_filters %}
+{% load bootstrap %}
+
+</head>
+  
+{% include 'nav.html' %}
+
+<div class="gradCapaSuper wow fadeInDown">
+  <!-- Capa -->
+  <div class="container">
+    {% for curso in superior %}
+    <div class="row">
+      <div class="col-sm-6 col-md-6 text-white align-self-center text-justify">
+        <br>
+        <br>
+        <br>
+        <h1 class="wow animated bounce" data-wow-delay="0.2s">{{ curso.tituloS }}</h1>
+          <h5 class="wow bounceInDown" data-wow-delay="0.4s">{{ curso.descricaoTituloS }}
+            </h5>
+            <img class="wow bounceInUp" data-wow-delay="0.7s" src="{% static curso.logo %}">
+      </div>
+      <div class="col">
+        <div>
+          <div class="text-primary wow fadeInDown" data-wow-delay="0.6s">
+            <img class="rounded mx-auto d-block" src="{% static curso.imagemCapa %}" alt="Img_pessoa_Superior">
+          </div>
+        </div>
+      </div>
+  </div>
+  {% endfor %}
+</div>
+</div>
+<!-- Capa -->
+
+<!-- Cursos Superiores -->
+    <section>
+      <div class="p-5 gradVMV">
+        <div class="container">
+          <div class="row g-2">
+            <div class="col-sm-8 col-md-4 text-white align-self-center">
+              <h3 class="wow fadeInDown text-light" data-wow-delay="0.4s">Cursos Superiores</h3>
+              <p class="wow fadeInRightBig text-light" data-wow-delay="0.6s">Inicie seu ensino superior!!!!</p>
+            </div>
+            <div class="col">
+              <div>
+                {% for curso in cursosuperior %}
+                <a class="link grow" href="https://wa.me/5554984346112?text=Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20curso%20de%20{{ curso.curso }}!" target="_blank">
+                  <div class="centralize-vertical grow paineldivSuperior bg-light text-primary position-relative wow fadeInDown" data-wow-delay="{{ 0.1|add_delay:forloop.counter0 }}">
+                    <div style="height: 85%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                        <h4 class="text-primary" style="line-height:1.2">{{ curso.curso }}</h4>
+                        {{ curso.descricao }}
+                    </div>
+                    <div class="fixed-bottom" style="margin-bottom: 20px;">Saiba mais <i class="fa-solid fa-angle-right"></i></div>
+                  </div>
+                </a>
+                {% endfor %}
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </section>
+<!-- Cursos Superiores -->
+
+
+
+
+<!-- Counter Area Start-->
+<section>
+  <div class="p-5 bg-gradient">
+      <div class="container">
+        <div class="row g-2">
+          <div class="col-sm-8 col-md-4 text-white align-self-center">
+            <h3 class="wow fadeInDown text-primary" data-wow-delay="0.4s">Cursos T&#xE9;cnicos</h3>
+              <p class="wow fadeInRightBig text-primary" data-wow-delay="0.6s">O curso T&#xE9;cnico certo para voc&#xEA;!</p>
+          </div>
+          <div class="col">
+            <div>
+              {% for curso in cursotec %}
+              <a class="link grow" href="https://wa.me/5554984346112?text=Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20curso%20de%20{{ curso.curso }}!" target="_blank">
+                <div class="centralize-vertical grow paineldivSuperior bg-primary text-light position-relative wow fadeInDown" data-wow-delay="{{ 0.1|add_delay:forloop.counter0 }}">
+                  <div style="height: 85%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                      <h4 style="line-height:1.2">{{ curso.curso }}</h4>
+                      {{ curso.descricao }}
+                  </div>
+                  <div class="fixed-bottom" style="margin-bottom: 20px;">Saiba mais <i class="fa-solid fa-angle-right"></i></div>
+                </div>
+              </a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>
+<!-- Counter Area Start-->
+
+    <section>
+        <div class="p-5 gradMBA">
+            <div class="container">
+              <div class="row g-2">
+                <div class="col-sm-8 col-md-4 text-white align-self-center">
+                  <h3 class="wow fadeInDown text-primary" data-wow-delay="0.4s">P&#xF3;s-Gradua&#xE7;&#xE3;o</h3>
+                    <p class="wow fadeInRightBig text-primary" data-wow-delay="0.6s">Conhe&#xE7;a nossas P&#xF3;s-Gradua&#xE7;&#xF5;es!</p>
+                </div>
+                <div class="col">
+                  <div>
+                    {% for curso in pos %}
+                    <a class="link grow" href="https://wa.me/5554984346112?text=Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20curso%20de%20{{ curso.curso }}!" target="_blank">
+                      <div class="centralize-vertical grow paineldivSuperior bg-dark text-light position-relative wow fadeInDown" data-wow-delay="{{ 0.1|add_delay:forloop.counter0 }}">
+                        <div style="height: 85%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                            <h4  style="line-height:1.2">{{ curso.curso }}</h4>
+                            {{ curso.descricao }}
+                        </div>
+                        <div class="fixed-bottom" style="margin-bottom: 20px;">Saiba mais <i class="fa-solid fa-angle-right"></i></div>
+                      </div>
+                    </a>
+                    {% endfor %}
+                  </div>
+                </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </section>
+
+<!-- Counter Area Start-->
+    <section>
+        <div class="p-5 gradContato">
+            <div class="container">
+              <div class="row g-2">
+                <div class="col-sm-8 col-md-4 text-white align-self-center">
+                  <h3 class="wow fadeInDown text-light" data-wow-delay="0.4s">MBA&#x27;s Executivos</h3>
+                    <p class="wow fadeInRightBig text-light" data-wow-delay="0.6s">[MBA &#xE9; na Infox Polo Uniftec]</p>
+                </div>
+                <div class="col">
+                  <div>
+                    {% for curso in mba %}
+                    <a class="link grow" href="https://wa.me/5554984346112?text=Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20curso%20de%20{{ curso.curso }}!" target="_blank">
+                      <div class="centralize-vertical grow paineldivSuperior bg-light text-primary position-relative wow fadeInDown" data-wow-delay="{{ 0.1|add_delay:forloop.counter0 }}">
+                        <div style="height: 85%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                            <h4 class="text-primary" style="line-height:1.2">{{ curso.curso }}</h4>
+                            {{ curso.descricao }}
+                        </div>
+                        <div class="fixed-bottom" style="margin-bottom: 20px;">Saiba mais <i class="fa-solid fa-angle-right"></i></div>
+                      </div>
+                    </a>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </section>
+
+    <section class="p-5 gradinformacoes">
+      <div class="container align-self-center text-center">
+          <h1 class="wow bounceIn infinite" data-wow-delay="0.3s">Saiba mais sobre nossos cursos!</h1>
+            <div class="align-self-center" data-wow-delay="0.5s">
+              <a href="https://wa.me/5554984346112" class="btn btn-outline-light btn-sm" target="_blank">
+               Solicite mais informações</a>
+            </div>
+        </div>
+        <br>
+    </section>
+
+    <section class="infox">
+      {% for curso in superior %}
+      <div class="container p-5">
+        <div class="row">
+          <div class="col align-self-center">
+            <h1 class="wow animated bounce" data-wow-delay="0.2s">Tutoria</h1>
+              <h5 class="wow bounceInDown text-justify" data-wow-delay="0.4s">{{ curso.descricaoTutora }}
+              </h5>
+          </div>
+          <div class="col">
+            <img class="rounded mx-auto d-block wow fadeInRight" src="{% static curso.imagemTutora %}">
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </section>
+
+
+    <section class="gradinformacoes">
+      <div class="container p-5">
+        <div class="row">
+          <div class="col align-self-center">
+              <img class="rounded mx-auto d-block wow fadeInLeft" src="{% static 'media/infox/michele_fam.jpg' %}">
+          </div>
+          <div class="col">
+            
+            <h1 class="wow animated bounce" data-wow-delay="0.2s">Formas de ingresso</h1>
+            <h5 class="wow bounceInDown text-justify" data-wow-delay="0.1s">Fique ligado nas maneiras de ingresso para seu curso superior.</h5>
+            <br />
+            <h5 class="wow bounceInDown" data-wow-delay="0.3s"><i class="fas fa-pencil-alt"></i> Vestibular</h5>
+            <h5 class="wow bounceInDown" data-wow-delay="0.5s"><i class="fas fa-graduation-cap"></i> Bolsas</h5>
+            <h5 class="wow bounceInDown" data-wow-delay="0.7s"><i class="fab fa-leanpub"></i> Aproveitamento do Enem</h5>
+            <h5 class="wow bounceInDown" data-wow-delay="0.9s"><i class="fa-solid fa-box-archive"></i> Oferta imperdível</h5>
+            <br />
+
+
+            <div class="align-self-center">
+              <a href="https://wa.me/5554984346112" class="btn btn-outline-light btn-sm" target="_blank">
+                Solicite mais informações</a>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+     
+
+<!-- Counter Area Start-->
+<section class="counter-section section-padding">
+  <div class="container">
+    <div class="row">
+      <h4 class="text-center">Vantagens</h4>
+      <!-- Counter Item -->
+      <div class="col-md-6 col-lg-3 col-xs-12 work-counter-widget text-center">
+        <div class="counter wow fadeInRight" data-wow-delay="0.3s">
+          <img class="rounded mx-auto d-block wow fadeInRight" src="{% static 'media/infox/mec.png' %}" width="100" height="100" alt="Logo MEC">
+        </div>
+      </div>
+      <!-- Counter Item -->
+      <div class="col-md-6 col-lg-3 col-xs-12 work-counter-widget text-center">
+        <div class="counter wow fadeInRight" data-wow-delay="0.6s">
+          <div class="icon"><i class="fas fa-user-graduate"></i></div>
+          <h5>Metodologia EAD</h5>
+        </div>
+      </div>
+      <!-- Counter Item -->
+      <div class="col-md-6 col-lg-3 col-xs-12 work-counter-widget text-center">
+        <div class="counter wow fadeInRight" data-wow-delay="0.9s">
+          <div class="icon"><i class="fas fa-play"></i></div>
+          <h5>Início Imediato</h5>
+        </div>
+      </div>
+      <!-- Counter Item -->
+      <div class="col-md-6 col-lg-3 col-xs-12 work-counter-widget text-center">
+        <div class="counter wow fadeInRight" data-wow-delay="1.2s">
+          <div class="icon"><i class="fas fa-dollar-sign"></i></div>
+          <h5>Baixo investimento</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Counter Area End-->
+
+
+
+<!-- Convenios-->
+<section class="p-5 gradinformacoes">
+  <div class="container align-self-center text-center">
+      <h1 class="wow bounceIn infinite">Empresas Conveniadas</h1>
+      {% for inscricao in inscricoes %}
+        <img class="position-relative counter wow fadeInRight" data-wow-delay="{{ 0.1|add_delay:forloop.counter0 }}" src="{% static inscricao.logo_empresa %}">
+      {% endfor %}
+    <br>
+  </div>
+</section>
+<!-- Fim convenios -->
+
+{% include 'footer.html' %}
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+{% load static %}
+{% block main %}
+<div class="card-body">
+    <h5 class="card-title">Adicione novas questões</h5>
+    <p class="card-text">Adicione novas questões a sua prova de <strong>{{ curso }}</strong>.</p>
+    
+    
+    <a class="btn btn-primary" href="{% url 'criar_questao' curso_id=curso.id %}" role="button">
+        <i class="fa-solid fa-plus"></i> Adicionar nova questão
+    </a>
+    
+  </div>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr class="text-center">
+            <th scope="col" style="width: 450px;">Questão</th>
+            <th scope="col" style="width: 20px;">Tipo</th>
+            <th scope="col" style="width: 20px;">add</th>
+            <th scope="col">Itens adicionados</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for questao in questoes %}
+            <tr class="text-center">
+                <td class="align-middle text-center">
+                    {% if questao.itemquestao_set.count == 0 %} {# Verifique se não há itens na questão #}
+                    <a href="{% url 'excluir_questao' questao_id=questao.id %}">
+                        <i class="fa-solid fa-trash fa-xs" style="color: #cc1717;"></i>
+                    </a>
+                    |{% endif %}
+                    <a href="{% url 'editar_questao' questao_id=questao.id %}">{{ questao.enunciado }}</a></td>
+                       
+                <td class="align-middle text-center">{{ questao.tipo }}</td>
+                <td class="align-middle text-center">
+                    {% if questao %}
+                <a href="{% url 'itens_detalhe' curso_id=curso.id questao_id=questao.id %}" style="text-decoration: none;">
+                    <button type="button" class="btn btn-success"><i class="fa-solid fa-plus"></i></button>
+                </a>
+                </button>
+                {% endif %}
+            </td>
+                <td>
+                <ul>
+                    {% for item in questao.itemquestao_set.all %}
+                        <li class="text-left" style="list-style: none;">
+                            {% if questao.tipo == 'check' %}
+                                {% if item.correto == True %}
+                                <i class="fa-regular fa-square-check"></i>
+                                {% else %}
+                                <i class="fa-regular fa-square"></i>
+                                {% endif %}
+                            {% else %}
+                                {% if item.correto == True %}
+                                <i class="fa-solid fa-circle-check"></i>
+                                {% else %}
+                                <i class="fa-regular fa-circle"></i>
+                                {% endif %}
+                            {% endif %}
+                            <a href="{% url 'editar_item' item_id=item.id %}">
+                                <i class="fa-solid fa-pen-to-square fa-xs" style="color: #0059ff;"></i>
+                            </a>
+                            <a href="{% url 'excluir_item' item_id=item.id %}">
+                                <i class="fa-solid fa-trash fa-xs" style="color: #cc1717;"></i>
+                            </a>
+
+                            {{ item.texto }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}

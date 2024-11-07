@@ -1,0 +1,139 @@
+{% extends "base_login.html" %}
+{% load static %}
+{% block main %}
+{% load bootstrap %}
+
+</head>
+  
+{% include 'nav.html' %}
+<style>
+  .paineldiv {
+  display:inline-block;
+  width:300px;
+  background-color: #f5f5f5;
+  color: #000;
+  font-size: 20px;
+  vertical-align: middle;
+  border-radius: 1px 1px 1px 1px;
+  margin-top: -100px; /* Ajuste este valor conforme necessário */
+}
+.paineldivconteudo {
+  display: inline-flex;
+  background-color: #f5f5f5;
+  color: #000;
+  font-size: 20px;
+  vertical-align: top;
+  border-radius: 1px 1px 1px 1px;
+  margin-top: 20px; /* Ajuste este valor conforme necessário */
+
+}
+.fixed-width {
+    width: 320px;
+  }
+
+  .card-img-top{
+  border-top-right-radius: 1px;
+  border-top-left-radius: 1px;
+  }
+.iframe-container {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  overflow: hidden;
+}
+.iframe-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.thead-dark th {
+  border-bottom: 2px solid;
+}
+thead th {
+  border-bottom: 2px solid;
+}
+</style>
+
+<div class="gradCapa wow fadeInDown">
+    <div class="container" style="padding-top: 190px;">
+    </div>
+  </div>
+</div>
+<div class="container">
+<div class="row justify-content-center">
+<div class="col-12 col-md-3 fixed-width">
+  <div class="card mb-3 paineldiv wow fadeInDown" data-wow-delay="0.1s">
+
+    <img src="{% static 'media/curso/capa/digitacao.png' %}" class="card-img-top" alt="Capa curso dig">
+      <div class="card-body">
+        
+
+        <h4 class="card-title text-primary">Digitação</h4>
+
+        
+        <p class="card-text">Aqui vai o detalhe do curso de digitação</p>
+        <div class="d-flex justify-content-between">
+
+          <p><i class="fa-regular fa-clock" style="color: purple; padding-right: 5px;"></i> {{ dig.horas }} horas</p>
+          <p><i class="fa-solid fa-bookmark" style="color: purple; padding-right: 5px;"></i> {{ dig.licoes }} lições</p>
+        </div>
+        <p><i class="fa-solid fa-award" style="color: purple; padding-right: 5px;"></i> Certificado</p>
+        <h4 class="text-center align-middle text-primary">R$ {{ dig.valor }}</h4>
+
+
+        <div class="d-flex justify-content-center">
+          <a href="{% url 'pedido:AddCarrinhoDig' %}">
+            <button type="button" class="btn btn-primary" style="margin-top: 10px; height: 45px;">
+              <i class="fa-solid fa-cart-shopping"></i> Add ao carrinho
+            </button>
+          </a>
+      </div>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-12 col-md" style="padding-top: 20px;">
+    <div class="card mb-3 wow fadeInDown iframe-container">
+      <iframe width="100%" height="100%" src="https://www.youtube.com/embed/VdLOQ5eNGMk" title="Muito prazer, chegou o Novo T-Cross | VW Brasil" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+    <h1 class="text-primary">Sobre o curso</h1>
+    <div class="card mb-3 wow fadeInDown text-secondary">
+      <div style="padding: 10px;">
+        <section>
+          <p>
+            Seja bem-vindo(a) ao <strong>Curso de Digitação Online</strong>, uma plataforma completa para você aprender a digitar com eficiência e precisão. Desenvolvido para todos os níveis, do iniciante ao avançado, o curso é ideal tanto para quem deseja aprender a digitar do zero quanto para quem quer aprimorar sua velocidade e técnica.
+          </p>
+        
+          <h5 class="text-primary">O que você vai aprender?</h5>
+            <p><strong>Postura correta ao digitar:</strong> Evite dores e lesões com dicas essenciais sobre ergonomia e a posição adequada do corpo e das mãos ao teclado.</p>
+            <p><strong>Posicionamento das mãos no teclado:</strong> Domine a linha inicial e as demais teclas, aprendendo a colocar seus dedos de forma correta e eficiente.</p>
+            <p><strong>Velocidade e precisão:</strong> Através de 266 lições práticas e graduais, você aumentará sua velocidade de digitação, ao mesmo tempo em que reduz os erros.</p>
+            <p><strong>Uso de símbolos e números:</strong> Além das letras, você aprenderá a digitar rapidamente números e símbolos especiais, essenciais no dia a dia.</p>
+
+        
+            <h5 class="text-primary">Funcionalidades exclusivas:</h5>
+            <p><strong>Relatórios detalhados:</strong> Ao final de cada lição, você receberá um relatório com o seu desempenho, incluindo a velocidade de digitação (palavras por minuto) e a taxa de erros. Acompanhe sua evolução dia após dia!</p>
+            <p><strong>Metas diárias:</strong> Defina seus próprios objetivos de prática e acompanhe sua progressão com o sistema de metas diárias.</p>
+            <p><strong>Ranking e competição:</strong> Compita de maneira saudável com outros alunos. Desafie a si mesmo e veja sua posição no ranking geral.</p>
+            <p><strong>Avaliações regulares:</strong> No final do curso teremos uma avaliação que medem seu progresso e oferecem feedback personalizado para que você possa aprimorar ainda mais suas habilidades.</p>
+            <p><strong>Conquistas:</strong> E ainda desbloquei conquistas ao passar suas lições.</p>
+          <h5 class="text-primary">Por que aprender a digitar?</h5>
+          <p>
+            A digitação rápida e precisa é uma habilidade fundamental no mercado de trabalho atual. Seja para estudantes, profissionais de todas as áreas ou simplesmente para quem deseja aumentar sua produtividade no uso diário do computador, este curso oferece a base necessária para você dominar essa habilidade essencial.
+          </p>
+          
+          <p><strong>Inscreva-se agora</strong> e comece sua jornada para se tornar um(a) digitador(a) de alta performance!</p>
+        </section>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+{% include 'footer.html' %}
+
+{% endblock %}

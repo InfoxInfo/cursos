@@ -1,0 +1,117 @@
+{% load bootstrap %}
+{% load static %}
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <title>Relatório de digitação</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+  <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'bootstrap/css/list-groups.css' %} "rel="stylesheet">
+  <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'bootstrap/css/cheatsheet.css' %}" rel="stylesheet">	
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{% static 'bootstrap/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'bootstrap/css/digitacao.css' %}">
+</head>
+<body>
+
+  <br>
+  <div class="container">
+    <div class="row ">
+      <div class="col-8">
+        <h1 class="display-4">Relatório de Digitação</h1>
+      </div>
+      <div class="col-4 text-right">
+        <a href="/cursodigitacao/1" class="nav-link px-2 link-secondary">Voltar <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+      </div>
+    </div>
+<br>
+    
+    <!-- Div para exibir o gráfico -->
+    <div id="grafico-comparativo"></div>
+  <br>
+    <!-- Lista de relatórios -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Lição</th>
+          <th>Tempo</th>
+          <th>Toques</th>
+          <th>Acertos</th>
+          <th>Erros</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        {% for index, row in relatorios.iterrows %}
+          <tr>
+            <td>{{ row.licao_atual }}</td>
+            <td>{{ row.tempo }}</td>
+            <td>{{ row.toques }}</td>
+            <td>{{ row.acertos }}</td>
+            <td>{{ row.erros }}</td>
+          </tr>
+        {% endfor %}
+        <tr class="table-secondary">
+          <td>Média</td>
+          <td>{{ tempo_media|floatformat:2 }}</td>
+          <td>{{ toques_media|floatformat:2 }}</td>
+          <td>{{ acertos_media|floatformat:2 }}</td>
+          <td>{{ erros_media|floatformat:2 }}</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+<!-- Script para renderizar o gráfico -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+  // Dados do gráfico
+  var dados = [
+      {
+          x: {{ licoes|safe }},
+          y: {{ toques|safe }},
+          type: 'scatter',
+          name: 'Toques'
+      },
+      {
+          x: {{ licoes|safe }},
+          y: {{ acertos|safe }},
+          type: 'scatter',
+          name: 'Acertos'
+      },
+      {
+          x: {{ licoes|safe }},
+          y: {{ erros|safe }},
+          type: 'scatter',
+          name: 'Erros'
+      },
+      {
+          x: {{ licoes|safe }},
+          y: {{ tempo|safe }},
+          type: 'scatter',
+          name: 'Tempo'
+      }
+  ];
+
+  // Layout do gráfico
+  var layout = {
+      title: 'Comparativo de Toques, Acertos e Erros por Lição',
+      xaxis: {
+          title: 'Lição'
+      },
+      yaxis: {
+          title: 'Quantidade'
+      }
+  };
+
+  // Renderizar o gráfico na div 'grafico-comparativo'
+  Plotly.newPlot('grafico-comparativo', dados, layout);
+</script>
+</body>
+</html>

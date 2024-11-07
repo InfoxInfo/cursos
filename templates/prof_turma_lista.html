@@ -1,0 +1,55 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+{% load static %}
+{% block main %}
+
+<div class="card border-primary mb-3">
+    <h5 class="card-header">Turmas Cadastradas</h5>
+    <div class="card-body">
+        <div class="row">
+            <table class="table">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Turma</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Foto</th>
+                        <th scope="col" class="text-end" style="width: 80px;">Editar</th>
+                        <th scope="col" class="text-end" style="width: 80px;">Excluir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inscricao in inscricoes %}
+                    <tr>
+                        <th scope="row">{{ inscricao.id }}</th>
+                        <td>{{ inscricao.cursoturma }}</td>
+                        <td>{{ inscricao.descricao_turma }}</td>
+                        <td>
+                            {% if inscricao.foto_turma %}
+                                <a href="{% static inscricao.foto_turma %}" target="_blank">
+                                    <img class="rounded mx-auto d-block" src="{% static inscricao.foto_turma %}" width="100px" alt="Foto Turma">
+                                </a>
+                            {% else %}
+                                Sem imagem
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            <a href="{% url 'prof_turma_update' inscricao.id %}">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        </td>
+                        
+                        <td class="text-end">
+                            <a href="{% url 'prof_turma_delete' inscricao.id %}">
+                                <i class="fa-solid fa-trash" style="color: red;"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+{% load static %}
+{% block main %}
+
+<form method="POST" action="{% url 'criar_questao' curso_id=curso.id %}">
+    {% csrf_token %}
+    <input type="hidden" name="curso" value="{{ curso.id }}">
+    {{ form|bootstrap }}
+    <button type="submit">Salvar</button>
+    
+</form>
+  
+{% endblock %}

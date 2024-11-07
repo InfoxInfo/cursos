@@ -1,0 +1,101 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+{% load static %}
+
+{% block main %}
+
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bootstrap/css/list-groups.css' %} "rel="stylesheet">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'bootstrap/css/cheatsheet.css' %}" rel="stylesheet">	
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/style.css' %}">
+
+  </head>
+  <body>
+
+    <div class="row">
+      <div class="col-sm-6 mb-3 mb-sm-0">
+          <div class="card-body">
+            <div class="d-flex align-items-center row">
+              <div class="col">
+                  <h5 class="card-title">Lições cadastrados</h5>
+              </div>
+              <div class="col">
+                  <span class="badge text-bg-dark" style="padding: 10px;"><h1>{{licao_total}}</h1></span>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Adicione novas lições</h5>
+            <p class="card-text">Campo reservado para inserção de novas lições.</p>
+            <a class="btn btn-primary" href="{% url 'licao_novo' curso_id=curso.id %}" role="button"><i class="fa-solid fa-plus"></i> Adicionar nova lição</a>
+          </div>
+        </div>
+      </div>
+    </div>
+<br>
+    <div class="card border-primary mb-3">
+      <h5 class="card-header">Visualização e edição de Lições do curso  <span class="badge bg-success">{{curso}}</span>
+        
+        
+  {% for categoria in categorias %}
+    <h2 class="align-middle text-center">{{ categoria.0.categoria }}</h2>
+    <table class="table">
+      <thead class="table-light">
+        <tr>
+          <th class="w-25 " scope="col">{{ categoria.0.categoria }}</th>
+          <th scope="col">Descrição</th>
+          <th scope="col" class="align-middle text-center" style="width: 20px">Video</th>
+          <th scope="col" class="align-middle text-center" style="width: 30px">Download</th>
+          <th scope="col" class="align-middle text-center" style="width: 30px">Demo</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for licao in categoria %}
+          <tr>
+            <td class="align-middle text-left"><a href="{% url 'licao_update' licao.id %}">{{ licao.nome }}</a></td>
+            <td>{{ licao.descricao }}</td>
+            
+            <td class="align-middle text-center">
+              <a class="carregar-pagina-via-ajax" href="{% url 'lista_licao' licao.id %}">
+                <button type="button" class="btn btn-primary"><i class="fa-solid fa-play"></i></button>
+              </a>
+            </td>
+            {% if licao.botao %}
+            <td class="align-middle text-center">
+              <a href="{{ licao.botao }}"><button type="button" class="btn btn-success"><i class="fa-solid fa-arrow-down"></i></button></a>
+            </td>
+            {% else %}
+            <td class="align-middle text-center">
+              <a href="#"><button type="button" class="btn btn-outline-secondary" disabled><i class="fa-solid fa-arrow-down"></i></button></a>
+            </td>
+            {% endif %}
+            <td class="align-middle text-center">{{ licao.demo }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endfor %}
+</div>
+
+
+	<script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
+	<script src="{% static 'bootstrap/js/popper.js' %}"></script>
+  <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'bootstrap/js/main.js' %}"></script>
+  <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+	<script src="{% static 'bootstrap/js/cheatsheet.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  </body>
+
+
+  {% endblock %}

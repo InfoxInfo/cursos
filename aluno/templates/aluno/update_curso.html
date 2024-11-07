@@ -1,0 +1,23 @@
+{% extends 'aluno\base_admin.html' %}
+{% load bootstrap %}
+
+{% block main %}
+<div class="row">
+    <div class="col">
+        <div class="alert alert-warning" role="alert">
+            Atenção! Você esta editando o curso: {{ curso }}
+          </div>
+
+    <form action="{% url 'curso_update' curso.id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {{ form|bootstrap }}
+        <h4><span class="badge text-bg-light">{{ curso.imagem }}</span></h4>
+
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a href="{% url 'curso_delete' curso.id %}" class="btn btn-danger">Deletar</a>
+    </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends 'aluno/base_aluno.html' %}
+{% load static %}
+
+{% block main %}
+
+<div class="row">
+  <div class="col-6">
+    <i class="fa-solid fa-fingerprint" style="color: purple;"></i> Painel dos cursos
+  </div>
+  <div class="col-6 text-right">
+    {% if inscricoesDigitacao %}
+      Cursos liberados <span class="badge text-bg-primary">{{ num_inscricoes|add:1 }}</span>
+    {% else %}
+      <h3>Cursos liberados <span class="badge text-bg-primary">{{ num_inscricoes }}</span></h3>
+    {% endif %}
+  </div>
+</div>
+
+<div class="card mb-3 text-center" style="border-radius: 10px; overflow: hidden;">
+
+  <div class="card-body">     
+  <style>
+      .paineldiv {
+      display:inline-block;
+  
+      width:255px;height:380px;
+      background-color: #f5f5f5;
+      color: #000;
+      border-radius: 10px;
+      vertical-align: middle;
+  }
+  </style>
+  {% if dados_cursos %}
+
+  {% for dados_curso in dados_cursos %}
+  {% if dados_curso.licoes_porcento == 100 %}
+  <a href="{% url 'curso_detalhe' dados_curso.curso.id %}">
+  <div class="card mb-3 paineldiv" style="background-color: #53e286;">
+    {% else %}
+    <a href="{% url 'curso_detalhe' dados_curso.curso.id %}">
+      <div class="card mb-3 paineldiv">
+    {% endif %}
+    
+  <div style="border-top-left-radius: 10px; border-top-right-radius: 10px; overflow: hidden;">
+    <img src="{% static dados_curso.curso.imagem.url %}" class="card-img-top" alt="Capa curso">
+  </div>
+
+  <div class="card-body text-secondary">
+    <h5 class="card-title text-primary">{{ dados_curso.curso }}</h5>
+    <br>
+    {{ dados_curso.licoes_porcento|floatformat:0 }}% progresso
+    <div class="progress" role="progressbar" aria-label="Example 1px high" aria-valuenow="{{ dados_curso.licoes_porcento|floatformat:0 }}" aria-valuemin="0" aria-valuemax="100" style="height: 1px">
+      <div class="progress-bar" style="width: {{ dados_curso.licoes_porcento|floatformat:0 }}%"></div>
+    </div>
+    <br>
+    <div class="d-flex justify-content-between">
+      <p >{{ dados_curso.licoes_feitas.count }} <i class="fa-solid fa-arrow-right-arrow-left"></i> <span style="color: purple">{{ dados_curso.licoes_total }} </span>lições</p>
+      <p><i class="fa-regular fa-clock" style="color: purple"></i> {{ dados_curso.curso.horas }} horas</p>
+    </div>
+    <p class="card-text text-right">
+      <small class="text-right text-body-secondary">{{ dados_curso.curso.data_criacao|date:"j F, Y" }}</small>
+    </p>
+  </div>
+</div>
+</a>
+{% endfor %}
+{% else %}
+
+{% if inscricoesDigitacao %}
+    <p></p>
+  {% else %}
+  <div><p>Nenhum curso disponível no momento.</p></div>
+  {% endif %}
+{% endif %}
+
+
+
+  {% for inscricao in inscricoesDigitacao %}
+  <a href="{% url 'cursodigitacao_detalhe' inscricao.digitacao.id %}">
+  <div class="card mb-3 paineldiv">
+    <div style="border-top-left-radius: 10px; border-top-right-radius: 10px; overflow: hidden;">
+      <img src="{% static 'media/curso/capa/digitacao.png' %}" class="card-img-top" alt="Capa curso">
+    </div>
+    <div class="card-body text-secondary">
+      <h5 class="card-title text-primary">Digitação</h5>
+      <br>
+      {{ digitacao_porcento|floatformat:0 }}% progresso
+      <div class="progress" role="progressbar" aria-label="Example 1px high" aria-valuenow="{{ digitacao_porcento|floatformat:0 }}" aria-valuemin="0" aria-valuemax="100" style="height: 1px">
+        <div class="progress-bar" style="width: {{ digitacao_porcento|floatformat:0 }}%"></div>
+      </div>
+      <br>
+      <div class="d-flex justify-content-between">
+        <p>{{ inscricao.licao_atual }} <i class="fa-solid fa-arrow-right-arrow-left"></i> <span style="color: purple">{{ digitacao_licao_total }} </span>lições</p>
+        <p><i class="fa-regular fa-clock" style="color: purple"></i> 50 horas</p>
+      </div>
+      <p class="card-text text-right">
+        <small class="text-body-secondary">{{ inscricao.data_inscricao|date:"j F, Y" }}</small>
+      </p>
+    </div>
+  </div>
+</a>
+  {% endfor %}
+  <a href="{% url 'cursoson_detalhes' %}">
+  <div class="mb-3 paineldiv" style="position: relative; ">
+    <div style="color: #757575; font-size: 3rem; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+      <i class="fa-solid fa-circle-plus fa-shake"></i>
+    </div>
+  </div>
+  </a>
+
+</div>
+</div>
+{% endblock %}

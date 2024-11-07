@@ -1,0 +1,14 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+
+{% block main %}
+    <div>
+        <h1>Crie uma nova lição</h1>
+        
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|bootstrap }}
+            <button type="submit" class="btn btn-success" value="Criar novo Curso">Salvar</button>
+          </form>
+    </div>
+{% endblock %}

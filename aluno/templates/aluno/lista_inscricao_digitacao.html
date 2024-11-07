@@ -1,0 +1,1669 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'bootstrap/css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'infox/css/popup.css' %}"/>
+    <link href="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/digitacao.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/animate.min.css' %}"/>
+    <link rel="stylesheet" href="https://unpkg.com/@sjmc11/tourguidejs/dist/css/tour.min.css">
+    <title>Curso de Digitação</title>
+    <style>
+      .background-image {
+          position: relative;
+      }
+      .background-image::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: url('{% static "media/curso/digitacao/maos.png" %}');
+          background-size: cover;
+          background-position: center;
+      }
+      .background-image-num {
+          position: relative;
+      }
+      .background-image-num::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: url('{% static "media/curso/digitacao/maos_num.png" %}');
+          background-size: cover;
+          background-position: center;
+      }
+      .modal-content {
+    position: relative;
+    margin: 15% auto;
+    padding: 0; /* Remover o padding para ajustar melhor o vídeo */
+    width: 80%; /* Você pode ajustar a largura aqui */
+    max-width: 800px; /* Largura máxima */
+    background-color: #5e5e5e;
+    border-radius: 3px;
+}
+
+/* Estilo para o container do iframe */
+.iframe-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+}
+
+.iframe-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Largura do iframe */
+    height: 100%; /* Altura do iframe */
+    max-width: 800px; /* Altura máxima se necessário */
+    max-height: 450px; /* Ajuste a altura máxima conforme necessário */
+}
+    </style>
+</head>
+<body data-tg-title='🌌 Sua jornada na Digitação, inicia aqui!!!' data-tg-tour='<p>Bem-vindo jovem velocista... 🚀</p><p>Pronto para inicia?</p><p>Então junte suas energias e vamos lá :)' data-tg-order="0">
+  <div class="container">
+    <a href="/" class="nav-link px-2 link-secondary">Voltar <i class="fa-solid fa-door-open"></i></a>
+  <div>
+    <div class="d-flex justify-content-center" data-tg-title='Painel!!!' data-tg-tour='<p>Este é seu painel superior... 🌠</p><p>Nele você encontra</p>' data-tg-order="1">
+      <div class="col-3 align-top">
+        <div class="btn-group" role="group" aria-label="Basic outlined example" style="padding: 2px; height: 60px;" data-tg-title='Lição atual 🛰️' data-tg-tour='A lição que você esta realizando.' data-tg-order="2">
+          <button type="button" class="btn btn-primary custom-col-indi">Lição</button>
+          <button type="button" style="border-color: #fe2979; width: 100px;" class="btn btn-outline-primary" id="licao_agora">
+            {% for inscricao in inscricoes %}
+            <h2>{{ inscricao.licao_atual }}</h2>
+            {% endfor %}
+          </button>
+        </div>
+        
+        {% for dig in digitacao %}
+        <button type="button" style="border-color: #77e2a9; " class="btn btn-outline-primary" data-repeticao="{{ dig.repeticao }}" data-tg-title='Repetição!!!' data-tg-tour='A quantidade de vezes que você deve repetir a lição... 🌊' data-tg-order="3">
+            <span class="counter">0</span> <i class="fa-solid fa-arrow-right-arrow-left"></i> {{ dig.repeticao }}
+        </button>
+        {% endfor %}
+        
+        <p>Tempo decorrido: <span id="tempo" data-tg-title='🌑 Cronômetro' data-tg-tour='Aqui você visualiza o tempo decorrido da lição. 🚁' data-tg-order="4">00:00</span></p>
+    </div>
+
+  <div class="col-5 text-right">
+    <a href="{% url 'rankindigitacao' %}">
+    <div class="btn-group-vertical mr-3" role="group" aria-label="Vertical button group" >
+      <button type="button" style="background-color: #5219D3; border-color: #5219D3; display: block; margin-bottom: 0px; border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;" class="btn btn-primary custom-color" data-tg-title='Ranking 🛸' data-tg-tour='Visualize a lista de outros velocistas que já terminaram sua jornada...' data-tg-order="5">
+        <i class="fa-solid fa-ranking-star"></i> RANKING
+      </button>
+    </a>
+    <button type="button" style="background-color: rgb(25, 211, 65); border-color: rgb(25, 211, 65); display: block;" class="btn btn-primary custom-color" onclick="abrirModal('https://player.vimeo.com/video/1025491496');" data-tg-title='Parabéns, você finalizou o Tour!!!' data-tg-tour='<p>Agora seu tour será finalizado e não será mais exibido 🖖.</p><p>Se desejar exibir seu tour novamente vá até a opção [Minha Conta] e ative-a novamente 👊.</p><p><i class="fa-solid fa-triangle-exclamation fa-bounce"></i> <b>Antes de iniciar as lições, você deve fazer o tutorial! <i class="fa-solid fa-triangle-exclamation fa-bounce"></i></b>  </p><p>🤗 Aproveite seu curso!</p>' data-tg-order="19">
+      <i class="fa-regular fa-file-video"></i> Tutorial
+    </button>
+<!-- Modal para exibir o vídeo -->
+<div id="videoModal" class="modal">
+  <div class="modal-content">
+      <span class="fechar" onclick="fecharModal()">&times;</span>
+      <div class="iframe-container">
+          <iframe id="videoIframe" src="" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" style="position:absolute;top:0;left:0;width:100%;height:100%;" allowfullscreen></iframe>
+      </div>
+  </div>
+</div>
+  </div>
+    <button type="button" class="btn btn-primary custom-col-indi align-top" style="margin-top: 19px;" id="btn-reiniciar" data-tg-tour='⚓ Reinicia sua lição...' data-tg-order="6">Reiniciar</button>
+
+    <div class="btn-group text-right" role="group" aria-label="Basic outlined example" id="btn-reiniciar" data-tg-title='Relatório' data-tg-tour='Vizualize como esta sendo sua jornada 🚔...' data-tg-order="7">
+      {% for inscricao in inscricoes %}
+      {% if inscricao.licao_atual > 2 %}
+      <a href="{% url 'obter_relatorioDigitacao' %}">
+      <button type="button" class="btn btn-dark">Relatório</button>
+        <button type="button" id="btn-relatorio" style="border: none" class="btn btn-light">
+          <i class="fa-solid fa-clipboard-list fa-lg"></i>
+        </button>
+      </a>
+        {% else %}
+        <button type="button" class="btn btn-dark" disabled>Relatório</button>
+        <button type="button" style="border: none" disabled class="btn btn-light">
+          <i class="fa-solid fa-clipboard-list fa-lg"></i>
+        </button>
+      {% endif %}
+    {% endfor %}
+    </div>
+
+  </div>
+
+
+  <div class="col-4 text-right">
+    
+    <div class="d-flex">
+      <div class="btn-group-vertical mr-3" role="group" aria-label="Vertical button group" data-tg-title='Diário 🎒' data-tg-tour='Aqui você visualiza quandas lições você passou no dia...' data-tg-order="8">
+        <button type="button" style="border-color: #77e2a9;" class="btn btn-primary custom-color"><i class="fa-solid fa-bullseye"></i> LIÇÕES</button>
+        <button type="button" style="border-color: #77e2a9;" class="btn btn-outline-primary" id="contLicoes">
+          {% for inscricao in inscricoes %}
+            {{inscricao.contador_licao}}
+          {% endfor %}
+        </button>
+
+    </div>
+    <div class="btn-group-vertical" role="group" aria-label="Vertical button group" data-tg-tour='💻 Visualize os seu toques por minuto...' data-tg-order="9">
+      <button type="button" class="btn btn-primary" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;border-right: none;">Toques</button>
+      <button type="button" class="btn btn-outline-primary" id="toques-por-minuto-btn" style="border-bottom-right-radius: 0px;border-right: none;">0</button>
+    </div>
+    <div class="btn-group-vertical" role="group"  aria-label="Vertical button group" data-tg-tour='Acompanhe seus acertos 😎...' data-tg-order="10">
+      <button type="button" class="btn btn-primary" style="border-radius: 0px;">Acertos</button>
+      <button type="button" class="btn btn-outline-primary" id="numero-letras-btn" style="border-radius: 0px;">0</button>
+    </div>
+    <div class="btn-group-vertical" role="group" aria-label="Vertical button group" data-tg-tour='😱 Vizualize seus erros...' data-tg-order="11">
+      <button type="button" class="btn btn-primary" style="border-top-left-radius:  0px;">Erros</button>
+      <button type="button" class="btn btn-outline-primary" id="contagem" style="border-bottom-left-radius: 0px;border-left: none;">0</button>
+    </div>
+  </div>
+  </div>
+</div>
+
+{% for iscri in inscricoes %}
+  {% if total_licoes > iscri.licao_atual %}
+  <div id="input-element" class="card" style="width: 1075px; height: 100px;" data-tg-title='Lição 🌞' data-tg-tour='<p>Aqui você confere sua lição...</p><p>Basta digitar a sequencia da letra que elas serão inseridas 🧯.</p><p>📦 Lembre que o curso diferencia as letras maiúsculas das minúsculas.</p>' data-tg-order="12">
+    <div class="d-flex justify-content-center">
+      {% for dig in digitacao %}
+      <h2 class="card-title center">
+      {% for letter in dig.licao %}<span class="letter">{{ letter }}</span>{% endfor %}
+      </h2>
+      {% endfor %}
+      <BR>
+    </div>
+    <h2 class="card-title center">
+      <input type="text" class="typed-input" style="width: 100%; text-align: center;">
+    </h2>
+</div>
+
+<div id="proximo-botao" class="card" style="width: 1075px; height: 100px;">
+  <button id="my-button" type="button" class="btn btn btn-primary" data-licao-atual="{{ inscricao.licao_atual }}" style="width: 100%; height: 100%; border: none;">
+    <div class="row text-center">
+      <div class="col">
+        <h5>Você concluiu a lição!</h5>
+      </div>
+      <div class="col text-center">
+        <i class="fa-solid fa-circle-chevron-right fa-beat" style="font-size: 50px;"></i>
+      </div>
+    </div>
+  </button>
+</div>
+{% else %}
+<div id="prova-digitacao" class="card" style="width: 1075px; height: 100px;">
+  <a href="{% url 'provasdigitacao' aluno.id %}" style="width: 1075px; height: 100px;">
+    <button type="button" class="btn btn btn-primary" style="width: 100%; height: 100%; border: none;">
+      <div class="row text-center">
+        <div class="col">
+          <h4>Parabéns! Você finalizou o curso!</h4>
+          <h5>Clique para realizar a prova!</h5>
+        </div>
+        <div class="col text-center">
+          <i class="fa-solid fa-circle-chevron-right fa-beat" style="font-size: 50px;"></i>
+        </div>
+      </div>
+    </button>
+  </a>
+</div>
+
+{% endif %}
+{% endfor %}
+
+<br>
+<div class="row">
+  
+  {% for dig in digitacao %}
+    {% if dig.fase != 7 %}
+    <div class="coluna-com-div background-image" style="height: 700px;" data-tg-title='Posição das mãos 🤚' data-tg-tour='<p>Você deve guiar-se pela ilustração das mãos para saber qual dedo deve pressionar qual tecla 👍.<p>' data-tg-order="18">
+    {% else %}
+    <div class="coluna-com-div background-image-num" style="height: 700px;">
+    {% endif %}
+  {% endfor %}
+
+
+  
+    <div class="minha-div-alpha"  data-tg-title='⌨️ Alfanumérico' data-tg-tour='<p>Aqui você pode visualizar qual tecla esta sendo pressionada.</p><p>Repare que temos uma linha que divide a mão esquerda da direita.</p><p>Observe também que para cada dedo, temos uma linha que sai para as teclas.</p><p>🟢 A cor verde para o mindinho.</p><p>🍥 A cor rosa para o anelar.</p><p>🟡 A cor amarela para o dedo do meio e </p><p>💖 A cor rosa forte para o indicador...</p>' data-tg-order="13">
+      <div aria-label="Botões">
+        <button id="b_aspas" type="button" class="btn btn-primary custom-button">'</button>
+        <button id="b_um" type="button" class="btn btn-primary custom-button custom-color">1</button>
+        <button id="b_dois" type="button" class="btn btn-primary custom-button custom-col-ane">2</button>
+        <button id="b_tres" type="button" class="btn btn-primary custom-button custom-col-meio">3</button>
+        <button id="b_quatro" type="button" class="btn btn-primary custom-button custom-col-indi">4</button>
+        <button id="b_cinco" type="button" class="btn btn-primary custom-button custom-col-indi">5</button>
+        <button id="b_seis" type="button" class="btn btn-primary custom-button custom-col-indi">6</button>
+        <button id="b_sete" type="button" class="btn btn-primary custom-button custom-col-indi">7</button>
+        <button id="b_oito" type="button" class="btn btn-primary custom-button custom-col-meio">8</button>
+        <button id="b_nove" type="button" class="btn btn-primary custom-button custom-col-ane">9</button>
+        <button id="b_zeroa" type="button" class="btn btn-primary custom-button custom-color">0</button>
+        <button id="b_under" type="button" class="btn btn-primary custom-button">-</button>
+        <button id="b_igual" type="button" class="btn btn-primary custom-button">=</button>
+        <button id="backspace" type="button" class="btn btn-primary custom-button" style="width: 108px;"><i class="fa-regular fa-arrow-right fa-rotate-180"></i></button>
+      </div>
+      <script>
+        // Função para atualizar o texto do botão quando a tecla Caps Lock é pressionada
+        function atualizarTextoBotao() {
+          var capsLockAtivo = event.getModifierState && event.getModifierState('CapsLock');
+          var shiftAtivo = event.getModifierState && event.getModifierState('Shift');
+          
+          // Verifica se o Caps Lock está ativo
+          if (capsLockAtivo || shiftAtivo) {
+            document.getElementById('b_q').innerHTML = 'Q';
+            document.getElementById('b_w').innerHTML = 'W';
+            document.getElementById('b_e').innerHTML = 'E';
+            document.getElementById('b_r').innerHTML = 'R';
+            document.getElementById('b_t').innerHTML = 'T';
+            document.getElementById('b_y').innerHTML = 'Y';
+            document.getElementById('b_u').innerHTML = 'U';
+            document.getElementById('b_i').innerHTML = 'I';
+            document.getElementById('b_o').innerHTML = 'O';
+            document.getElementById('b_p').innerHTML = 'P';
+
+            document.getElementById('b_a').innerHTML = 'A';
+            document.getElementById('b_s').innerHTML = 'S';
+            document.getElementById('b_d').innerHTML = 'D';
+            document.getElementById('b_f').innerHTML = 'F';
+            document.getElementById('b_g').innerHTML = 'G';
+            document.getElementById('b_h').innerHTML = 'H';
+            document.getElementById('b_j').innerHTML = 'J';
+            document.getElementById('b_k').innerHTML = 'K';
+            document.getElementById('b_l').innerHTML = 'L';
+            document.getElementById('b_ç').innerHTML = 'Ç';
+
+            document.getElementById('b_z').innerHTML = 'Z';
+            document.getElementById('b_x').innerHTML = 'X';
+            document.getElementById('b_c').innerHTML = 'C';
+            document.getElementById('b_v').innerHTML = 'V';
+            document.getElementById('b_x').innerHTML = 'X';
+            document.getElementById('b_b').innerHTML = 'B';
+            document.getElementById('b_n').innerHTML = 'N';
+            document.getElementById('b_m').innerHTML = 'M';
+          } else {
+            document.getElementById('b_q').innerHTML = 'q';
+            document.getElementById('b_w').innerHTML = 'w';
+            document.getElementById('b_e').innerHTML = 'e';
+            document.getElementById('b_r').innerHTML = 'r';
+            document.getElementById('b_t').innerHTML = 't';
+            document.getElementById('b_y').innerHTML = 'y';
+            document.getElementById('b_u').innerHTML = 'u';
+            document.getElementById('b_i').innerHTML = 'i';
+            document.getElementById('b_o').innerHTML = 'o';
+            document.getElementById('b_p').innerHTML = 'p';
+
+            document.getElementById('b_a').innerHTML = 'a';
+            document.getElementById('b_s').innerHTML = 's';
+            document.getElementById('b_d').innerHTML = 'd';
+            document.getElementById('b_f').innerHTML = 'f';
+            document.getElementById('b_g').innerHTML = 'g';
+            document.getElementById('b_h').innerHTML = 'h';
+            document.getElementById('b_j').innerHTML = 'j';
+            document.getElementById('b_k').innerHTML = 'k';
+            document.getElementById('b_l').innerHTML = 'l';
+            document.getElementById('b_ç').innerHTML = 'ç';
+
+            document.getElementById('b_z').innerHTML = 'z';
+            document.getElementById('b_x').innerHTML = 'x';
+            document.getElementById('b_c').innerHTML = 'c';
+            document.getElementById('b_v').innerHTML = 'v';
+            document.getElementById('b_x').innerHTML = 'x';
+            document.getElementById('b_b').innerHTML = 'b';
+            document.getElementById('b_n').innerHTML = 'n';
+            document.getElementById('b_m').innerHTML = 'm';
+          }
+          if (shiftAtivo) {
+            document.getElementById('b_barra').innerHTML = '|';
+            document.getElementById('b_doispontos').innerHTML = ':';
+            document.getElementById('b_interrogacao').innerHTML = '?';
+            document.getElementById('b_maior').innerHTML = '>';
+            document.getElementById('b_menor').innerHTML = '<';
+            document.getElementById('b_til').innerHTML = '^';
+            document.getElementById('b_fechacol').innerHTML = '}';
+            document.getElementById('b_abrecol').innerHTML = '{';
+            document.getElementById('b_agudo').innerHTML = '`';
+            document.getElementById('b_igual').innerHTML = '+';
+            document.getElementById('b_under').innerHTML = '_';
+            document.getElementById('b_zeroa').innerHTML = ')';
+            document.getElementById('b_nove').innerHTML = '(';
+            document.getElementById('b_oito').innerHTML = '*';
+            document.getElementById('b_sete').innerHTML = '&';
+            document.getElementById('b_seis').innerHTML = '¨';
+            document.getElementById('b_cinco').innerHTML = '%';
+            document.getElementById('b_quatro').innerHTML = '$';
+            document.getElementById('b_tres').innerHTML = '#';
+            document.getElementById('b_dois').innerHTML = '@';
+            document.getElementById('b_um').innerHTML = '!';
+            document.getElementById('b_aspas').innerHTML = '"';
+          } else {
+            document.getElementById('b_barra').innerHTML = '\\';
+            document.getElementById('b_doispontos').innerHTML = ';';
+            document.getElementById('b_interrogacao').innerHTML = '/';
+            document.getElementById('b_maior').innerHTML = '.';
+            document.getElementById('b_menor').innerHTML = ',';
+
+            document.getElementById('b_til').innerHTML = '~';
+            document.getElementById('b_fechacol').innerHTML = ']';
+            document.getElementById('b_abrecol').innerHTML = '[';
+            document.getElementById('b_agudo').innerHTML = '´';
+            document.getElementById('b_igual').innerHTML = '=';
+            document.getElementById('b_under').innerHTML = '-';
+            document.getElementById('b_zeroa').innerHTML = '0';
+            document.getElementById('b_nove').innerHTML = '9';
+            document.getElementById('b_oito').innerHTML = '8';
+            document.getElementById('b_sete').innerHTML = '7';
+            document.getElementById('b_seis').innerHTML = '6';
+            document.getElementById('b_cinco').innerHTML = '5';
+            document.getElementById('b_quatro').innerHTML = '4';
+            document.getElementById('b_tres').innerHTML = '3';
+            document.getElementById('b_dois').innerHTML = '2';
+            document.getElementById('b_um').innerHTML = '1';
+            document.getElementById('b_aspas').innerHTML = "'";
+          }
+        }
+
+        // Chama a função de atualização quando uma tecla é pressionada
+        document.onkeydown = atualizarTextoBotao;
+        document.onkeyup = atualizarTextoBotao;
+      </script>
+
+      <div aria-label="Botões">
+        <button type="button" class="btn btn-primary custom-button" disabled style="width: 70px;"><i class="fa-solid fa-arrow-right-arrow-left"></i></button>
+        <button id="b_q" type="button" class="btn btn-primary custom-button custom-color">q</button>
+        <button id="b_w" type="button" class="btn btn-primary custom-button custom-col-ane">w</button>
+        <button id="b_e" type="button" class="btn btn-primary custom-button custom-col-meio">e</button>
+        <button id="b_r" type="button" class="btn btn-primary custom-button custom-col-indi">r</button>
+        <button id="b_t" type="button" class="btn btn-primary custom-button custom-col-indi">t</button>
+        <button id="b_y" type="button" class="btn btn-primary custom-button custom-col-indi">y</button>
+        <button id="b_u" type="button" class="btn btn-primary custom-button custom-col-indi">u</button>
+        <button id="b_i" type="button" class="btn btn-primary custom-button custom-col-meio">i</button>
+        <button id="b_o" type="button" class="btn btn-primary custom-button custom-col-ane">o</button>
+        <button id="b_p" type="button" class="btn btn-primary custom-button custom-color">p</button>
+        <button id="b_agudo" type="button" class="btn btn-primary custom-button">´</button>
+        <button id="b_abrecol" type="button" class="btn btn-primary custom-button">[</button>
+        <button type="button" class="btn btn-primary custom-button" style="width: 88px;"></button>
+      </div>
+      
+      
+      <div aria-label="Botões">
+        <button id="fixa" type="button" class="btn btn-primary custom-button" data-tg-tour='<p> Quando uma sequencia de letras estiver em maiúsculo recomenda-se ligar a tecla FIXA...</p>' data-tg-order="14" style="width: 80px;">FIXA</button>
+        <button id="b_a" type="button" class="btn btn-primary custom-button custom-color">a</button>
+        <button id="b_s" type="button" class="btn btn-primary custom-button custom-col-ane">s</button>
+        <button id="b_d" type="button" class="btn btn-primary custom-button custom-col-meio">d</button>
+        <button id="b_f" type="button" class="btn btn-primary custom-button custom-col-indi">f</button>
+        <button id="b_g" type="button" class="btn btn-primary custom-button custom-col-indi">g</button>
+        <button id="b_h" type="button" class="btn btn-primary custom-button custom-col-indi">h</button>
+        <button id="b_j" type="button" class="btn btn-primary custom-button custom-col-indi">j</button>
+        <button id="b_k" type="button" class="btn btn-primary custom-button custom-col-meio">k</button>
+        <button id="b_l" type="button" class="btn btn-primary custom-button custom-col-ane">l</button>
+        <button id="b_ç" type="button" class="btn btn-primary custom-button custom-color">ç</button>
+        <button id="b_til" type="button" class="btn btn-primary custom-button">~</button>
+        <button id="b_fechacol" type="button" class="btn btn-primary custom-button">]</button>
+        <button id="enter" type="button" class="btn btn-primary custom-button" style="width: 77px;">ENTER</button>
+      </div>
+
+      <div aria-label="Botões">
+        <button id="shiftLeft" type="button" class="btn btn-primary custom-button" data-tg-tour='<p>🔵 Para deixar em maiúsculo ou minúsculo você usa a tecla Shift...</p>' data-tg-order="15" style="width: 70px;"><i class="fa-solid fa-arrow-up"></i></i></button>
+        <button id="b_barra" type="button" class="btn btn-primary custom-button custom-color">\</button>
+        <button id="b_z" type="button" class="btn btn-primary custom-button custom-color">z</button>
+        <button id="b_x" type="button" class="btn btn-primary custom-button custom-col-ane">x</button>
+        <button id="b_c" type="button" class="btn btn-primary custom-button custom-col-meio">c</button>
+        <button id="b_v" type="button" class="btn btn-primary custom-button custom-col-indi">v</button>
+        <button id="b_b" type="button" class="btn btn-primary custom-button custom-col-indi">b</button>
+        <button id="b_n" type="button" class="btn btn-primary custom-button custom-col-indi">n</button>
+        <button id="b_m" type="button" class="btn btn-primary custom-button custom-col-indi">m</button>
+        <button id="b_menor" type="button" class="btn btn-primary custom-button custom-col-meio">,</button>
+        <button id="b_maior" type="button" class="btn btn-primary custom-button custom-col-ane">.</button>
+        <button id="b_doispontos" type="button" class="btn btn-primary custom-button custom-color">;</button>
+        <button id="b_interrogacao" type="button" class="btn btn-primary custom-button">/</button>
+        <button id="shiftRight" type="button" class="btn btn-primary custom-button" style="width: 87px;"><i class="fa-solid fa-arrow-up"></i></button>
+      </div>
+      <div aria-label="Botões">
+        <button type="button" class="btn btn-primary custom-button" disabled style="width: 78px;">Ctrl</button>
+        <button type="button" class="btn btn-primary custom-button" disabled><i class="fa-brands fa-windows"></i></button>
+        <button type="button" class="btn btn-primary custom-button" disabled>Alt</button>
+        <button id="space" type="button" class="btn btn-primary custom-col-polegar custom-button" data-tg-tour='🟣 Para digitar o espaço utilizamos os dedões...' data-tg-order="16" style="width: 390px;"></button>
+        <button type="button" class="btn btn-primary custom-button text-center" disabled>AltGr</button>
+        <button type="button" class="btn btn-primary custom-button" disabled><i class="fa-brands fa-windows"></i></button>
+        <button type="button" class="btn btn-primary custom-button" disabled><i class="fa-solid fa-bars"></i></button>
+        <button type="button" class="btn btn-primary custom-button" disabled style="width: 78px;">Ctrl</button>
+      </div>
+    </div>
+      <div class="minha-div-num" data-tg-title='Númérico ⌨️' data-tg-tour='<p>Aqui você visualiza o teclado numérico...</p><p>🦩 Deixe sempre o Num Lock ativado para poder digitar os números.<p>' data-tg-order="17">
+        <div aria-label="Botões">
+          <button id="numLock" type="button" class="btn btn-primary custom-button text-center active">Num</button>
+          <button id="n_dividir" type="button" class="btn btn-primary custom-button custom-color">/</button>
+          <button id="n_vezes" type="button" class="btn btn-primary custom-button custom-col-ane">*</button>
+          <button id="n_menos" type="button" class="btn btn-primary custom-button custom-col-meio">-</button>
+        </div>
+        <div aria-label="Botões">
+          <button id="n_sete" type="button" class="btn btn-primary custom-button">7</button>
+          <button id="n_oito" type="button" class="btn btn-primary custom-button custom-color">8</button>
+          <button id="n_nove" type="button" class="btn btn-primary custom-button custom-col-ane">9</button>
+          <button id="n_mais" type="button" class="btn btn-primary custom-button custom-col-meio">+</button>
+        </div>
+          <div aria-label="Botões">
+          <button id="n_quatro" type="button" class="btn btn-primary custom-button">4</button>
+          <button id="n_cinco" type="button" class="btn btn-primary custom-button custom-color">5</button>
+          <button id="n_seis" type="button" class="btn btn-primary custom-button custom-col-ane">6</button>
+          <button id="n_ponto" type="button" class="btn btn-primary custom-button custom-col-meio">.</button>
+        </div>
+        <div class="row" style="width: 370px;">
+        <div class="col col-esquerda">
+          <div aria-label="Botões">
+            <button id="n_um" type="button" class="btn btn-primary custom-button">1</button>
+            <button id="n_dois" type="button" class="btn btn-primary custom-button custom-color">2</button>
+            <button id="n_tres" type="button" class="btn btn-primary custom-button custom-col-ane">3</button>
+            </div>
+          <div aria-label="Botões">
+            <button id="n_zero" type="button" class="btn btn-primary custom-button custom-col-polegar text-start" style="width: 106px;">0</button>
+            <button id="n_virgula" type="button" class="btn btn-primary custom-button custom-col-ane">,</button>
+            </div>
+          </div>
+        <div class="col col-direita">
+          <div aria-label="Botões">
+            <button id="n_enter" type="button" class="btn btn-primary custom-button custom-col-meio text-center" style="height: 106px;">Enter</button>
+          </div>
+        </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+  <script>
+    // Função para atualizar o texto do botão quando a tecla Caps Lock é pressionada
+function atualizarTextoBotao() {
+    var capsLockAtivo = event.getModifierState && event.getModifierState('CapsLock');
+    var shiftAtivo = event.getModifierState && event.getModifierState('Shift');
+    var numLock = event.getModifierState && event.getModifierState('NumLock');
+    
+    // Verifica se o Caps Lock está ativo
+    if (capsLockAtivo || shiftAtivo) {
+      document.getElementById('b_q').innerHTML = 'Q';
+      document.getElementById('b_w').innerHTML = 'W';
+      document.getElementById('b_e').innerHTML = 'E';
+      document.getElementById('b_r').innerHTML = 'R';
+      document.getElementById('b_t').innerHTML = 'T';
+      document.getElementById('b_y').innerHTML = 'Y';
+      document.getElementById('b_u').innerHTML = 'U';
+      document.getElementById('b_i').innerHTML = 'I';
+      document.getElementById('b_o').innerHTML = 'O';
+      document.getElementById('b_p').innerHTML = 'P';
+
+      document.getElementById('b_a').innerHTML = 'A';
+      document.getElementById('b_s').innerHTML = 'S';
+      document.getElementById('b_d').innerHTML = 'D';
+      document.getElementById('b_f').innerHTML = 'F';
+      document.getElementById('b_g').innerHTML = 'G';
+      document.getElementById('b_h').innerHTML = 'H';
+      document.getElementById('b_j').innerHTML = 'J';
+      document.getElementById('b_k').innerHTML = 'K';
+      document.getElementById('b_l').innerHTML = 'L';
+      document.getElementById('b_ç').innerHTML = 'Ç';
+
+      document.getElementById('b_z').innerHTML = 'Z';
+      document.getElementById('b_x').innerHTML = 'X';
+      document.getElementById('b_c').innerHTML = 'C';
+      document.getElementById('b_v').innerHTML = 'V';
+      document.getElementById('b_x').innerHTML = 'X';
+      document.getElementById('b_b').innerHTML = 'B';
+      document.getElementById('b_n').innerHTML = 'N';
+      document.getElementById('b_m').innerHTML = 'M';
+    } else {
+      document.getElementById('b_q').innerHTML = 'q';
+      document.getElementById('b_w').innerHTML = 'w';
+      document.getElementById('b_e').innerHTML = 'e';
+      document.getElementById('b_r').innerHTML = 'r';
+      document.getElementById('b_t').innerHTML = 't';
+      document.getElementById('b_y').innerHTML = 'y';
+      document.getElementById('b_u').innerHTML = 'u';
+      document.getElementById('b_i').innerHTML = 'i';
+      document.getElementById('b_o').innerHTML = 'o';
+      document.getElementById('b_p').innerHTML = 'p';
+
+      document.getElementById('b_a').innerHTML = 'a';
+      document.getElementById('b_s').innerHTML = 's';
+      document.getElementById('b_d').innerHTML = 'd';
+      document.getElementById('b_f').innerHTML = 'f';
+      document.getElementById('b_g').innerHTML = 'g';
+      document.getElementById('b_h').innerHTML = 'h';
+      document.getElementById('b_j').innerHTML = 'j';
+      document.getElementById('b_k').innerHTML = 'k';
+      document.getElementById('b_l').innerHTML = 'l';
+      document.getElementById('b_ç').innerHTML = 'ç';
+
+      document.getElementById('b_z').innerHTML = 'z';
+      document.getElementById('b_x').innerHTML = 'x';
+      document.getElementById('b_c').innerHTML = 'c';
+      document.getElementById('b_v').innerHTML = 'v';
+      document.getElementById('b_x').innerHTML = 'x';
+      document.getElementById('b_b').innerHTML = 'b';
+      document.getElementById('b_n').innerHTML = 'n';
+      document.getElementById('b_m').innerHTML = 'm';
+    }
+    if (shiftAtivo) {
+      document.getElementById('b_barra').innerHTML = '|';
+      document.getElementById('b_doispontos').innerHTML = ':';
+      document.getElementById('b_interrogacao').innerHTML = '?';
+      document.getElementById('b_maior').innerHTML = '>';
+      document.getElementById('b_menor').innerHTML = '<';
+      document.getElementById('b_til').innerHTML = '^';
+      document.getElementById('b_fechacol').innerHTML = '}';
+      document.getElementById('b_abrecol').innerHTML = '{';
+      document.getElementById('b_agudo').innerHTML = '`';
+      document.getElementById('b_igual').innerHTML = '+';
+      document.getElementById('b_under').innerHTML = '_';
+      document.getElementById('b_zeroa').innerHTML = ')';
+      document.getElementById('b_nove').innerHTML = '(';
+      document.getElementById('b_oito').innerHTML = '*';
+      document.getElementById('b_sete').innerHTML = '&';
+      document.getElementById('b_seis').innerHTML = '¨';
+      document.getElementById('b_cinco').innerHTML = '%';
+      document.getElementById('b_quatro').innerHTML = '$';
+      document.getElementById('b_tres').innerHTML = '#';
+      document.getElementById('b_dois').innerHTML = '@';
+      document.getElementById('b_um').innerHTML = '!';
+      document.getElementById('b_aspas').innerHTML = '"';
+    } else {
+      document.getElementById('b_barra').innerHTML = '\\';
+      document.getElementById('b_doispontos').innerHTML = ';';
+      document.getElementById('b_interrogacao').innerHTML = '/';
+      document.getElementById('b_maior').innerHTML = '.';
+      document.getElementById('b_menor').innerHTML = ',';
+
+      document.getElementById('b_til').innerHTML = '~';
+      document.getElementById('b_fechacol').innerHTML = ']';
+      document.getElementById('b_abrecol').innerHTML = '[';
+      document.getElementById('b_agudo').innerHTML = '´';
+      document.getElementById('b_igual').innerHTML = '=';
+      document.getElementById('b_under').innerHTML = '-';
+      document.getElementById('b_zeroa').innerHTML = '0';
+      document.getElementById('b_nove').innerHTML = '9';
+      document.getElementById('b_oito').innerHTML = '8';
+      document.getElementById('b_sete').innerHTML = '7';
+      document.getElementById('b_seis').innerHTML = '6';
+      document.getElementById('b_cinco').innerHTML = '5';
+      document.getElementById('b_quatro').innerHTML = '4';
+      document.getElementById('b_tres').innerHTML = '3';
+      document.getElementById('b_dois').innerHTML = '2';
+      document.getElementById('b_um').innerHTML = '1';
+      document.getElementById('b_aspas').innerHTML = "'";
+    }
+    if (NumLock) {
+      document.getElementById('n_um').innerHTML = '1';
+      document.getElementById('n_dois').innerHTML = '2';
+      document.getElementById('n_tres').innerHTML = '3';
+      document.getElementById('n_quatro').innerHTML = '4';
+      document.getElementById('n_cinco').innerHTML = '5';
+      document.getElementById('n_seis').innerHTML = '6';
+      document.getElementById('n_sete').innerHTML = '7';
+      document.getElementById('n_oito').innerHTML = '8';
+      document.getElementById('n_nove').innerHTML = '9';
+      document.getElementById('n_mais').innerHTML = '+';
+      document.getElementById('n_menos').innerHTML = '-';
+      document.getElementById('n_vezes').innerHTML = '*';
+      document.getElementById('n_dividir').innerHTML = '/';
+      document.getElementById('n_ponto').innerHTML = '.';
+      document.getElementById('n_virgula').innerHTML = '.';
+      
+
+    }
+    
+}
+
+// Chama a função de atualização quando uma tecla é pressionada
+document.onkeydown = atualizarTextoBotao;
+document.onkeyup = atualizarTextoBotao;
+
+// Função para adicionar a classe 'active' ao botão quando uma tecla é pressionada
+function changeButtonColor(event) {
+    var fixa = document.getElementById('fixa');
+    var enter = document.getElementById('enter');
+    var n_enter = document.getElementById('n_enter');
+    var backspace = document.getElementById('backspace');
+    var shiftLeft = document.getElementById('shiftLeft');
+    var shiftRight = document.getElementById('shiftRight');
+    var space = document.getElementById('space');
+    var b_a = document.getElementById('b_a');
+    var b_s = document.getElementById('b_s');
+    var b_d = document.getElementById('b_d');
+    var b_f = document.getElementById('b_f');
+    var b_g = document.getElementById('b_g');
+    var b_h = document.getElementById('b_h');
+    var b_j = document.getElementById('b_j');
+    var b_k = document.getElementById('b_k');
+    var b_l = document.getElementById('b_l');
+    var b_ç = document.getElementById('b_ç');
+    var b_til = document.getElementById('b_til');
+    var b_fechacol = document.getElementById('b_fechacol');
+    
+
+    var b_q = document.getElementById('b_q');
+    var b_w = document.getElementById('b_w');
+    var b_e = document.getElementById('b_e');
+    var b_r = document.getElementById('b_r');
+    var b_t = document.getElementById('b_t');
+    var b_y = document.getElementById('b_y');
+    var b_u = document.getElementById('b_u');
+    var b_i = document.getElementById('b_i');
+    var b_o = document.getElementById('b_o');
+    var b_p = document.getElementById('b_p');
+    var b_agudo = document.getElementById('b_agudo');
+    var b_abrecol = document.getElementById('b_abrecol');
+
+    var b_barra = document.getElementById('b_barra');
+    var b_z = document.getElementById('b_z');
+    var b_x = document.getElementById('b_x');
+    var b_c = document.getElementById('b_c');
+    var b_v = document.getElementById('b_v');
+    var b_b = document.getElementById('b_b');
+    var b_n = document.getElementById('b_n');
+    var b_m = document.getElementById('b_m');
+    var b_menor = document.getElementById('b_menor');
+    var b_maior = document.getElementById('b_maior');
+    var b_doispontos = document.getElementById('b_doispontos');
+    var b_interrogacao = document.getElementById('b_interrogacao');
+    
+    var b_aspas = document.getElementById('b_aspas');
+    var b_um = document.getElementById('b_um');
+    var b_dois = document.getElementById('b_dois');
+    var b_tres = document.getElementById('b_tres');
+    var b_quatro = document.getElementById('b_quatro');
+    var b_cinco = document.getElementById('b_cinco');
+    var b_seis = document.getElementById('b_seis');
+    var b_sete = document.getElementById('b_sete');
+    var b_oito = document.getElementById('b_oito');
+    var b_nove = document.getElementById('b_nove');
+    var b_zeroa = document.getElementById('b_zeroa');
+    var b_under = document.getElementById('b_under');
+    var b_igual = document.getElementById('b_igual');
+    
+    var n_sete = document.getElementById('n_sete');
+    var n_oito = document.getElementById('n_oito');
+    var n_nove = document.getElementById('n_nove');
+    var n_quatro = document.getElementById('n_quatro');
+    var n_cinco = document.getElementById('n_cinco');
+    var n_seis = document.getElementById('n_seis');
+    var n_um = document.getElementById('n_um');
+    var n_dois = document.getElementById('n_dois');
+    var n_tres = document.getElementById('n_tres');
+    var n_mais = document.getElementById('n_mais');
+    var n_ponto = document.getElementById('n_ponto');
+    var n_menos = document.getElementById('n_menos');
+    var n_vezes = document.getElementById('n_vezes');
+    var n_dividir = document.getElementById('n_dividir');
+    var n_virgula = document.getElementById('n_virgula');
+    
+    
+    
+    
+  if (event.getModifierState('CapsLock')) {
+    fixa.classList.add('active');
+  } else {
+      fixa.classList.remove('active');
+  }
+
+  if (event.key === 'Enter' && event.location !== 3) {
+    enter.classList.add('active');
+  }
+
+  if (event.code === 'NumpadEnter') {
+    if (event.location === 3) {
+      n_enter.classList.add('active');
+    }
+  }
+  if (event.key === 'Backspace') {
+    backspace.classList.add('active');
+  }
+  
+  if (event.getModifierState('Shift')) {
+    if (event.location === 1) {
+      shiftLeft.classList.add('active');
+    } else if (event.location === 2) {
+      shiftRight.classList.add('active');
+    }
+  }
+  if (event.key === ' ') {
+    space.classList.add('active');
+  }
+    var key = event.key.toLowerCase();
+
+    if (key === 'a') {
+      b_a.classList.add('active');
+    }
+    if (key === 's') {
+      b_s.classList.add('active');
+    }
+    if (key === 'd') {
+      b_d.classList.add('active')
+    }
+    if (key === 'f') {
+      b_f.classList.add('active')
+    }
+    if (key === 'g') {
+      b_g.classList.add('active')
+    }
+    if (key === 'h') {
+      b_h.classList.add('active')
+    }
+    if (key === 'j') {
+      b_j.classList.add('active')
+    }
+    if (key === 'k') {
+      b_k.classList.add('active')
+    }
+    if (key === 'l') {
+      b_l.classList.add('active')
+    }
+    if (key === 'ç') {
+      b_ç.classList.add('active')
+    }
+    if (key === 'q') {
+      b_q.classList.add('active')
+    }
+    if (key === 'w') {
+      b_w.classList.add('active')
+    }
+    if (key === 'e') {
+      b_e.classList.add('active')
+    }
+    if (key === 'r') {
+      b_r.classList.add('active')
+    }
+    if (key === 't') {
+      b_t.classList.add('active')
+    }
+    if (key === 'y') {
+      b_y.classList.add('active')
+    }
+    if (key === 'u') {
+      b_u.classList.add('active')
+    }
+    if (key === 'i') {
+      b_i.classList.add('active')
+    }
+    if (key === 'o') {
+      b_o.classList.add('active')
+    }
+    if (key === 'p') {
+      b_p.classList.add('active')
+    }
+    if (key === 'z') {
+      b_z.classList.add('active');
+    }
+    if (key === 'x') {
+      b_x.classList.add('active');
+    }
+    if (key === 'c') {
+      b_c.classList.add('active');
+    }
+    if (key === 'v') {
+      b_v.classList.add('active');
+    }
+    if (key === 'b') {
+      b_b.classList.add('active');
+    }
+    if (key === 'n') {
+      b_n.classList.add('active');
+    }
+    if (key === 'm') {
+      b_m.classList.add('active');
+    }
+    if (key === '\\' || key === '|') {
+      b_barra.classList.add('active');
+    }
+    if (event.key === "," || key === '<') {
+      if (event.location === 0 || key === '<') {
+        b_menor.classList.add('active');
+      } else if (event.location === 3) {
+        n_virgula.classList.add('active');
+      }
+    }
+    if (event.key === "." || key === '>') {
+      if (event.location === 0 || key === '>') {
+        b_maior.classList.add('active');
+      } else if (event.location === 3) {
+        n_ponto.classList.add('active');
+      }
+    }
+    if (key === ';' || key === ':') {
+      b_doispontos.classList.add('active');
+    }
+    if (event.key === "/" || key === '?') {
+      if (event.location === 0 || key === '?') {
+        b_interrogacao.classList.add('active');
+      } else if (event.location === 3) {
+        n_dividir.classList.add('active');
+      }
+    }
+    if (key === '~' || key === '^') {
+      b_til.classList.add('active');
+    }
+    if (key === ']' || key === '}') {
+      b_fechacol.classList.add('active');
+    }
+    if (key === "´" || key === "`") {
+      b_agudo.classList.add('active');
+    }
+    if (key === '[' || key === '{') {
+      b_abrecol.classList.add('active');
+    }
+    if (key === "'" || key === '"') {
+      b_aspas.classList.add('active');
+    }
+    if (event.key === "1" || key === '!') {
+      if (event.location === 0 || key === '!') {
+        b_um.classList.add('active');
+        } else if (event.location === 3) {
+          n_um.classList.add('active');
+        }
+    }
+    if (event.key === "2" || key === '@') {
+      if (event.location === 0 || key === '@') {
+        b_dois.classList.add('active');
+        } else if (event.location === 3) {
+          n_dois.classList.add('active');
+        }
+    }
+    if (event.key === "3" || key === '#') {
+      if (event.location === 0 || key === '#') {
+        b_tres.classList.add('active');
+        } else if (event.location === 3) {
+          n_tres.classList.add('active');
+        }
+    }
+    if (event.key === "4" || key === '$') {
+      if (event.location === 0 || key === '$') {
+        b_quatro.classList.add('active');
+        } else if (event.location === 3) {
+          n_quatro.classList.add('active');
+        }
+    }
+    if (event.key === "5" || key === '%') {
+      if (event.location === 0 || key === '$') {
+        b_cinco.classList.add('active');
+        } else if (event.location === 3) {
+          n_cinco.classList.add('active');
+        }
+    }
+    if (event.key === "6" || key === '¨') {
+      if (event.location === 0 || key === '¨') {
+        b_seis.classList.add('active');
+        } else if (event.location === 3) {
+          n_seis.classList.add('active');
+        }
+    }
+    if (event.key === "7" || key === '&') {
+      if (event.location === 0) {
+        b_sete.classList.add('active');
+        } else if (event.location === 3) {
+          n_sete.classList.add('active');
+        }
+    }
+    if (event.key === "8") {
+      if (event.location === 0 ) {
+        b_oito.classList.add('active');
+        } else if (event.location === 3) {
+          n_oito.classList.add('active');
+        }
+    }
+    if (event.key === "*") {
+      if (event.location === 0 ) {
+        b_oito.classList.add('active');
+        } else if (event.location === 3) {
+          n_vezes.classList.add('active');
+        }
+    }
+    if (event.key === "9" || key === '(') {
+      if (event.location === 0 || key === '(') {
+        b_nove.classList.add('active');
+        } else if (event.location === 3) {
+          n_nove.classList.add('active');
+        }
+    }
+    if (event.key === "0" || key === ')') {
+      if (event.location === 0 || key === ')') {
+        b_zeroa.classList.add('active');
+        } else if (event.location === 3) {
+          n_zero.classList.add('active');
+        }
+    }
+    if (key === '-' || key === '_') {
+      if (event.location === 0 || key === ')') {
+        b_under.classList.add('active');
+        } else if (event.location === 3) {
+          n_menos.classList.add('active');
+        }
+    }
+    if (key === '=' || key === '+') {
+      if (event.location === 0 || key === ')') {
+        b_igual.classList.add('active');
+        } else if (event.location === 3) {
+          n_mais.classList.add('active');
+        }
+    }
+
+  }
+
+  // Função para remover a classe 'active' do botão quando a tecla é liberada
+  function resetButtonColor(event) {
+    var enter = document.getElementById('enter');
+    var n_enter = document.getElementById('n_enter');
+    var backspace = document.getElementById('backspace');
+    var shiftLeft = document.getElementById('shiftLeft');
+    var shiftRight = document.getElementById('shiftRight');
+    var shiftRight = document.getElementById('shiftRight');
+    var space = document.getElementById('space');
+    var b_a = document.getElementById('b_a');
+    var b_s = document.getElementById('b_s');
+    var b_d = document.getElementById('b_d');
+    var b_f = document.getElementById('b_f');
+    var b_g = document.getElementById('b_g');
+    var b_h = document.getElementById('b_h');
+    var b_j = document.getElementById('b_j');
+    var b_k = document.getElementById('b_k');
+    var b_l = document.getElementById('b_l');
+    var b_ç = document.getElementById('b_ç');
+    var b_til = document.getElementById('b_til');
+    var b_fechacol = document.getElementById('b_fechacol');
+
+
+    var b_q = document.getElementById('b_q');
+    var b_w = document.getElementById('b_w');
+    var b_e = document.getElementById('b_e');
+    var b_r = document.getElementById('b_r');
+    var b_t = document.getElementById('b_t');
+    var b_y = document.getElementById('b_y');
+    var b_u = document.getElementById('b_u');
+    var b_i = document.getElementById('b_i');
+    var b_o = document.getElementById('b_o');
+    var b_p = document.getElementById('b_p');
+    var b_agudo = document.getElementById('b_agudo');
+    var b_abrecol = document.getElementById('b_abrecol');
+
+    var b_barra = document.getElementById('b_barra');
+    var b_z = document.getElementById('b_z');
+    var b_x = document.getElementById('b_x');
+    var b_c = document.getElementById('b_c');
+    var b_v = document.getElementById('b_v');
+    var b_b = document.getElementById('b_b');
+    var b_n = document.getElementById('b_n');
+    var b_m = document.getElementById('b_m');
+    var b_menor = document.getElementById('b_menor');
+    var b_maior = document.getElementById('b_maior');
+    var b_doispontos = document.getElementById('b_doispontos');
+    var b_interrogacao = document.getElementById('b_interrogacao');
+
+    var b_aspas = document.getElementById('b_aspas');
+    var b_um = document.getElementById('b_um');
+    var b_dois = document.getElementById('b_dois');
+    var b_tres = document.getElementById('b_tres');
+    var b_quatro = document.getElementById('b_quatro');
+    var b_cinco = document.getElementById('b_cinco');
+    var b_seis = document.getElementById('b_seis');
+    var b_sete = document.getElementById('b_sete');
+    var b_oito = document.getElementById('b_oito');
+    var b_nove = document.getElementById('b_nove');
+    var b_zeroa = document.getElementById('b_zeroa');
+    var b_under = document.getElementById('b_under');
+    var b_igual = document.getElementById('b_igual');
+    var n_virgula = document.getElementById('n_virgula');
+
+    var n_sete = document.getElementById('n_sete');
+    var key = event.key.toLowerCase();
+
+    if (key === 'shift') {
+      if (event.location === 1) {
+          shiftLeft.classList.remove('active');
+        } else if (event.location === 2) {
+          shiftRight.classList.remove('active');
+        }
+    }
+    if (key === 'enter') {
+      enter.classList.remove('active');
+    }
+    if (event.code === 'NumpadEnter') {
+      n_enter.classList.remove('active');
+    }
+    if (event.key === ' ') {
+      space.classList.remove('active');
+    }
+    if (key === 'backspace') {
+      backspace.classList.remove('active');
+    }
+    if (event.key === 'shift') {
+      shift.classList.remove('active');
+  }
+    if (key === 'a') {
+      b_a.classList.remove('active');
+    }
+    if (key === 's') {
+      b_s.classList.remove('active');
+    }
+    if (key === 'd') {
+      b_d.classList.remove('active');
+    }
+    if (key === 'f') {
+      b_f.classList.remove('active');
+    }
+    if (key === 'g') {
+      b_g.classList.remove('active');
+    }
+    if (key === 'h') {
+      b_h.classList.remove('active');
+    }
+    if (key === 'j') {
+      b_j.classList.remove('active');
+    }
+    if (key === 'k') {
+      b_k.classList.remove('active');
+    }
+    if (key === 'l') {
+      b_l.classList.remove('active');
+    }
+    if (key === 'ç') {
+      b_ç.classList.remove('active');
+    }
+    if (key === 'q') {
+      b_q.classList.remove('active');
+    }
+    if (key === 'w') {
+      b_w.classList.remove('active');
+    }
+    if (key === 'e') {
+      b_e.classList.remove('active');
+    }
+    if (key === 'r') {
+      b_r.classList.remove('active');
+    }
+    if (key === 't') {
+      b_t.classList.remove('active');
+    }
+    if (key === 'y') {
+      b_y.classList.remove('active');
+    }
+    if (key === 'u') {
+      b_u.classList.remove('active');
+    }
+    if (key === 'i') {
+      b_i.classList.remove('active');
+    }
+    if (key === 'o') {
+      b_o.classList.remove('active');
+    }
+    if (key === 'p') {
+      b_p.classList.remove('active');
+    }
+    if (key === 'z') {
+      b_z.classList.remove('active');
+    }
+    if (key === 'x') {
+      b_x.classList.remove('active');
+    }
+    if (key === 'c') {
+      b_c.classList.remove('active');
+    }
+    if (key === 'v') {
+      b_v.classList.remove('active');
+    }
+    if (key === 'b') {
+      b_b.classList.remove('active');
+    }
+    if (key === 'n') {
+      b_n.classList.remove('active');
+    }
+    if (key === 'm') {
+      b_m.classList.remove('active');
+    }
+    if (key === '\\' || key === '|') {
+      b_barra.classList.remove('active');
+    }
+
+    if (event.key === "," || key === '<') {
+      if (event.location === 0 || key === '<') {
+        b_menor.classList.remove('active');
+      } else if (event.location === 3) {
+        n_virgula.classList.remove('active');
+      }
+    }
+    if (event.key === "." || key === '>') {
+      if (event.location === 0 || key === '>') {
+        b_maior.classList.remove('active');
+      } else if (event.location === 3) {
+        n_ponto.classList.remove('active');
+      }
+    }
+    if (key === ';' || key === ':') {
+      b_doispontos.classList.remove('active');
+    }
+
+    if (event.key === "/" || key === '?') {
+      if (event.location === 0 || key === '?') {
+        b_interrogacao.classList.remove('active');
+        } else if (event.location === 3) {
+          n_dividir.classList.remove('active');
+        }
+    }
+    if (key === '~' || key === '^') {
+      b_til.classList.remove('active');
+    }
+    if (key === ']' || key === '}') {
+      b_fechacol.classList.remove('active');
+    }
+    if (key === "´" || key === "`") {
+      b_agudo.classList.remove('active');
+    }
+    if (key === '[' || key === '{') {
+      b_abrecol.classList.remove('active');
+    }
+    if (key === "'" || key === '"') {
+      b_aspas.classList.remove('active');
+    }
+    if (event.key === "1" || key === '!') {
+      if (event.location === 0 || key === '!') {
+        b_um.classList.remove('active');
+        } else if (event.location === 3) {
+          n_um.classList.remove('active');
+        }
+    }
+    if (event.key === "2" || key === '@') {
+      if (event.location === 0 || key === '@') {
+        b_dois.classList.remove('active');
+        } else if (event.location === 3) {
+          n_dois.classList.remove('active');
+        }
+    }
+    if (event.key === "3" || key === '#') {
+      if (event.location === 0 || key === '#') {
+        b_tres.classList.remove('active');
+        } else if (event.location === 3) {
+          n_tres.classList.remove('active');
+        }
+    }
+    if (event.key === "4" || key === '$') {
+      if (event.location === 0 || key === '$') {
+        b_quatro.classList.remove('active');
+        } else if (event.location === 3) {
+          n_quatro.classList.remove('active');
+        }
+    }
+    if (event.key === "5" || key === '%') {
+      if (event.location === 0 || key === '$') {
+        b_cinco.classList.remove('active');
+        } else if (event.location === 3) {
+          n_cinco.classList.remove('active');
+        }
+    }
+    if (event.key === "6" || key === '¨') {
+      if (event.location === 0 || key === '¨') {
+        b_seis.classList.remove('active');
+        } else if (event.location === 3) {
+          n_seis.classList.remove('active');
+        }
+    }
+    if (event.key === "7" || key === '&') {
+      if (event.location === 0 || key === '&') {
+        b_sete.classList.remove('active');
+        } else if (event.location === 3) {
+          n_sete.classList.remove('active');
+        }
+    }
+    if (event.key === "8") {
+      if (event.location === 0 ) {
+        b_oito.classList.remove('active');
+        } else if (event.location === 3) {
+          n_oito.classList.remove('active');
+        }
+    }
+    if (event.key === "*") {
+      if (event.location === 0 ) {
+        b_oito.classList.remove('active');
+        } else if (event.location === 3) {
+          n_vezes.classList.remove('active');
+        }
+    }
+    if (event.key === "9" || key === '(') {
+      if (event.location === 0 || key === '(') {
+        b_nove.classList.remove('active');
+        } else if (event.location === 3) {
+          n_nove.classList.remove('active');
+        }
+    }
+
+    if (event.key === "0" || key === ')') {
+      if (event.location === 0 || key === ')') {
+        b_zeroa.classList.remove('active');
+        } else if (event.location === 3) {
+          n_zero.classList.remove('active');
+        }
+    }
+    if (key === '-' || key === '_') {
+      if (event.location === 0 || key === ')') {
+        b_under.classList.remove('active');
+        } else if (event.location === 3) {
+          n_menos.classList.remove('active');
+        }
+    }
+    if (key === '=' || key === '+') {
+      if (event.location === 0 || key === ')') {
+        b_igual.classList.remove('active');
+        } else if (event.location === 3) {
+          n_mais.classList.remove('active');
+        }
+    }
+
+  }
+
+  // Adiciona os event listeners aos eventos de pressionar e liberar teclas
+  document.addEventListener('keydown', changeButtonColor);
+  document.addEventListener('keyup', resetButtonColor);
+
+  </script><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://player.vimeo.com/api/player.js"></script>
+
+<script>
+  $(document).ready(function() {
+    var currentIndex = 0;
+    var counter = 0; // Variável para armazenar o contador
+    var cont = 0;
+    var erroPrimeiro = 0;
+    var contLicoes = 0; // Variável para armazenar o número de lições
+    
+    $('.typed-input').on('input', function() {
+      var typedText = $(this).val();
+      var currentLetter = $('.letter').eq(currentIndex).text();
+
+      if (typedText.charAt(typedText.length - 1) !== currentLetter) {
+        $(this).val(typedText.slice(0, -1));
+        if(erroPrimeiro === 0){
+          cont++;
+          erroPrimeiro++;
+        }
+      } else {
+        erroPrimeiro = 0;
+        currentIndex++;
+        $('.letter').eq(currentIndex - 1).addClass('typed');
+
+        if (currentIndex === $('.letter').length) { // Verifica se chegou ao final da frase
+          counter++; // Incrementa o contador
+          $(this).val(''); // Limpa o campo de entrada
+          currentIndex = 0; // Reinicia o índice
+          $('.letter').removeClass('typed'); // Remove a classe 'typed' das letras
+          updateCounters(); // Atualiza os contadores correspondentes
+        }
+      }
+      $('button[data-repeticao]').each(function() {
+        var numeroLetras = $('.letter').length; // Obtém o número de elementos com a classe .letter
+        var repeticao = $(this).data('repeticao');
+        $('#numero-letras-btn').text((100 - (cont * 100 / (repeticao * numeroLetras))).toFixed(2) + " %"); // Define o valor do atributo data-repeticao no elemento desejado
+        
+      });
+
+      $('#contagem').text(cont); // Exibe o valor de 'cont' em um elemento com id 'contagem'
+  });
+
+// Função para registrar os dados da lição
+function registrarDadosLicao() {
+  var licao_atual = $('#licao_agora').text();
+  var toques = $('#toques-por-minuto-btn').text();
+  var tempo = $('#tempo').text();
+  var tempo = parseFloat(tempo.replace(':', '.'));
+  var acertos = $('#numero-letras-btn').text();
+  var acertos = parseFloat(acertos.replace(',', '.'));
+  var erros = $('#contagem').text();
+  
+
+  var data = {
+    'licao_atual': licao_atual,
+    'toques': toques,
+    'acertos': acertos,
+    'erros': erros,
+    'tempo': tempo
+  };
+
+  $.ajax({
+    url: '/cursodigitacao/relatorioDigitacao/',
+    type: 'POST',
+    data: data,
+    success: function(response) {
+      // Lógica de manipulação de sucesso aqui
+      
+      // Atualizar o valor de 'acertos' com o valor retornado do servidor (se necessário)
+      acertos = response.acertos;
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      // Lógica de manipulação de erro aqui
+    }
+  });
+}
+  
+  // Evento de clique no botão "my-button"
+  $('#my-button').on('click', function() {
+    
+    // Registra os dados da lição
+    registrarDadosLicao();
+
+});
+
+
+  // Evento de clique no botão "proximoBotao"
+  const proximoBotao = document.getElementById('proximo-botao');
+  const inscricaoId = '{{ inscricoes.first.id }}';
+
+  proximoBotao.addEventListener('click', function(event) {
+    event.preventDefault();
+    window.location.href = "{% url 'cursodigitacao_next' 0 %}".replace('0', inscricaoId);
+    contLicoes = contLicoes + 1;
+    $('#contLicoes').text(contLicoes);
+  });
+
+
+
+    // Desativa o Backspace
+    $('.typed-input').on('keydown', function(e) {
+      if (e.keyCode === 8) {
+        e.preventDefault();
+      }
+    });
+
+    $('.typed-input').focus();
+    $(document).ready(function() {
+        $('div').click(function() {
+          $('.typed-input').focus();
+        });
+      });
+
+  function updateCounters() {
+  var counters = $('.counter'); // Encontra todos os elementos de contador
+    counters.each(function() {
+      var currentCounter = $(this);
+      var currentValue = parseInt(currentCounter.text());
+      currentCounter.text(currentValue + 1); // Incrementa o contador
+
+      var digRepeticao = currentCounter.parent().data('repeticao');
+      console.log("O valor de dig.repeticao é: " + digRepeticao);
+
+      var proximoBotao = $('#proximo-botao');
+      var inputElement = $('#input-element');
+
+      if (currentValue === digRepeticao) {
+        clearInterval(timerInterval); // Pausa o timer
+        proximoBotao.show();
+        inputElement.hide();
+      } else {
+        proximoBotao.hide();
+        inputElement.show();
+      }
+    });
+}
+
+    updateCounters(); // Atualiza os contadores inicialmente
+
+    var startTime; // Variável para armazenar o tempo de início
+    var timerInterval; // Variável para armazenar o intervalo do timer
+
+    $('.typed-input').on('input', function() {
+      if (!startTime) {
+        startTime = new Date(); // Define o tempo de início se ainda não estiver definido
+        startTimer(); // Inicia o timer
+      }
+    });
+
+
+    function startTimer() {
+      timerInterval = setInterval(updateTimer, 1000); // Atualiza o timer a cada segundo
+    }
+
+    function updateTimer() {
+      var currentTime = new Date();
+      var elapsedTime = currentTime - startTime;
+      var seconds = Math.floor(elapsedTime / 1000);
+      $('#tempo').text(formatTime(seconds));
+    }
+
+
+    function formatTime(seconds) {
+      var minutes = Math.floor(seconds / 60);
+      var remainingSeconds = seconds % 60;
+
+      // Formata os minutos e segundos como "00:00"
+      var formattedMinutes = String(minutes).padStart(2, '0');
+      var formattedSeconds = String(remainingSeconds).padStart(2, '0');
+
+      return formattedMinutes + ':' + formattedSeconds;
+    }
+
+
+    // Evento de clique no botão "Reiniciar"
+    $('#btn-reiniciar').on('click', function() {
+      clearInterval(timerInterval); // Para o timer
+      startTime = 0; // Reseta o tempo de início para 0
+      $('#tempo').text('00:00'); // Zera a contagem exibida
+      counter = 0; // Reseta o contador para zero
+      $('.typed-input').val(''); // Limpa o campo de entrada
+      $('.counter').text('1'); // Reinicia os contadores para zero
+      $('.letter').removeClass('typed'); // Remove a classe 'typed' das letras
+      currentIndex = 0; // Reinicia o índice para zero
+      $('.typed-input').focus(); // Define o foco no input
+      toques = 0; // Reinicia a contagem de toques por minuto
+      $('#toques-por-minuto-btn').text('0');
+      tempoInicial = 0;
+      $('#numero-letras-btn').text('0'); // Reinicia os 
+      $('#contagem').text('0'); // Reinicia os 
+
+    });
+
+
+// Captura o elemento de input e o botão
+const input = document.querySelector('.typed-input');
+const button = document.querySelector('#toques-por-minuto-btn');
+
+// Variável para armazenar a quantidade de toques
+let toques = 0;
+let tempoInicial = 0; // Inicialmente definido como zero
+
+// Incrementa a quantidade de toques quando o input receber um evento de digitação
+input.addEventListener('input', function() {
+  toques++;
+
+  if (tempoInicial === 0) {
+    tempoInicial = new Date().getTime(); // Inicia a contagem de tempo
+  }
+
+  const tempoAtual = new Date().getTime();
+  const diferencaTempo = tempoAtual - tempoInicial;
+  const minutos = diferencaTempo / 1000 / 60;
+
+  let toquesPorMinuto;
+  if (minutos !== 0) {
+    toquesPorMinuto = toques / minutos;
+  } else {
+    toquesPorMinuto = 0;
+  }
+  toquesPorMinuto = Math.round(toquesPorMinuto);
+
+  button.innerText = toquesPorMinuto.toString();
+
+  var digRepeticao = button.dataset.repeticao; // Atribui o valor de data-repeticao ao botão
+  var currentValue = parseInt($('.counter').text());
+
+  if (currentValue === parseInt(digRepeticao)) {
+    clearInterval(timerInterval); // Pausa a contagem de toques por minuto
+  }
+  atualizarBotao(); // Atualiza o botão quando um toque é registrado
+});
+
+
+
+
+  // Atualiza o valor exibido no botão a cada segundo
+  setInterval(function() {
+    atualizarBotao();
+  }, 1000);
+  });
+
+  // Obtenha uma lista de referências para os botões que têm números correspondentes no teclado numérico
+  var numberButtons = document.querySelectorAll('.btn.btn-primary.custom-button');
+  var numLock = document.getElementById('numLock');
+  // Adicione um manipulador de eventos para o evento "keydown" no documento
+  document.addEventListener('keydown', function(event) {
+    // Verifique se a tecla pressionada é a tecla Num Lock (código da tecla: 144)
+    if (event.keyCode === 144) {
+      // Verifique o estado do Num Lock
+      var numLockEnabled = event.getModifierState('NumLock');
+
+      // Atualize a classe "active" do elemento numLock com base no estado do Num Lock
+      if (numLockEnabled) {
+        numLock.classList.add('active');
+        n_nove.disabled = false;
+        n_oito.disabled = false;
+        n_sete.disabled = false;
+        n_seis.disabled = false;
+        n_cinco.disabled = false;
+        n_quatro.disabled = false;
+        n_tres.disabled = false;
+        n_dois.disabled = false;
+        n_um.disabled = false;
+        n_zero.disabled = false;
+      } else {
+        numLock.classList.remove('active');
+        n_nove.disabled = true;
+        n_oito.disabled = true;
+        n_sete.disabled = true;
+        n_seis.disabled = true;
+        n_cinco.disabled = true;
+        n_quatro.disabled = true;
+        n_tres.disabled = true;
+        n_dois.disabled = true;
+        n_um.disabled = true;
+        n_zero.disabled = true;
+
+      }
+    }
+  });
+
+</script>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script src="https://unpkg.com/@sjmc11/tourguidejs/dist/tour.js" crossorigin="anonymous" referrerpolicy="no-referrer" type="module"></script>
+
+<script src="{% static 'bootstrap/js/bootstrap.js' %} "></script>
+<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %} "></script>
+
+
+<script>
+  // Função para gerar confetes dos cantos
+  function gerarConfetesDosCantos() {
+      // Disparar confetes do lado esquerdo
+      confetti({
+          particleCount: 100, // Número de partículas
+          spread: 60,         // Dispersão dos confetes
+          origin: { x: 0, y: 0.6 }, // Origem do lado esquerdo (x = 0)
+          colors: ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#28b5b5', '#6effa5', '#ffb3ff'] // Mais cores
+      });
+
+      // Disparar confetes do lado direito
+      confetti({
+          particleCount: 100, // Número de partículas
+          spread: 60,         // Dispersão dos confetes
+          origin: { x: 1, y: 0.6 }, // Origem do lado direito (x = 1)
+          colors: ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#28b5b5', '#6effa5', '#ffb3ff'] // Mais cores
+      });
+  }
+
+  // Executar confetes somente se a nota for maior ou igual a 6
+  {% if nota >= 6 %}
+      gerarConfetesDosCantos();  // Executar confetes
+  {% endif %}
+</script>
+</script>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const tourCompleto = {{ user.aluno.tour_dig_completo|yesno:"false,true" }};
+    
+    const tg = new tourguide.TourGuideClient({
+      exitOnClickOutside: false,
+      nextLabel: 'Avançar',
+      prevLabel: 'Voltar',
+      finishLabel: 'Finalizar',
+      showButtons: true,
+      showStepProgress: true,
+      showStepDots: false
+    });
+  
+    function marcarTourCompleto() {
+      fetch("{% url 'marcar_tour_completoDig' %}", {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({}),
+      })
+      .then(response => {
+        console.log('Resposta recebida:', response);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => console.log('Tour completado:', data))
+      .catch(error => console.error('Houve um problema com a requisição:', error));
+    }
+
+    // O tour só deve iniciar se ainda não foi completado
+    if (!tourCompleto) {
+      tg.start();
+      
+      // Verifica se a função onFinish está disponível e correta
+      if (typeof tg.onFinish === 'function') {
+        tg.onFinish(function() {
+          marcarTourCompleto();
+          gerarConfetesDosCantos();
+        });
+      } else {
+        console.log('A função tg.onFinish não está disponível');
+      }
+    } else {
+      console.log('O tour já foi completado.');
+    }
+  });
+</script>
+<script>
+  function abrirModal(videoUrl) {
+      // Define a URL do vídeo no iframe
+      document.getElementById('videoIframe').src = videoUrl;
+      // Mostra a modal
+      document.getElementById('videoModal').style.display = 'block';
+  }
+  
+  function fecharModal() {
+      // Esvazia a URL do vídeo para parar a reprodução
+      document.getElementById('videoIframe').src = '';
+      // Esconde a modal
+      document.getElementById('videoModal').style.display = 'none';
+  }
+  
+  // Para fechar a modal quando clicar fora dela
+  window.onclick = function(event) {
+      const modal = document.getElementById('videoModal');
+      if (event.target === modal) {
+          fecharModal();
+      }
+  }
+  </script>
+</body>
+</html>
+

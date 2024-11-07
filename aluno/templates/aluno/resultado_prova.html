@@ -1,0 +1,65 @@
+{% load static %}
+
+<!doctype html>
+<html lang="br">
+  <head>
+    <title>Página do Curso</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'bootstrap/css/cheatsheet.css' %}" rel="stylesheet">	
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/style.css' %}">
+
+  </head>
+  <body>
+    <div class="container">
+      <br>
+    <div class="card mb-3" style="border-radius: 10px; overflow: hidden;">
+      <a href="/" class="nav-link px-2 link-secondary ml-auto" style="margin: 10px;">Voltar <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+      <div class="card-body text-center">
+        <h2>Resultado da Prova - {{ curso.nome }}</h2>
+        <br>
+        {% if nota >= 6%}
+          <h4>Parabéns você passou na prova!!! </h4>
+          <h1>Nota: <span class="badge bg-primary">{{ nota }}</span></h1>
+
+          <br>
+          <div class="card text-center" style="width: 250px; margin: 0 auto;">
+            <div class="card-header" style=" margin: 0px; padding: 8px; padding-left: 9px;">
+              Conquista desbloqueada <i class="fa-solid fa-medal"></i>
+            </div>
+            <div class="card-body" style="padding: 10px;">
+
+                {% if nota >= 6 %}
+                <img src="/static{{ selo_prova.url }}" alt="selo_max" style="width: 80px; height: 80px;">
+                {% endif %}
+                {% if nota >= 10 %}
+                <img src="/static{{ selo_max.url }}" alt="selo_max" style="width: 80px; height: 80px;">
+                {% endif %}
+            </div>
+          </div>
+        </div>
+
+        {% else %}
+          <h4>Você não obteu a nota necessária para passar na prova!!! </h4>
+          <h1>Nota: <span class="badge btn-secondary">{{ nota }}</span></h1>
+        </div>
+        {% endif %}
+        <br>
+        <p class="text-center">Data da Resposta: {{ respostas.0.data_resposta }}</p>
+        
+      </div>
+    </div>
+  </div>
+
+</body>
+<script>
+  // Limpar o formulário do primeiro HTML
+  localStorage.removeItem('selectedItems');
+  $('form')[0].reset();
+</script>
+</html>

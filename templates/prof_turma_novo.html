@@ -1,0 +1,13 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+
+{% block main %}
+    <div>
+        <h1>Adicione uma nova Turma</h1>
+        <form action="{% url 'prof_turma_novo' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %} 
+            {{ form|bootstrap}}
+            <input type="submit" class="btn btn-success" value="Adicionar nova Turma">
+        </form>
+    </div>
+{% endblock %}

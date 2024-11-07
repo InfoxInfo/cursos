@@ -1,0 +1,54 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+{% load static %}
+{% block main %}
+
+<div class="card border-primary mb-3">
+    <h5 class="card-header">Pacote cursos Profissionalizantes</h5>
+    <div class="card-body">
+        <div class="row">
+            <table class="table">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Pacote</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Cor Pacotel Fundo</th>
+                        <th scope="col">Cor Texto Pacote</th>
+                        <th scope="col">Cor Caixa Curso</th>
+                        <th scope="col">Cor Texto Curso</th>
+                        <th scope="col" class="text-end" style="width: 80px;">Editar</th>
+                        <th scope="col" class="text-end" style="width: 80px;">Excluir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inscricao in inscricoes %}
+                    <tr>
+                        <th scope="row">{{ inscricao.id }}</th>
+                        <td>{{ inscricao.nome }}</td>
+                        <td>{{ inscricao.descricao }}</td>
+                        <td>{{ inscricao.cor_fundo }}</td>
+                        <td>{{ inscricao.cor_fundo_tex }}</td>
+                        <td>{{ inscricao.cor_curso }}</td>
+                        <td>{{ inscricao.cor_curso_tex }}</td>
+                        
+                        <td class="text-end">
+                            <a href="{% url 'prof_pacote_update' inscricao.id %}">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        </td>
+                        
+                        <td class="text-end">
+                            <a href="{% url 'prof_pacote_delete' inscricao.id %}">
+                                <i class="fa-solid fa-trash" style="color: red;"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

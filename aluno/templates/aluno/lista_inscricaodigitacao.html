@@ -1,0 +1,55 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+
+{% block main %}
+
+<div class="card border-primary mb-3">
+    <h5 class="card-header">Painel de Inscrições de DIGITAÇÃO
+        <button type="button" class="btn btn-primary">
+            Total de Inscrições <span class="badge badge-light">{{ num_incricoes }}</span>
+        </button>
+    </h5>
+    <div class="card-body">
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                
+            </div>
+            <div class="col d-flex justify-content-center">
+                <a class="btn btn-primary" href="\inscricao-digitacao-novo" role="button"><i class="fa-solid fa-plus"></i> Nova inscrição de DIGITAÇÃO</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card border-primary mb-3">
+    <h5 class="card-header">Visualização das inscrições</h5>
+        <table class="table">
+            <thead class="table-light">
+                <tr >
+                    <th class="align-middle" scope="col">Aluno</th>
+                    <th class="align-middle" scope="col">Digitacao</th>
+                    <th class="align-middle text-right" scope="col">Lição Atual</th>
+                    <th class="align-middle text-right" scope="col">Data inscrição</th>
+                    <th class="align-middle text-right" scope="col">Ultimo acesso</th>
+                </tr>
+            </thead>
+        <tbody>
+            {% for inscricao in inscricoes %}
+                <tr>
+                    <th scope="row">{{ inscricao.aluno }}</td>
+                    <td>{{ inscricao.digitacao }}</td>
+                    <td>{{ inscricao.licao_atual }}</td>
+                    <td>{{ inscricao.data_inscricao }}</td>
+                    <td>{{ inscricao.data_acesso }}</td>
+                    <td class="text-right">
+                        <a href="{% url 'inscricaodigitacao_update' inscricao.id %}" style="text-decoration: none;">
+                            <button type="button" class="btn btn-danger"><i class="fa-solid fa-pen-to-square"></i></button>
+                        </a>
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+</div>
+
+{% endblock %}

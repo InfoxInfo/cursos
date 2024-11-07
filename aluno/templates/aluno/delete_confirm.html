@@ -1,0 +1,21 @@
+{% extends 'aluno\base_admin.html' %}
+
+{% block main %}
+
+
+<div class="caixa d-flex align-items-center justify-content-center">
+<div class="card" style="width: 30rem;" >
+    <div class="card-header">
+        Tem certeza que deseja deletar: <span class="badge text-bg-primary">{{ obj }}</span>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Atenção</h5>
+      <p class="card-text">Depois a apagado você não poderá mais recuperar estas informações.</p>
+      <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Deletar</button>
+    </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

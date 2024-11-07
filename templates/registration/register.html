@@ -1,0 +1,43 @@
+{% extends "base_login.html" %}
+{% load static %}
+{% block main %}
+{% load bootstrap %}
+
+</head>
+
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+
+<div class="container-fluid p-3 gradCapa wow fadeInDown" style="width: 100vw;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;">
+    <div class="row justify-content-md-center align-items: center" style="padding-top: 80px;">
+        <div class="card" style="width: 32rem; padding-top: 30px;">
+            <div class="card-body">
+                <h2 class="card-title">Cadastro de novo usuário</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {{ form|bootstrap }}
+                    
+                    <input type="submit" value="Registrar">
+                    <input type="hidden" name="next" value="{{ next }}">
+                    </form>
+                </div>
+                <div>
+                    
+                    <p><a href="{% url 'password_reset' %}">Senha perdida?</a></p>
+                    <p><a href="{% url 'login' %}">Logar <i class="fa-solid fa-right-to-bracket"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'login' %}">Voltar</a></p>
+                    
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    {% include 'footer.html' %}
+
+{% endblock %}

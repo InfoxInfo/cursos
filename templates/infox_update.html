@@ -1,0 +1,39 @@
+{% extends 'aluno/base_admin.html' %}
+{% load bootstrap %}
+{% load static %}
+{% block main %}
+<div class="row">
+    <div class="col">
+        <div class="alert alert-warning" role="alert">
+            Atenção! Você está editando a inscrição: {{ inscricao }}
+        </div>
+
+        <form action="{% url 'infox_update' inscricao.id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {{ form|bootstrap }}
+
+            <!-- Adicione um bloco de código para exibir os caminhos atuais dos arquivos carregados -->
+            {% if inscricao.imagem %}
+                <div>
+                    <label>Imagem Atual:</label>
+                    <a href="{% static inscricao.imagem %}">
+                        <img class="rounded mx-auto d-block" src="{% static inscricao.imagem %}" width="200px" alt="Equipe">
+                    </a>
+                </div>
+            {% endif %}
+            {% if inscricao.equipeImagem %}
+                <div>
+                    <label>Equipe Imagem Atual:</label>
+                    <a href="{% static inscricao.equipeImagem %}">
+                        <img class="rounded mx-auto d-block" src="{% static inscricao.equipeImagem %}" width="200px" alt="Equipe">
+                    </a>
+                    
+                </div>
+            {% endif %}
+
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

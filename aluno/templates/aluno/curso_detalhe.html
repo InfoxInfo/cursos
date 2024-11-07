@@ -1,0 +1,602 @@
+{% load static %}
+{% load custom_filters %}
+
+<!doctype html>
+<html lang="br">
+  <head>
+    <title>Página do Curso</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet"/>
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'bootstrap/css/list-groups.css' %} "rel="stylesheet"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'bootstrap/css/cheatsheet.css' %}" rel="stylesheet"/>	
+    <link rel="stylesheet" href="{% static 'bootstrap/css/style.css' %}"/>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/animate.min.css' %}"/>
+    <link rel="stylesheet" href="https://unpkg.com/@sjmc11/tourguidejs/dist/css/tour.min.css">
+
+    
+    
+    <link rel="icon" href="{% static '/media/logo_infox.ico' %}" type="image/x-icon">
+    {% if nota >= 6 %}
+    <style>
+          .animate__infinite {
+      animation-iteration-count: infinite;
+          }
+          .tg-backdrop{
+      pointer-events:none!important;
+      }
+    </style>
+    {% endif %}
+
+</style>
+  </head>
+    <body data-tg-title='Sua jornada inicia aqui!!!' data-tg-tour='Bem-vindo jovem viajor do conhecimento... 🚀' data-tg-order="0">
+<p style="padding: 0; margin: 0; size: 0;"  data-tg-title='Você finalizou o Tour!!!' data-tg-tour='<p>Agora seu tour será finalizado e não será mais exibido</p><p>Se desejar exibir seu tour novamente vá até a opção [Minha Conta] e ative-a novamente.</p>' data-tg-order="18"></p>
+<div class="wrapper d-flex align-items-stretch">
+	<nav id="sidebar" style="background-image: url('{% static 'media/textura.png' %}');">
+		<div class="custom-menu">
+      <button type="button" id="sidebarCollapse" class="btn btn-primary">
+      <i class="fa fa-bars" data-tg-title='Menu' data-tg-tour='☰ E aqui você pode contrair ou expandir seu painel do menu...' data-tg-order="17"></i>
+      <span class="sr-only">Toggle Menu</span>
+      </button>
+    </div>
+    <div class="card d-flex justify-content-between" style="margin: 24px; background-color: #2c2727;"data-tg-title='Painel' data-tg-tour='Este é seu painel que possui diversos recursos 👋' data-tg-order="1">
+      <div class="" style="width: 100%; margin: 0; padding: 0;">
+            <div class="btn-group text-center" role="group" aria-label="Basic outlined example" style="width: 100%;">
+              <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Retornar para seus cursos">
+              <a href="/" >
+                <button type="button" id="btn-relatorio" class="btn btn-light" style="background-color: #e25353; border: none; border-top-right-radius: 0px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;width: 22px; height: 44px; display: flex; justify-content: center; align-items: center;">
+                  <i class="fa-solid fa-door-open" data-tg-tour='Voltar a ver seus cursos... 🧠' data-tg-order="3"></i>
+                </button>
+              </a>
+            </span>
+              <div class="col">
+                <h4><a href="#" onclick="location.reload();"><i class="fa-solid fa-bars" data-tg-tour='Você pode recarregar a página do seu curso! 🦄' data-tg-order="2"></i></a></h4>
+              </div>
+
+            </div>
+    </div>
+    <hr style="margin-top: 0px;">
+      <div style="height: 20px; padding: 22px;">
+        <div class="align-top" data-tg-tour='Acompanhar o seu progresso... 🚀' data-tg-order="4">
+          <div class="progress" role="progressbar" aria-label="Example 1px high" aria-valuenow="{{ porcento }}" aria-valuemin="0" aria-valuemax="100" style="height: 1px;">
+            <div class="progress-bar" style="width: {{ porcento }}%"></div>
+          </div>
+          <p class="align-middle">{{ porcento }}% progresso</p>
+        </div>
+    </div>
+    <hr>
+    <div class="text-center"><h5 style="color: #8da0b4;">CERTIFICAÇÃO</h5></div>
+
+      {% if licao_porcento == 100 %}
+        {% if nota >= 6 %}
+
+        <div class="text-center" style="padding: 15px;">
+            <div class="btn-group text-right" role="group" aria-label="Basic outlined example">
+              
+              <button type="button" id="btn-relatorio" style="border: none; color: #3445b4; background-color: #e7e7e7;" class="btn btn-light">
+                <i class="fa-solid fa-trophy"></i>
+              </button>
+              <button type="button" class="btn btn-dark" style="border: 0; background-color: #53e286;">Nota da prova: <span style="color: #212529;">{{ nota }}</span></button>
+            </div>
+        </div>
+        <div class="text-center" style="padding-bottom: 15px;">
+          <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Gere seu certificado aqui">
+          <a href="{% url 'render_pdf_view' curso.id %}" target="_blank">
+            <div class="btn-group text-right" role="group" aria-label="Basic outlined example">
+                <button type="button" class="btn btn-dark" style="border: 0;"> Gerar certificado</button>
+                <button type="button" id="btn-relatorio" style="border: none; color: #3445b4; background-color: #e7e7e7;" class="btn btn-light">
+                  <i class="fa-solid fa-cog fa-spin" style="--fa-animation-duration: 10s; color: #dd7732;"></i>
+                </button>
+            </div>  
+          </a>
+        </span>
+      </div>
+        {% else %}
+        <div class="text-center" style="padding-bottom: 15px;">
+          <a href="{% url 'prova' curso.id %}">
+            <div class="btn-group text-right" role="group" aria-label="Basic outlined example"  data-tg-tour='🏅 Aqui você inicia sua prova...' data-tg-order="5">
+              <button type="button" class="btn btn-dark" style="border: 0;"> Iniciar Avaliação</button>
+              <button type="button" id="btn-relatorio" style="border: none; color: #3445b4; background-color: #e7e7e7;" class="btn btn-light">
+                <i class="fa-solid fa-pen-to-square fa-beat"></i>
+              </button>
+            </div>
+          </a>
+          <div>
+          </div>
+        </div>
+        <div class="text-center" style="padding-bottom: 15px;">
+          <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Seu certificado será liberado quando você realizar a avaliação.">
+          <a href="#">
+            <div class="btn-group text-right" role="group" aria-label="Basic outlined example" data-tg-tour='Aqui você gera seu certificado 💪, ele vai ser liberado quando você terminar todas as lições e tiver realizado a prova...' data-tg-order="6">
+                <button type="button" class="btn btn-dark" style="border: 0; opacity: 0.2;" disabled> Gerar certificado</button>
+                <button type="button" id="btn-relatorio" disabled style="border: none; color: #3445b4; background-color: #e7e7e7; opacity: 0.2;" class="btn btn-light">
+                  <i class="fa-solid fa-certificate"></i>
+                </button>
+            </div>
+          </a>
+        </span>
+      </div>
+
+
+      {% endif %}
+      {% endif %}
+      {% if licao_porcento != 100 %}
+      <div class="text-center" style="padding-bottom: 15px;">
+        <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Termine todas as lições para fazer a Avaliação.">
+        <a href="#">
+            <div class="btn-group text-right" role="group" aria-label="Basic outlined example" data-tg-tour='🏅 Quando você terminar todas as lições a prova sera liberada...' data-tg-order="5">
+                <button type="button" class="btn btn-dark" style="border: 0; opacity: 0.2;" disabled> Iniciar Avaliação</button>
+                <button type="button" id="btn-relatorio" disabled style="border: none; color: #3445b4; background-color: #e7e7e7; opacity: 0.2;" class="btn btn-light">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+            </div>
+        </a>
+      </span>
+    </div>
+    <div class="text-center" style="padding-bottom: 15px;" >
+      <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Seu certificado será liberado quando você realizar a avaliação.">
+      <a href="#">
+        <div class="btn-group text-right" role="group" aria-label="Basic outlined example" data-tg-tour='Aqui você gera seu certificado 💪, ele vai ser liberado quando você terminar todas as lições e tiver realizado a prova...' data-tg-order="6">
+            <button type="button" class="btn btn-dark" style="border: 0; opacity: 0.2;" disabled> Gerar certificado</button>
+            <button type="button" id="btn-relatorio" disabled style="border: none; color: #3445b4; background-color: #e7e7e7; opacity: 0.2;" class="btn btn-light">
+              <i class="fa-solid fa-certificate"></i>
+            </button>
+        </div>  
+      </a>
+    </span>
+  </div>
+
+
+
+    {% endif %}
+    </div>
+
+		<div class="p-4" style="margin-top: -45px;">
+			  <aside class="bd-aside sticky-xl-top text-body-secondary align-self-start">
+				  <ul class="list-unstyled mb-5" data-tg-tour='🎯 Aqui estão as aulas do seu curso... Você pode marcar a aula para deixa-la como conluída! ✅' data-tg-order="7">
+            {% for categoria in categorias %}
+              {% with categoria_nome=categoria.0.categoria %}
+              <li class="categoria-item" style="margin-bottom: -13px;">
+                  <button style="
+                      color: #212529;
+                      {% if categorias_concluidas|get_item:categoria_nome %}
+                          background-color: #53e286;
+                      {% else %}
+                          background-color: #797979;
+                      {% endif %}
+                      border-radius: 3px;
+                      width: 100%;
+                      font-weight: normal;"
+                      class="btn d-inline-flex align-items-center collapsed border-2"
+                      data-bs-toggle="collapse"
+                      data-bs-parent="#categorias-collapse"
+                      aria-expanded="false"
+                      data-bs-target="#{{ forloop.counter }}-collapse"
+                      aria-controls="{{ forloop.counter }}-collapse">{{ categoria_nome }}
+                    </button>
+                  
+                  <ul class="list-unstyled ps-3 collapse" id="{{ forloop.counter }}-collapse" style="margin-bottom: 30px; margin-top: -0px;">
+
+                    {% for licao in categoria %}
+                    <li style="width: 100%; height: 36px; position: relative;">
+                    {% if licao in licao_concluida %}
+                    <div style="position: absolute; left: 11px; top: 0; bottom: 0; border-left: 0.3px solid #53e286; height: 65%;"></div>
+                    <a href="{% url 'change_status' licao.id forloop.parentloop.counter %}" class="change-status" style="display: inline-block; color: #53e286; border: 0;" ><i class="fa-solid fa-circle-check" style="vertical-align: bottom;"></i></a>
+                    {% else %}
+                    <div style="position: absolute; left: 12px; top: 0; bottom: 0; border-left: 0.3px solid #e25353; height: 65%;"></div>
+                    <a href="{% url 'change_status' licao.id forloop.parentloop.counter %}" class="change-status" style="display: inline-block; color: #e25353; border: 0"><i class="fa-regular fa-circle-xmark" style="vertical-align: bottom;"></i></a>
+                    {% endif %}
+                    <a class="carregar-pagina-via-ajax" style="display: inline-block; width: 80%; height: 36px; border: 20; vertical-align: bottom; margin-bottom: 3.5px;" href="{% url 'lista_licao' licao.id %}">{{ licao.nome|slice:":20" }}</a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+					</li>
+          <p></p>
+          {% endwith %}
+          {% endfor %}
+				  </ul>
+			  </aside>
+		</div>
+	</nav>
+
+<!-- lição  -->
+<div id="content" class="p-4 p-md-5 pt-5">
+    <div id="area-de-conteudo">
+      <div class="row" data-tg-tour='Aqui você encotra algumas informações sobre seu curso 📚...' data-tg-order="8">
+        <div class="col-12 col-md" style="padding-bottom: 10px;">
+            <div class="card animate__animated animate__bounceInDown">
+              <div class="card-body">
+                <h5 class="card-title"><i class="fa-solid fa-graduation-cap"></i> {{ curso.nome }}</h5>
+                <p style="text-align: justify;">{{ curso.descricao }}</p>
+              </div>
+              {% if nota >= 6 %}
+              
+              <div id="btn-confetti" class="card text-center animate__delay-2s animate__animated animate__pulse animate__infinite mx-auto" style="width: 18rem; background-color: #212529;">
+                <div class="card-body">
+                  <h5 class="card-title" style="color: #e7e7e7;"><i class="fa-solid fa-award"></i> Parabéns!</h5>
+                  <h6 class="card-subtitle mb-2 text-body-secondary">Você finalizou este curso.</h6>
+                </div>
+              </div>
+              <br>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="col-12 col-md">
+          <div class="card animate__animated animate__zoomInDown animate__delay-1s">
+            <div class="card-body">
+              <div class="row">
+              <div class="col-8">
+                <h5 class="card-title">Painel do curso</h5>
+                <p class="card-text"><i class="fa-solid fa-clock"></i> {{ curso.horas }} horas</p>
+                <p class="card-text"><i class="fa-solid fa-book"></i> {{ licao_total }} lições</p>
+                <p class="card-text"><i class="fa-solid fa-bars-progress"></i> {{ licao_feitas }} lições concluidas</p>
+                <p class="card-text"><i class="fa-regular fa-stamp"></i> Certificado de conclusão</p>
+                
+            
+                <div class="progress" role="progressbar" aria-label="Example 1px high" aria-valuenow="{{ porcento }}" aria-valuemin="0" aria-valuemax="100" style="height: 1px">
+                  <div class="progress-bar" style="width: {{ porcento }}%"></div>
+                </div>
+                {{ porcento }}% progresso
+                <br><br>
+
+              </div>
+
+              <div class="col text-center" data-tg-title='Conquistas' data-tg-tour='🏆 Aqui você visualiza suas conquistas...' data-tg-order="9">
+                <div class="card text-center" style="width: 100%;">
+                  <div class="card-header" style=" margin: 0px; padding: 8px; padding-left: 9px;">
+                    Conquistas <i class="fa-solid fa-medal"></i>
+                  </div>
+                  <div class="card-body text-center">
+                      {% if licao_porcento == 100 %}
+                      <img src="/static{{ selo.url }}" alt="selo" style="width: 80px; height: 80px;" data-tg-tour='⭐ Conquista de lições concluidas...' data-tg-order="10">
+                      {% else %}
+                      <img src="/static{{ selo_fundo.url }}" alt="selo" style="width: 80px; height: 80px;" data-tg-tour='⭐ Conquista de lições concluidas...' data-tg-order="10">
+                      {% endif %}
+                      {% if nota >= 6 %}
+                      <img src="/static{{ selo_prova.url }}" alt="selo_max" style="width: 80px; height: 80px;" data-tg-tour='🎉 Conquista para aprovação na prova...' data-tg-order="11">
+                      {% else %}
+                      <img src="/static{{ selo_prova_fundo.url }}" alt="selo" style="width: 80px; height: 80px;" data-tg-tour='🎉 Conquista para aprovação na prova...' data-tg-order="11">
+                      {% endif %}
+                      {% if nota >= 10 %}
+                      <img src="/static{{ selo_max.url }}" alt="selo_max" style="width: 80px; height: 80px;" data-tg-tour='Conquista para provas nota 10 🔥...' data-tg-order="12">
+                      {% else %}
+                      <img src="/static{{ selo_max_fundo.url }}" alt="selo" style="width: 80px; height: 80px;" data-tg-tour='Conquista para provas nota 10 🔥...' data-tg-order="12">
+                      {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <br>
+    
+      <div class="row">
+ 
+      {% for categoria in categorias %}
+    
+      <table class="table table-sm"
+      {% if forloop.first %}data-tg-title='Aulas' data-tg-tour='Aqui você encontra informações sobre sua aula 🔥...' data-tg-order="13"{% endif %}>
+          <thead class="table-light">
+              <tr>
+              <th class="w-25" scope="col">{{ categoria.0.categoria }}</th>
+              <th scope="col">Descrição</th>
+              <th scope="col" class="align-middle text-center" style="width: 20px" {% if forloop.first %}data-tg-tour='Você pode acessar a lição clicando no ícone do play ▶️...' data-tg-order="14"{% endif %}>Aula</th>
+              <th scope="col" class="align-middle text-center" style="width: 30px" {% if forloop.first %}data-tg-tour='📘 Se o ícone estiver ativo, significa que você tem um arquivo para baixar e utilizar no seu estudo da aula...' data-tg-order="15"{% endif %}>Arquivo</th>
+              <th scope="col" class="align-middle text-center" style="width: 20px" {% if forloop.first %}data-tg-tour='Aqui você marca sua lição como concluida ✅' data-tg-order="16"{% endif %}>Status</th>
+              </tr>
+          </thead>
+          <tbody>
+
+            {% for licao in categoria %}
+              <tr>
+                <td class="align-middle text-left">{{ licao.nome|slice:":40" }}</td>
+                <td>{{ licao.descricao|slice:":150" }}...</td>
+                <td class="align-middle text-center">
+                  <a class="carregar-pagina-via-ajax" href="{% url 'lista_licao' licao.id %}">
+                    {% if licao in licao_concluida %}
+                    <i class="fa-solid fa-play fa-2xl" style="color: #3f3b3b;"></i>
+                    {% else %}
+                    <i class="fa-solid fa-play fa-flip fa-2xl custom-flip" style="color: #0056b3; --fa-animation-duration: 3s;"></i>
+                    {% endif %}
+                    </a>
+                </td>
+                {% if licao.botao %}
+                <td class="align-middle text-center">
+                  <a href="{% url 'download_licao' licao.id %}">
+                    <i class="fa-solid fa-file-arrow-down fa-2x"></i>
+                  </a>
+                </td>
+                {% else %}
+                  <td class="align-middle text-center">
+                    <i class="fa-solid fa-file-arrow-down fa-2x" style="opacity: 0.1;size: 10px;"></i>
+                  </td>
+                {% endif %}
+                  {% if licao in licao_concluida %}
+                  <td class="align-middle text-center p-0" >
+                    <a href="{% url 'change_status' licao.id forloop.parentloop.counter %}" class="change-status" style="display: block; height: 100%; width: 100%;">
+                      <h2><i class="fa-solid fa-circle-check" style="--fa-animation-duration: 20s; color: #53e286;"></i></h2>
+                    </a>
+                  </td>
+                  {% else %}
+                    <td class="align-middle text-center">
+                      <a href="{% url 'change_status' licao.id forloop.parentloop.counter %}" class="change-status" style="display: block; height: 100%; width: 100%;">
+                        <h2><i class="fa-regular fa-circle-xmark" style="color: #e25353; opacity: 0.5;"></i></h2>
+                      </a>
+                    </td>
+                  {% endif %}
+                  {% endfor %}
+
+                  </tr>
+          </tbody>
+        </table>
+        {% endfor %}
+      </div>
+    </div>
+    <div>
+  </div>
+
+	<script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
+	<script src="{% static 'bootstrap/js/popper.js' %}"></script>
+  <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'bootstrap/js/main.js' %}"></script>
+  <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+	<script src="{% static 'bootstrap/js/cheatsheet.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="https://unpkg.com/@sjmc11/tourguidejs/dist/tour.js" crossorigin="anonymous" referrerpolicy="no-referrer" type="module"></script>
+
+
+</body>
+  <script>
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Adiciona um ouvinte de evento para cada botão de marcar lição
+    document.querySelectorAll('.marcar-feito').forEach(function (button) {
+        button.addEventListener('click', function () {
+            // Obtém o ID da lição e a categoria associada
+            const licaoId = this.dataset.licaoId;
+            const categoriaId = this.dataset.categoriaId;
+
+            // Envia uma solicitação AJAX para marcar a lição como feita
+            fetch(`/marcar_licao/${licaoId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: JSON.stringify({status: 'concluido'})
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Atualiza a cor da categoria
+                atualizarCategoria(categoriaId);
+            })
+            .catch(error => console.error('Erro ao marcar lição:', error));
+        });
+    });
+
+    function atualizarCategoria(categoriaId) {
+        // Verifica se todas as lições da categoria estão marcadas
+        const todasLicoesMarcadas = Array.from(document.querySelectorAll(`.categoria-${categoriaId} .lição`))
+            .every(licao => licao.classList.contains('feita'));
+
+        if (todasLicoesMarcadas) {
+            // Marca a categoria como concluída
+            document.querySelector(`.categoria-${categoriaId}`).style.backgroundColor = '#53e286';
+            document.querySelectorAll(`.categoria-${categoriaId} .linha`).forEach(linha => linha.style.borderColor = '#53e286');
+        }
+    }
+});
+
+</script>
+
+<script>
+$(document).ready(function() {
+    // Obtenha o valor de categoria_licao da sessão
+    var categoriaLicao = '{{ categoria_licao }}';
+
+    // Construa o seletor da categoria com base em categoriaLicao
+    const categoriaSelector = '#' + categoriaLicao + '-collapse';
+
+    // Abra a categoria com base no seletor
+    $(categoriaSelector).collapse('show');
+
+    // Manipulação do clique no link para carregar a lição via AJAX
+    $('a.carregar-pagina-via-ajax').click(function(e) {
+        e.preventDefault();
+
+        var url = $(this).attr('href');
+
+        $.ajax({
+            url: url,
+            success: function(data) {
+                $('#area-de-conteudo').html(data);
+                // Role a página para a posição anterior
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+    });
+
+    // Manipulação do clique para alterar o status da lição (lista e tabela)
+    $('a.change-status').click(function(e) {
+        e.preventDefault();
+
+        var url = $(this).attr('href');
+        var $categoriaItem = $(this).closest('li.categoria-item'); // Pega o item da categoria correspondente (para a lista)
+        var $linha = $(this).closest('li').find('div'); // Seleciona a linha ao lado do ícone (para a lista)
+        var $tabelaLinha = $(this).closest('td'); // Pega o elemento <td> na tabela
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            success: function(data) {
+                // Atualize o ícone e a cor com base no novo status
+                var statusIcon = data.status === 'concluido' ? 'fa-circle-check' : 'fa-circle-xmark';
+                var statusColor = data.status === 'concluido' ? '#53e286' : '#e25353';
+
+                // Atualiza o ícone e a cor na lista de lições (caso seja na lista)
+                $('a.change-status').each(function() {
+                    var linkHref = $(this).attr('href');
+                    var $categoriaItem = $(this).closest('li.categoria-item'); // Pega o item da categoria correspondente (para a lista)
+                    var $linha = $(this).closest('li').find('div'); // Seleciona a linha ao lado do ícone (para a lista)
+                    var $tabelaLinha = $(this).closest('td'); // Pega o elemento <td> na tabela
+                    if (linkHref === url) {
+                        $(this).find('i').removeClass('fa-regular fa-circle-xmark fa-solid fa-circle-check')
+                            .addClass('fa-solid ' + statusIcon)
+                            .css('color', statusColor);
+
+                        // Atualiza a cor da linha vertical na lista de lições
+                        if ($linha.length) {
+                            $linha.css('border-color', statusColor);
+                        }
+                    }
+                });
+
+                // Atualiza o ícone e a cor na tabela
+                $tabelaLinha.find('i').removeClass('fa-regular fa-circle-xmark fa-solid fa-circle-check')
+                    .addClass('fa-solid ' + statusIcon)
+                    .css('color', statusColor);
+
+                // Atualiza a cor da categoria específica se todas as lições estiverem concluídas (para a lista de categorias)
+                if ($categoriaItem.length) {
+                    var allConcluida = true;
+                    $categoriaItem.find('a.change-status').each(function() {
+                        if (!$(this).find('i').hasClass('fa-circle-check')) {
+                            allConcluida = false;
+                        }
+                    });
+
+                    var $categoriaButton = $categoriaItem.find('button');
+                    if (allConcluida) {
+                        $categoriaButton.css('background-color', '#53e286');
+                    } else {
+                        $categoriaButton.css('background-color', '#797979');
+                    }
+                }
+                // Verificar se todas as categorias estão concluídas
+                var allCategoriasConcluidas = true;
+                $('li.categoria-item').each(function() {
+                    var categoriaConcluida = true;
+                    $(this).find('a.change-status').each(function() {
+                        if (!$(this).find('i').hasClass('fa-circle-check')) {
+                            categoriaConcluida = false;
+                        }
+                    });
+                    if (!categoriaConcluida) {
+                        allCategoriasConcluidas = false;
+                    }
+                });
+
+                // Recarregar a página se todas as categorias estiverem concluídas
+                if (allCategoriasConcluidas) {
+                    location.reload();
+                }
+            }
+        });
+    });
+});
+
+</script>
+
+
+<script>
+  // Função para gerar confetes dos cantos
+  function gerarConfetesDosCantos() {
+      // Disparar confetes do lado esquerdo
+      confetti({
+          particleCount: 100, // Número de partículas
+          spread: 60,         // Dispersão dos confetes
+          origin: { x: 0, y: 0.6 }, // Origem do lado esquerdo (x = 0)
+          colors: ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#28b5b5', '#6effa5', '#ffb3ff'] // Mais cores
+      });
+
+      // Disparar confetes do lado direito
+      confetti({
+          particleCount: 100, // Número de partículas
+          spread: 60,         // Dispersão dos confetes
+          origin: { x: 1, y: 0.6 }, // Origem do lado direito (x = 1)
+          colors: ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#28b5b5', '#6effa5', '#ffb3ff'] // Mais cores
+      });
+  }
+
+  // Executar confetes somente se a nota for maior ou igual a 6
+  {% if nota >= 6 %}
+      gerarConfetesDosCantos();  // Executar confetes
+  {% endif %}
+</script>
+</script>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const tourCompleto = {{ user.aluno.tour_completo|yesno:"false,true" }};
+    
+    const tg = new tourguide.TourGuideClient({
+      exitOnClickOutside: false,
+      nextLabel: 'Avançar',
+      prevLabel: 'Voltar',
+      finishLabel: 'Finalizar',
+      showButtons: true,
+      showStepProgress: true,
+      showStepDots: false
+    });
+  
+    function marcarTourCompleto() {
+      fetch("{% url 'marcar_tour_completo' %}", {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({}),
+      })
+      .then(response => {
+        console.log('Resposta recebida:', response);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => console.log('Tour completado:', data))
+      .catch(error => console.error('Houve um problema com a requisição:', error));
+    }
+
+    // O tour só deve iniciar se ainda não foi completado
+    if (!tourCompleto) {
+      tg.start();
+      
+      // Verifica se a função onFinish está disponível e correta
+      if (typeof tg.onFinish === 'function') {
+        tg.onFinish(function() {
+          marcarTourCompleto();
+          gerarConfetesDosCantos();
+        });
+      } else {
+        console.log('A função tg.onFinish não está disponível');
+      }
+    } else {
+      console.log('O tour já foi completado.');
+    }
+  });
+</script>
+
+
+  
+
+  </body>
+</html>

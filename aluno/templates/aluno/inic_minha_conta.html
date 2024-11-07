@@ -1,0 +1,175 @@
+{% extends 'aluno/base_aluno.html' %}
+{% load static %}
+
+{% block main %}
+
+<H3><i class="fa-solid fa-fingerprint" style="color: purple;"></i> Painel do aluno</H3>
+<div class="card mb-3" style="border-radius: 10px; overflow: hidden;">
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col" style="padding-bottom: 10px;">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa-solid fa-award"></i> Conquistas
+          </div>
+          <div class="card-body text-center">
+
+            {% for dados_curso in dados_cursos %}
+              {% if dados_curso.licoes_porcento == 100 %}
+                <img src="{% static dados_curso.curso.selo.url %}" alt="selo" style="width: 80px; height: 80px;">
+              {% else %}
+              <img src="{% static dados_curso.curso.selo_cinza.url %}" alt="selo" style="width: 80px; height: 80px;">
+              {% endif %}
+              {% if nota_resposta >= 6 %}
+              <img src="{% static dados_curso.curso.selo_prova.url %}" alt="selo" style="width: 80px; height: 80px;">
+              {% else %}
+              <img src="{% static dados_curso.curso.selo_prova_cinza.url %}" alt="selo" style="width: 80px; height: 80px;">
+              {% endif %}
+              {% if nota_resposta >= 10 %}
+              <img src="{% static dados_curso.curso.selo_max.url %}" alt="selo" style="width: 80px; height: 80px;">
+              {% else %}
+              <img src="{% static dados_curso.curso.selo_cinza_max.url %}" alt="selo" style="width: 80px; height: 80px;">
+              {% endif %}
+              {% empty %}
+              {% if inscricoesDigitacao %}
+                <p></p>
+              {% else %}
+                <p>Nenhum selo disponível.</p>
+              {% endif %}
+            {% endfor %}
+
+            {% for inscricao in inscricoesDigitacao %}
+              {% if inscricao.licao_atual == digitacao_licao_total %}
+                <img src="{% static 'media\curso\selo\digitacao_licoes.png' %}" alt="selo_digitacao" style="width: 80px; height: 80px;">
+                {% else %}
+                <img src="{% static 'media\curso\selo\digitacao_licoes_fundo.png' %}" alt="selo_digitacao" style="width: 80px; height: 80px;">
+              {% endif %}
+
+            {% if nota >= 6 %}
+              <img src="{% static 'media\curso\selo\digitacao_prova.png' %}" alt="selo_digitacao" style="width: 80px; height: 80px;">
+              {% else %}
+              <img src="{% static 'media\curso\selo\digitacao_prova_fundo.png' %}" alt="selo_digitacao" style="width: 80px; height: 80px;">
+            {% endif %}
+            {% if nota >= 6 %}
+            <img src="{% static 'media\curso\selo\digitacao_mestre.png' %}" alt="selo_digitacao" style="width: 80px; height: 80px;">
+            {% else %}
+            <img src="{% static 'media\curso\selo\digitacao_mestre_fundo.png' %}" alt="selo_digitacao" style="width: 80px; height: 80px;">
+            {% endif %}
+
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      {% if aluno.nome_completo|length == 0 %}
+      
+      <div class="col text-center">
+        <a href="{% url 'aluno_aluno_update' user.id %}" style="text-decoration: none;">
+        <div class="card">
+          <div class="card-header" style="height: 300px; display: flex; justify-content: center; align-items: center;">
+            <div class="col">
+              <div class="row">
+                <i class="fa-solid fa-user-pen fa-2xl"></i>
+                <br>
+              </div>
+               <div class="row">
+                Edite seu cadastro para habilitar este painel...
+              </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </a>
+        </div>
+
+        {% else %}
+        <div class="col text-center">
+          <div class="card">
+            <div class="card-header" style="height: 300px; display: flex; justify-content: center; align-items: center;">
+              <div>
+              {% if aluno.foto %}
+              <img src="{% static aluno.foto.url %}" alt="mdo" width="100" height="100" class="rounded-circle">
+              {% else %}
+              <img src="{% static 'media/aluno/foto/default.png' %}" alt="mdo" width="200" height="200" class="rounded-circle">
+              {% endif %}
+              <h5 class="card-title">{{ aluno.nome_completo }}</h5>
+              <p class="card-title">{{ aluno.email }}</p>
+              <p class="card-title"><i class="fa-solid fa-mobile-screen"></i> {{ aluno.telefone }}</p> 
+
+              </div>
+          </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa-solid fa-award"></i> Configurações
+          </div>
+
+          <div class="card-body" style="margin-left: 10px;">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" 
+                {% if aluno.tour_completo %}checked{% endif %} 
+                onchange="toggleTour(this.checked)">
+              <label class="form-check-label" for="flexSwitchCheckChecked">Ativar Tour</label>
+            </div>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" 
+                {% if aluno.tour_dig_completo %}checked{% endif %} 
+                onchange="toggleTourDig(this.checked)">
+              <label class="form-check-label" for="flexSwitchCheckChecked">Ativar Tour Digitação</label>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+</div>
+      
+  <style>
+      .paineldiv {
+      display:inline-block;
+  
+      width:255px;height:380px;
+      background-color: #f5f5f5;
+      color: #000;
+      border-radius: 10px;
+      vertical-align: middle;
+  
+  }
+  </style>
+<script>
+  function toggleTour(isChecked) {
+    // Enviar a mudança de status para o backend via AJAX
+    fetch("{% url 'toggle_tour_status' %}", {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            tour_completo: isChecked  // Atualiza o campo de acordo com o valor do checkbox
+        }),
+    })
+    .then(response => response.json())
+    .catch(error => console.error('Erro na requisição:', error));
+}
+function toggleTourDig(isChecked) {
+    // Enviar a mudança de status para o backend via AJAX
+    fetch("{% url 'toggle_tour_status_dig' %}", {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            tour_dig_completo: isChecked
+        }),
+    })
+    .then(response => response.json())
+    .catch(error => console.error('Erro na requisição:', error));
+}
+</script>
+{% endblock %}
