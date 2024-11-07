@@ -1,11 +1,13 @@
 from pathlib import Path
 import os
+from decouple import config
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-2(#o&4%=%70@z6@)5nh8dso=%4j(o=oab1+)gp4dvb%%n-se(f'
+SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = True
+DEBUG = config('DEBUG', deault=False, cast=bool)
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
@@ -92,15 +94,11 @@ AUTHENTICATION_BACKENDS = [
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# Configurações do banco de dados
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'banco_infox',
-        'USER': 'root',
-        'PASSWORD': 'Infox@12',
-        'HOST': 'localhost',  # ou o endereço do seu servidor MySQL
-        'PORT': '',           # geralmente é deixado em branco para usar a porta padrão do MySQL
-    }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
 }
 
 
